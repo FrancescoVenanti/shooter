@@ -1,20 +1,18 @@
-import { Canvas } from "./src/canvas";
+import { Canvas } from "./src/core/canvas";
+import Vector from "./src/core/vector";
 export const canvas = document.createElement("canvas");
 
-(() => {
-  // listeners()
-
+function main() {
   Canvas.init(canvas);
   Canvas.line(
     {
-      point1: [0, 0],
-      point2: [100, 100],
+      start: new Vector(0, 0),
+      start: new Vector(1, 0),
       color: "red",
       width: 5,
     },
     {
-      point1: [120, 60],
-      point2: [200, 200],
+      point2: new Vector(200, 200),
       color: "blue",
     }
   );
@@ -22,5 +20,6 @@ export const canvas = document.createElement("canvas");
   Canvas.rect(100, 100, 200, 200);
   Canvas.text("Hello World!", 100, 100);
   Canvas.image("./src/images/cat.png", 1000, 100);
-  Canvas.clear()
-})();
+
+  requestAnimationFrame(main);
+}

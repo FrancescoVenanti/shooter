@@ -2,13 +2,23 @@
   "name": "shooter",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "server": "tsx watch ./src/server/index.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@hono/node-server": "^1.12.2",
+    "@types/bun": "latest",
+    "@types/express": "^4.17.21",
+    "hono": "^4.6.1",
+    "tsx": "^4.19.1"
   },
   "peerDependencies": {
     "typescript": "^5.6.2"
   },
   "dependencies": {
+    "@hono/node-ws": "^1.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
@@ -19,9 +29,5 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
-  },
-  "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
   }
 }

@@ -1,11 +1,10 @@
-
 /* || */
 
+import Vector from "./vector";
+
 interface CanvasLinesProps {
-  point1?: [number, number];
-  point2: [number, number];
-  color?: string;
-  width?: number;
+  start?: Vector;
+  end: Vector;
 }
 
 export class Canvas {
@@ -21,44 +20,52 @@ export class Canvas {
     canvas.height = window.innerHeight;
   }
 
-  static line(...properties: CanvasLinesProps[]) {
-    let nextStart: [number, number] = [0, 0];
-    properties.forEach(({ point1, point2, color, width }) => {
+  static line(
+    color?: string,
+    width?: number,
+    ...properties: CanvasLinesProps[]
+  ): void {
+    let nextStart: Vector = new Vector(0, 0);
+    properties.forEach(({ start, end }) => {
       Canvas.ctx.beginPath();
       Canvas.ctx.moveTo(
-        point1 ? point1[0] : nextStart[0],
-        point1 ? point1[1] : nextStart[1]
+        start ? start : nextStart[0],
+        start ? start[1] : nextStart[1]
       );
-      Canvas.ctx.lineTo(point2[0], point2[1]);
-      nextStart = point2;
+      Canvas.ctx.lineTo(end[0], end[1]);
+      nextStart = end.clone();
       Canvas.ctx.strokeStyle = color ?? "black";
       Canvas.ctx.lineWidth = width ?? 1;
       Canvas.ctx.stroke();
     });
   }
-  static circle(x: number, y: number, r: number): void {
+  static circle({ x, y }: Vector, r: number): void {
     Canvas.ctx.beginPath();
     Canvas.ctx.arc(x, y, r, 0, 2 * Math.PI);
     Canvas.ctx.stroke();
   }
-  static rect(side1: number, side2: number, x: number, y: number): void {
+  static rect({ x, y }: Vector, w: number, h: number): void {
     Canvas.ctx.beginPath();
-    Canvas.ctx.rect(x, y, side1, side2);
+    Canvas.ctx.rect(x, y, w, h);
     Canvas.ctx.stroke();
   }
-  static text(text: string, x: number, y: number): void {
+  static text(text: string, { x, y }: Vector): void {
     Canvas.ctx.font = "30px Arial";
     Canvas.ctx.fillText(text, x, y);
   }
-  static image(image: string, x: number, y: number, w?: number, h?: number): void {
+  static image(image: string, { x, y }: Vector, w?: number, h?: number): void {
     const img = new Image();
     img.src = image;
     img.onload = () => {
-      if(w && h) Canvas.ctx.drawImage(img, x, y, w, h);
+      if (w && h) Canvas.ctx.drawImage(img, x, y, w, h);
       else Canvas.ctx.drawImage(img, x, y);
     };
   }
-  static clear(x: number = 0,y: number = 0, w: number = Canvas.canvas.width, h: number = Canvas.canvas.height): void {
+  static clear(
+    { x, y }: Vector = new Vector(0, 0),
+    w: number = Canvas.canvas.width,
+    h: number = Canvas.canvas.height
+  ): void {
     setTimeout(() => {
       Canvas.ctx.clearRect(x, y, w, h);
     }, 10);
