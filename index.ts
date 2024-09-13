@@ -1,9 +1,9 @@
 import { Canvas } from "./src/canvas";
+export const canvas = document.createElement("canvas");
 
 (() => {
-  const container = document.getElementById("container");
-  const canvas = document.createElement("canvas");
-  container?.appendChild(canvas);
+  // listeners()
+
   Canvas.init(canvas);
   Canvas.line(
     {
@@ -21,5 +21,6 @@ import { Canvas } from "./src/canvas";
   Canvas.circle(100, 100, 50);
   Canvas.rect(100, 100, 200, 200);
   Canvas.text("Hello World!", 100, 100);
-  Canvas.image(new File([], "./src/images/cat.png"), 100, 100);
+  Canvas.image("./src/images/cat.png", 1000, 100);
+  Canvas.clear()
 })();

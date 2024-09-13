@@ -1,4 +1,3 @@
-import { TupleType } from "typescript";
 
 /* || */
 
@@ -14,8 +13,12 @@ export class Canvas {
   private static ctx: CanvasRenderingContext2D;
 
   static init(canvas: HTMLCanvasElement): void {
+    const container = document.getElementById("container");
+    container?.appendChild(canvas);
     Canvas.canvas = canvas;
     Canvas.ctx = canvas.getContext("2d")!;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
 
   static line(...properties: CanvasLinesProps[]) {
@@ -47,12 +50,17 @@ export class Canvas {
     Canvas.ctx.font = "30px Arial";
     Canvas.ctx.fillText(text, x, y);
   }
-  static image(image: File, x: number, y: number): void {
+  static image(image: string, x: number, y: number, w?: number, h?: number): void {
     const img = new Image();
-    img.src = URL.createObjectURL(image);
+    img.src = image;
     img.onload = () => {
-      Canvas.ctx.drawImage(img, x, y);
+      if(w && h) Canvas.ctx.drawImage(img, x, y, w, h);
+      else Canvas.ctx.drawImage(img, x, y);
     };
   }
-  static clear(): void {}
+  static clear(x: number = 0,y: number = 0, w: number = Canvas.canvas.width, h: number = Canvas.canvas.height): void {
+    setTimeout(() => {
+      Canvas.ctx.clearRect(x, y, w, h);
+    }, 10);
+  }
 }
