@@ -18,4 +18,8 @@ import { Canvas } from "./src/canvas";
       color: "blue",
     }
   );
+  Canvas.circle(100, 100, 50);
+  Canvas.rect(100, 100, 200, 200);
+  Canvas.text("Hello World!", 100, 100);
+  Canvas.image(new File([], "./src/images/cat.png"), 100, 100);
 })();

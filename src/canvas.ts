@@ -33,9 +33,26 @@ export class Canvas {
       Canvas.ctx.stroke();
     });
   }
-  static circle(): void {}
-  static rect(): void {}
-  static text(): void {}
-  static image(): void {}
+  static circle(x: number, y: number, r: number): void {
+    Canvas.ctx.beginPath();
+    Canvas.ctx.arc(x, y, r, 0, 2 * Math.PI);
+    Canvas.ctx.stroke();
+  }
+  static rect(side1: number, side2: number, x: number, y: number): void {
+    Canvas.ctx.beginPath();
+    Canvas.ctx.rect(x, y, side1, side2);
+    Canvas.ctx.stroke();
+  }
+  static text(text: string, x: number, y: number): void {
+    Canvas.ctx.font = "30px Arial";
+    Canvas.ctx.fillText(text, x, y);
+  }
+  static image(image: File, x: number, y: number): void {
+    const img = new Image();
+    img.src = URL.createObjectURL(image);
+    img.onload = () => {
+      Canvas.ctx.drawImage(img, x, y);
+    };
+  }
   static clear(): void {}
 }
