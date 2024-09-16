@@ -8,7 +8,7 @@
     "server": "tsx watch ./src/server/index.ts"
   },
   "devDependencies": {
-    "@hono/node-server": "^1.12.2",
+    "@hono/node-server": "^1.13.0",
     "@types/bun": "latest",
     "@types/express": "^4.17.21",
     "hono": "^4.6.1",

@@ -1,14 +1,14 @@
-import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+import livereload from "rollup-plugin-livereload";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import serve from "rollup-plugin-serve";
-import livereload from "rollup-plugin-livereload";
 
 const dev = process.env.ROLLUP_WATCH;
 
 export default {
-  input: "index.ts",
+  input: "src/index.ts",
   output: {
     file: "dist/bundle.js",
     format: "iife",
