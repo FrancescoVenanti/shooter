@@ -3,10 +3,10 @@ import { Canvas } from "./core/canvas";
 
 // socket.emit('chat', 'send', 'ljfndlkfjndfgb');
 
-(function main(){
-  Canvas.init()
-  loop(0)
-})()
+(function main() {
+  Canvas.init();
+  loop(0);
+})();
 
 function loop(delay: number) {
   requestAnimationFrame(loop);
