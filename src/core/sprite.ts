@@ -75,17 +75,21 @@ export class Sprite {
       Math.cos(this.angle) * this.speed,
       Math.sin(this.angle) * this.speed
     );
+
+    // X-axis movement constraint
     if (
-      (offset.x >= 0 && this.position.x <= Canvas.canvas.width - this.size) ||
-      (offset.x < 0 && this.position.x > 0)
+      (offset.x > 0 && this.position.x + this.size < Canvas.canvas.width) || // Moving right and inside bounds
+      (offset.x < 0 && this.position.x > 0) // Moving left and inside bounds
     ) {
-      this.position.x += Math.cos(this.angle) * this.speed;
+      this.position.x += offset.x; // Move by calculated offset
     }
+
+    // Y-axis movement constraint
     if (
-      (offset.y <= 0 && this.position.y >= 0) ||
-      (offset.y >= 0 && this.position.y <= Canvas.canvas.height - this.size)
+      (offset.y > 0 && this.position.y + this.size < Canvas.canvas.height) || // Moving down and inside bounds
+      (offset.y < 0 && this.position.y > 0) // Moving up and inside bounds
     ) {
-      this.position.y += Math.sin(this.angle) * this.speed;
+      this.position.y += offset.y; // Move by calculated offset
     }
   }
 }
