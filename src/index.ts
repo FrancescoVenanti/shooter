@@ -1,4 +1,5 @@
-import { Canvas } from "./src/core/canvas";
+import { Canvas } from "./core/canvas";
+
 export const canvas = document.createElement("canvas");
 
 function main() {
