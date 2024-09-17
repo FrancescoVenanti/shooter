@@ -24,17 +24,14 @@ export class Sprite {
   }
 
   public animate() {
-    const angleInRadians =
-      ((3 / 2) * Math.PI - this.angle + 2 * Math.PI) % (2 * Math.PI); // Normalize angle within 0 to 2π
-    const segmentSize = (2 * Math.PI) / 8; // Divide the circle into 8 segments
-    let directionIndex = Math.floor(angleInRadians / segmentSize); // Determine which direction to use (0 to 7)
+    const angleInRadians = (this.angle + 2 * Math.PI) % (2 * Math.PI); // Normalize angle within 0 to 2π
+    const segmentSize = (2 * Math.PI) / 8; // 8 directions, so 45 degrees per segment
 
-    // Flip the directions for up and down
-    if (directionIndex === 0) {
-      directionIndex = 4; // Down becomes Up
-    } else if (directionIndex === 4) {
-      directionIndex = 0; // Up becomes Down
-    }
+    let directionIndex =
+      Math.floor((angleInRadians + segmentSize / 2) / segmentSize) % 8; // Add offset to center angles
+
+    // Shift directionIndex by -2 to align correctly with your spritesheet
+    directionIndex = (directionIndex - 2 + 8) % 8; // Ensure it wraps around using +8
 
     const currentFrame = Math.floor(
       (frame / MAX_FRAME) * playerActions[this.action]
