@@ -2,21 +2,26 @@ import { Canvas } from "./core/canvas";
 import listeners from "./core/listeners";
 import { Sprite } from "./core/sprite";
 import Vector from "./core/vector";
+import { socket } from "./lib/socket";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
-// import { socket } from "./lib/socket";
 
-// socket.emit('chat', 'send', 'ljfndlkfjndfgb');
 export let frame = 1;
 export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
-const player = new Sprite('placeholder', 'idle', 2.5, new Vector(0, 0));
+const player = new Sprite("placeholder", "idle", 3, new Vector(0, 0));
 
 (function main() {
+  socket.on("chat", "send", (data) => {
+    console.log(data);
+  });
+  socket.emit("chat", "send", "hello");
   listeners(player);
   loadSprites();
   Canvas.init();
   Promise.all(
-    Array.from(cachedImage.values()).map((img) => new Promise((resolve) => (img.onload = resolve)))
+    Array.from(cachedImage.values()).map(
+      (img) => new Promise((resolve) => (img.onload = resolve))
+    )
   ).then(() => loop());
 })();
 function loop(delay?: number) {
@@ -24,15 +29,14 @@ function loop(delay?: number) {
   let dx = 0;
   let dy = 0;
 
-  if (keyPressed.has("w")) dy -= 1;  // Moving up
-  if (keyPressed.has("s")) dy += 1;  // Moving down
-  if (keyPressed.has("a")) dx -= 1;  // Moving left
-  if (keyPressed.has("d")) dx += 1;  // Moving right
+  if (keyPressed.has("w")) dy -= 1;
+  if (keyPressed.has("s")) dy += 1;
+  if (keyPressed.has("a")) dx -= 1;
+  if (keyPressed.has("d")) dx += 1;
 
-  // Calculate movement direction only if there's input
   if (dx !== 0 || dy !== 0) {
-    const angle = Math.atan2(dy, dx); // Calculate angle from the x and y components
-    player.move(angle);               // Move player in that direction
+    const angle = Math.atan2(dy, dx);
+    player.move(angle);
   }
 
   if (keyPressed.has(" ")) {

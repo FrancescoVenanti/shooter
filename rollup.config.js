@@ -16,11 +16,15 @@ export default {
     sourcemap: true,
     globals: {
       "node:crypto": "crypto",
+      // "socket.io-client": "socket_ioClient",
     },
   },
   plugins: [
     nodePolyfills(/* options */),
-    resolve(),
+    resolve({
+      browser: true,
+      dedupe: ["socket.io-client"],
+    }),
     commonjs(),
     typescript(),
     dev &&
@@ -32,5 +36,11 @@ export default {
       }),
     dev && livereload("dist"),
   ],
-  external: ["tslib", "node:crypto", "node:fs", "node:process"],
+  external: [
+    "tslib",
+    "node:crypto",
+    "node:fs",
+    "node:process",
+    // "socket.io-client",
+  ],
 };
