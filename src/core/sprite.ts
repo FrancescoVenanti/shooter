@@ -1,22 +1,26 @@
-import * as fs from "fs";
-import * as path from "path";
 import { frame, MAX_FRAME } from "..";
+import { playerActions, playerClass } from "../lib/utils";
 import { Canvas } from "./canvas";
 import Vector from "./vector";
 
 export class Sprite {
+  public position: Vector;
+  public speed: number;
   protected action: keyof typeof playerActions;
   protected modelName: (typeof playerClass)[number];
   constructor(
     modelName: (typeof playerClass)[number],
-    action: keyof typeof playerActions
+    action: keyof typeof playerActions,
+    speed: number,
+    position: Vector
   ) {
     this.action = action;
     this.modelName = modelName;
+    this.position = position;
+    this.speed = speed;
   }
 
   public animate() {
-    console.log(Math.floor((frame / MAX_FRAME) * playerActions[this.action]));
     Canvas.image(
       "./src/assets/Sprites/" +
         this.modelName +
@@ -25,31 +29,21 @@ export class Sprite {
         "/" +
         (Math.floor((frame / MAX_FRAME) * playerActions[this.action]) + 1) +
         ".png",
-      new Vector(0, 0),
-      0,
-      0
+      this.position,
     );
   }
+  public move(direction: 'left' | 'right' | 'up' | 'down') {
+    if(direction === 'left'){
+      this.position.x -= this.speed
+    }
+    if(direction === 'right'){
+      this.position.x += this.speed
+    }
+    if(direction === 'up'){
+      this.position.y -= this.speed
+    }
+    if(direction === 'down'){
+      this.position.y += this.speed
+    }
+  }
 }
-
-const playerActions = {
-  deadGround: 4,
-  deadHit: 6,
-  doorIn: 16,
-  doorOut: 16,
-  fall: 2,
-  ground: 3,
-  hit: 8,
-  idle: 26,
-  jump: 4,
-  jumpAnticipation: 1,
-  run: 14,
-} as const;
-const playerClass = [
-  "bomb",
-  "bald",
-  "bigGuy",
-  "captain",
-  "cucumber",
-  "whale",
-] as const;

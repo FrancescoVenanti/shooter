@@ -1,5 +1,6 @@
 /* || */
 
+import { cachedImage } from "../lib/utils";
 import Vector from "./vector";
 
 interface CanvasLinesProps {
@@ -9,7 +10,7 @@ interface CanvasLinesProps {
 
 export class Canvas {
   public static canvas: HTMLCanvasElement;
-  private static ctx: CanvasRenderingContext2D;
+  public static ctx: CanvasRenderingContext2D;
 
   static init(): void {
     const canvas = document.createElement("canvas");
@@ -19,6 +20,7 @@ export class Canvas {
     Canvas.ctx = canvas.getContext("2d")!;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    this.ctx.imageSmoothingEnabled = true;
   }
 
   static line(
@@ -50,17 +52,28 @@ export class Canvas {
     Canvas.ctx.rect(x, y, w || this.canvas.width, h || this.canvas.height);
     // Canvas.ctx.stroke();
   }
+  static fillRect({ x, y }: Vector, w?: number, h?: number): void {
+    // Canvas.ctx.beginPath();
+    Canvas.ctx.fillRect(x, y, w || this.canvas.width, h || this.canvas.height);
+    // Canvas.ctx.stroke();
+  }
   static text(text: string, { x, y }: Vector): void {
     Canvas.ctx.font = "30px Arial";
     Canvas.ctx.fillText(text, x, y);
   }
   static image(image: string, { x, y }: Vector, w?: number, h?: number): void {
-    const img = new Image();
-    img.src = image;
-    img.onload = () => {
-      if (w && h) Canvas.ctx.drawImage(img, x, y, w, h);
-      else Canvas.ctx.drawImage(img, x, y);
-    };
+    let currentImage: HTMLImageElement | undefined = undefined;
+    for (const entry of cachedImage) {
+      if (entry.src === image) {
+        currentImage = entry;
+        break;
+      }
+    }
+    if(!currentImage) {
+      return console.log('image not found ', image)
+    }
+    if (w && h) Canvas.ctx.drawImage(currentImage, x, y, w, h);
+    else Canvas.ctx.drawImage(currentImage, x, y, 100, 100);
   }
   static clear(
     { x, y }: Vector = new Vector(0, 0),
