@@ -19,40 +19,32 @@ const keyPressed = new Map<string, boolean>();
 const cachedImage: Map<string, HTMLImageElement> = new Map<string, HTMLImageElement>();
 
 const playerActions = {
-  deadGround: 4,
-  deadHit: 6,
-  fall: 2,
-  ground: 3,
-  hit: 7,
-  idle: 26,
-  jump: 4,
-  jumpAnticipation: 1,
-  run: 12,
+  idle: 4,
+  run: 4,
 } as const;
 const playerClass = [
-  "bomb",
-  "bald",
-  "bigGuy",
-  "captain",
-  "cucumber",
-  "whale",
+  "placeholder",
 ] as const;
 
 function loadSprites() {
   for (const player of playerClass) {
     for (const action in playerActions) {
-      for (let i = 1; i <= playerActions[action]; i++) {
         const image = new Image();
-        image.src = `./src/assets/Sprites/${player}/${action}/${i}.png`;
-        cachedImage.set(`${player}/${action}/${i}.png`, image);
-        // cachedImage.push(image);
-      }
+        image.src = `./src/assets/Sprites/${player}/${action}.png`;
+        cachedImage.set(`${player}/${action}.png`, image);
     }
   }
 }
 
+function absAngle(angle: number){
+  if (angle < 0){
+    return Math.PI - angle;
+  }
+  return angle;
+}
+
 export {
-  cachedImage,
+  absAngle, cachedImage,
   keyPressed,
   loadSprites,
   playerActions,

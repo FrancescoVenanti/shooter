@@ -63,7 +63,7 @@ export class Canvas {
   }
   static image(image: string, { x, y }: Vector, w?: number, h?: number): void {
     let currentImage: HTMLImageElement | undefined = undefined;
-    const imagePath = image.split('/').slice(-3).join('/');
+    const imagePath = image.split('/').slice(-2).join('/');
     if(cachedImage.has(imagePath)){
       currentImage = cachedImage.get(imagePath)!;
     }
@@ -72,6 +72,17 @@ export class Canvas {
     }
     if (w && h) Canvas.ctx.drawImage(currentImage, x, y, w, h);
     else Canvas.ctx.drawImage(currentImage, x, y, 100, 100);
+  }
+  static imageRect(image: string, {x: sx, y: sy}: Vector, sw: number, sh: number, {x: dx, y: dy}:Vector, dw: number, dh: number){
+    let currentImage: HTMLImageElement | undefined = undefined;
+    const imagePath = image.split('/').slice(-2).join('/');
+    if(cachedImage.has(imagePath)){
+      currentImage = cachedImage.get(imagePath)!;
+    }
+    if (!currentImage) {
+      return console.log("image not found ", image);
+    }
+    Canvas.ctx.drawImage(currentImage, sx, sy, sw, sh, dx, dy, dw, dh);
   }
   static clear(
     { x, y }: Vector = new Vector(0, 0),
