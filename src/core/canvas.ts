@@ -8,10 +8,11 @@ interface CanvasLinesProps {
 }
 
 export class Canvas {
-  private static canvas: HTMLCanvasElement;
+  public static canvas: HTMLCanvasElement;
   private static ctx: CanvasRenderingContext2D;
 
-  static init(canvas: HTMLCanvasElement): void {
+  static init(): void {
+    const canvas = document.createElement("canvas");
     const container = document.getElementById("container");
     container?.appendChild(canvas);
     Canvas.canvas = canvas;

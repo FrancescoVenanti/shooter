@@ -1,8 +1,13 @@
 import { Canvas } from "./core/canvas";
+// import { socket } from "./lib/socket";
 
-export const canvas = document.createElement("canvas");
+// socket.emit('chat', 'send', 'ljfndlkfjndfgb');
 
-function main() {
-  Canvas.init(canvas);
-  requestAnimationFrame(main);
+(function main() {
+  Canvas.init();
+  loop(0);
+})();
+
+function loop(delay: number) {
+  requestAnimationFrame(loop);
 }

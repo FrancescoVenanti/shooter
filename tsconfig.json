@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
     "target": "ES6",
     "outDir": "./dist",
     "rootDir": ".",
+    "moduleResolution": "node",
     "esModuleInterop": true
   },
   "include": ["**/*"],
