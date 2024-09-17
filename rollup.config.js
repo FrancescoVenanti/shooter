@@ -32,5 +32,5 @@ export default {
       }),
     dev && livereload("dist"),
   ],
-  external: ["tslib", "node:crypto"],
+  external: ["tslib", "node:crypto", "node:fs", "node:process"],
 };

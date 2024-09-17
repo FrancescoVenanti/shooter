@@ -45,10 +45,10 @@ export class Canvas {
     Canvas.ctx.arc(x, y, r, 0, 2 * Math.PI);
     Canvas.ctx.stroke();
   }
-  static rect({ x, y }: Vector, w: number, h: number): void {
-    Canvas.ctx.beginPath();
-    Canvas.ctx.rect(x, y, w, h);
-    Canvas.ctx.stroke();
+  static rect({ x, y }: Vector, w?: number, h?: number): void {
+    // Canvas.ctx.beginPath();
+    Canvas.ctx.rect(x, y, w || this.canvas.width, h || this.canvas.height);
+    // Canvas.ctx.stroke();
   }
   static text(text: string, { x, y }: Vector): void {
     Canvas.ctx.font = "30px Arial";
@@ -69,6 +69,6 @@ export class Canvas {
   ): void {
     setTimeout(() => {
       Canvas.ctx.clearRect(x, y, w, h);
-    }, 10);
+    }, 1);
   }
 }
