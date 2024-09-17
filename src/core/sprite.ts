@@ -6,16 +6,16 @@ import Vector from "./vector";
 export class Sprite {
   public position: Vector;
   public speed: number;
-  protected action: keyof typeof playerActions;
-  protected modelName: (typeof playerClass)[number];
+  public action: keyof typeof playerActions;
+  protected character: (typeof playerClass)[number];
   constructor(
-    modelName: (typeof playerClass)[number],
+    character: (typeof playerClass)[number],
     action: keyof typeof playerActions,
     speed: number,
     position: Vector
   ) {
     this.action = action;
-    this.modelName = modelName;
+    this.character = character;
     this.position = position;
     this.speed = speed;
   }
@@ -23,7 +23,7 @@ export class Sprite {
   public animate() {
     Canvas.image(
       "./src/assets/Sprites/" +
-        this.modelName +
+        this.character +
         "/" +
         this.action +
         "/" +
@@ -32,18 +32,8 @@ export class Sprite {
       this.position,
     );
   }
-  public move(direction: 'left' | 'right' | 'up' | 'down') {
-    if(direction === 'left'){
-      this.position.x -= this.speed
-    }
-    if(direction === 'right'){
-      this.position.x += this.speed
-    }
-    if(direction === 'up'){
-      this.position.y -= this.speed
-    }
-    if(direction === 'down'){
-      this.position.y += this.speed
-    }
+  public move(angle: number) {
+    this.position.x += Math.cos(angle) * this.speed;
+    this.position.y += Math.sin(angle) * this.speed;
   }
 }

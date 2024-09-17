@@ -8,29 +8,29 @@ import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
 // socket.emit('chat', 'send', 'ljfndlkfjndfgb');
 export let frame = 1;
 export const MAX_FRAME = 60;
-const player = new Sprite("bigGuy", "idle", 2.5, new Vector(0, 0));
+const player = new Sprite('whale', 'idle', 2.5, new Vector(0, 0));
 
 (function main() {
-  listeners();
+  listeners(player);
   loadSprites();
   Canvas.init();
   Promise.all(
-    cachedImage.map((img) => new Promise((resolve) => (img.onload = resolve)))
+    Array.from(cachedImage.values()).map((img) => new Promise((resolve) => (img.onload = resolve)))
   ).then(() => loop());
 })();
 function loop(delay?: number) {
   Canvas.ctx.clearRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
   if (keyPressed.has("s")) {
-    player.move("down");
+    player.move(Math.PI / 2);
   }
   if (keyPressed.has("d")) {
-    player.move("right");
+    player.move(0);
   }
   if (keyPressed.has("a")) {
-    player.move("left");
+    player.move(Math.PI);
   }
   if (keyPressed.has("w")) {
-    player.move("up");
+    player.move(-Math.PI / 2);
   }
   if (keyPressed.has(" ")) {
     console.log("space");

@@ -15,7 +15,8 @@ function toSocketKey<
   }`;
 }
 const keyPressed = new Map<string, boolean>();
-const cachedImage: HTMLImageElement[] = [];
+// const cachedImage: HTMLImageElement[] = [];
+const cachedImage: Map<string, HTMLImageElement> = new Map<string, HTMLImageElement>();
 
 const playerActions = {
   deadGround: 4,
@@ -43,8 +44,8 @@ function loadSprites() {
       for (let i = 1; i <= playerActions[action]; i++) {
         const image = new Image();
         image.src = `./src/assets/Sprites/${player}/${action}/${i}.png`;
-
-        cachedImage.push(image);
+        cachedImage.set(`${player}/${action}/${i}.png`, image);
+        // cachedImage.push(image);
       }
     }
   }
@@ -56,5 +57,5 @@ export {
   loadSprites,
   playerActions,
   playerClass,
-  toSocketKey,
+  toSocketKey
 };

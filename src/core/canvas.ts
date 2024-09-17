@@ -63,13 +63,9 @@ export class Canvas {
   }
   static image(image: string, { x, y }: Vector, w?: number, h?: number): void {
     let currentImage: HTMLImageElement | undefined = undefined;
-    for (const entry of cachedImage) {
-      const cachedFileName = entry.src.split("/").slice(-3); // Extract filename
-      const imageFileName = image.split("/").slice(-3); // Extract filename of input i
-      if (cachedFileName === imageFileName) {
-        currentImage = entry;
-        break;
-      }
+    const imagePath = image.split('/').slice(-3).join('/');
+    if(cachedImage.has(imagePath)){
+      currentImage = cachedImage.get(imagePath)!;
     }
     if (!currentImage) {
       return console.log("image not found ", image);
