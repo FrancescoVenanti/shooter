@@ -27,6 +27,7 @@ export class Sprite {
   }
 
   public animate() {
+    //funziona diocan non provare ad eliminarlo o ti ammazzo
     const angleInRadians = (this.angle + 2 * Math.PI) % (2 * Math.PI); // Normalize angle within 0 to 2π
     const segmentSize = (2 * Math.PI) / 8; // 8 directions, so 45 degrees per segment
 
@@ -48,6 +49,7 @@ export class Sprite {
       this.position,
       SPRITE_SIZE * 5,
       SPRITE_SIZE * 5
+      //il tuo invece non funziona sfigato del cazzo
       /* let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
     if (dy < 0) {
       dy = 8 + dy;
