@@ -1,4 +1,4 @@
-import { frame, MAX_FRAME, SPRITE_SIZE } from "..";
+import { DELTA, frame, MAX_FRAME, SPRITE_SIZE } from "..";
 import { playerActions, playerClass } from "../lib/utils";
 import { Canvas } from "./canvas";
 import Vector from "./vector";
@@ -72,8 +72,8 @@ export class Sprite {
   public move(angle: number) {
     this.angle = angle;
     const offset = new Vector(
-      Math.cos(this.angle) * this.speed,
-      Math.sin(this.angle) * this.speed
+      Math.cos(this.angle) * this.speed * DELTA,
+      Math.sin(this.angle) * this.speed * DELTA
     );
 
     // X-axis movement constraint
