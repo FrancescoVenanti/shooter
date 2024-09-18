@@ -27,7 +27,7 @@ export class Sprite {
   }
 
   public animate() {
-    //funziona diocan non provare ad eliminarlo o ti ammazzo
+    /*     //funziona diocan non provare ad eliminarlo o ti ammazzo
     const angleInRadians = (this.angle + 2 * Math.PI) % (2 * Math.PI); // Normalize angle within 0 to 2π
     const segmentSize = (2 * Math.PI) / 8; // 8 directions, so 45 degrees per segment
 
@@ -48,25 +48,25 @@ export class Sprite {
       SPRITE_SIZE,
       this.position,
       SPRITE_SIZE * 5,
-      SPRITE_SIZE * 5
-      //il tuo invece non funziona sfigato del cazzo
-      /* let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
-    if (dy < 0) {
-      dy = 8 + dy;
-    }
-    Canvas.imageRect(
-      `./src/assets/Sprites/${this.character}/${this.action}.png`,
-      new Vector(
-        Math.floor((frame / MAX_FRAME) * playerActions[this.action]) *
-          SPRITE_SIZE,
-        dy * SPRITE_SIZE
-      ),
-      SPRITE_SIZE,
-      SPRITE_SIZE,
-      this.position,
-      this.size,
-      this.size */
-    );
+      SPRITE_SIZE * 5 */
+    //il tuo invece non funziona sfigato del cazzo
+    let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
+      if (dy < 0) {
+        dy = 8 + dy;
+      }
+      Canvas.imageRect(
+        `./src/assets/Sprites/${this.character}/${this.action}.png`,
+        new Vector(
+          Math.floor((frame / MAX_FRAME) * playerActions[this.action]) *
+            SPRITE_SIZE,
+          dy * SPRITE_SIZE
+        ),
+        SPRITE_SIZE,
+        SPRITE_SIZE,
+        this.position,
+        this.size,
+        this.size
+      );
   }
 
   public move(angle: number) {
