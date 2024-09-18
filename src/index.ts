@@ -5,11 +5,11 @@ import Vector from "./core/vector";
 import { socket } from "./lib/socket";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
 
-export let frame = 1;
+export let FRAME = 1;
 export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
 export let DELTA = 0;
-const player = new Sprite("placeholder", "idle", 3, new Vector(0, 0));
+const player = new Sprite("placeholder", "idle", 0.3, new Vector(0, 0));
 
 (function main() {
   socket.on("chat", "send", (data) => {
@@ -25,7 +25,7 @@ const player = new Sprite("placeholder", "idle", 3, new Vector(0, 0));
     )
   ).then(() => loop());
 })();
-
+let count = 0;
 let delay1 = 0;
 let delay2 = 0;
 function loop(delay?: number) {
@@ -35,6 +35,14 @@ function loop(delay?: number) {
   let dx = 0;
   let dy = 0;
   DELTA = delay1 - delay2;
+
+  if (FRAME == 59) {
+    console.log("totale " + count);
+    count = 0;
+  } else {
+    count += player.angle * DELTA;
+  }
+
   if (keyPressed.has("w")) dy -= 1;
   if (keyPressed.has("s")) dy += 1;
   if (keyPressed.has("a")) dx -= 1;
@@ -49,6 +57,6 @@ function loop(delay?: number) {
     console.log("space");
   }
   player.animate();
-  frame = (frame + 1) % MAX_FRAME;
+  FRAME = (FRAME + 1) % MAX_FRAME;
   requestAnimationFrame(loop);
 }

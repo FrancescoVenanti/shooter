@@ -1,4 +1,4 @@
-import { DELTA, frame, MAX_FRAME, SPRITE_SIZE } from "..";
+import { DELTA, FRAME, MAX_FRAME, SPRITE_SIZE } from "..";
 import { playerActions, playerClass } from "../lib/utils";
 import { Canvas } from "./canvas";
 import Vector from "./vector";
@@ -57,7 +57,7 @@ export class Sprite {
     Canvas.imageRect(
       `./src/assets/Sprites/${this.character}/${this.action}.png`,
       new Vector(
-        Math.floor((frame / MAX_FRAME) * playerActions[this.action]) *
+        Math.floor((FRAME / MAX_FRAME) * playerActions[this.action]) *
           SPRITE_SIZE,
         dy * SPRITE_SIZE
       ),
