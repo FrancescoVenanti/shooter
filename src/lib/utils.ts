@@ -27,6 +27,9 @@ function loadSprites() {
       cachedImage.set(`${player}/${action}.png`, image);
     }
   }
+  const image = new Image();
+  image.src = "./src/assets/Map/tiles.png";
+  cachedImage.set("Map/tiles.png", image);
 }
 
 function absAngle(angle: number) {
@@ -45,4 +48,3 @@ export {
   playerClass,
   socketChannel,
 };
-
