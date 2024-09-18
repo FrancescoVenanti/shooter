@@ -1,56 +1,40 @@
-import { env } from "bun";
+import { type Range } from "../types/zod";
 import { Canvas } from "./canvas";
 import Vector from "./vector";
 
-export class Environment {
-  static height: number = 24;
-  static width: number = 32;
+class Environment {
+  static SIZE: number = 16;
   static tileGrowth: number = 3;
   constructor() {}
-  public drawTile(tile: TileType, drawPoint: Vector) {
+  public drawTile<T extends TileType>(tile: T, col: Range<(typeof tiles)[T]['width']>, row: Range<(typeof tiles)[T]['height']>, drawPoint: Vector) {
     // Draw the tile
     Canvas.imageRect(
-      "./src/assets/Map/tiles.png",
-      tiles[tile].vect,
-      Environment.width,
-      Environment.height,
+      `./src/assets/Map/${tile}.png`,
+      new Vector(col * tiles[tile].size, row * tiles[tile].size),
+      Environment.SIZE,
+      Environment.SIZE,
       drawPoint,
-      Environment.width * Environment.tileGrowth,
-      Environment.height * Environment.tileGrowth
+      Environment.SIZE * Environment.tileGrowth,
+      Environment.SIZE * Environment.tileGrowth
     );
   }
-  public drawMap(map: TileType[][]) {
+  public drawMap() {
     for (
       let y = 0;
-      y < Canvas.canvas.height / Environment.height / Environment.tileGrowth;
+      y < Canvas.canvas.height / Environment.SIZE / Environment.tileGrowth;
       y++
     ) {
       for (
         let x = 0;
-        x < Canvas.canvas.width / Environment.width / Environment.tileGrowth;
+        x < Canvas.canvas.width / Environment.SIZE / Environment.tileGrowth;
         x++
       ) {
         this.drawTile(
-          "rock",
+          'farmLand',
+          1, 1,
           new Vector(
-            x * Environment.width * Environment.tileGrowth -
-              (Environment.width * Environment.tileGrowth) / 2,
-            y * Environment.height * Environment.tileGrowth -
-              (Environment.height * Environment.tileGrowth) / 2 -
-              8 * (y + 1)
-          )
-        );
-      }
-      for (
-        let x = 0;
-        x < Canvas.canvas.width / Environment.width / Environment.tileGrowth;
-        x++
-      ) {
-        this.drawTile(
-          "rock",
-          new Vector(
-            x * Environment.width * Environment.tileGrowth,
-            y * Environment.height * Environment.tileGrowth - 8 * (y + 2)
+            x * Environment.SIZE * Environment.tileGrowth,
+            y * Environment.SIZE * Environment.tileGrowth
           )
         );
       }
@@ -59,17 +43,48 @@ export class Environment {
 }
 
 const tiles = {
-  grass: {
-    vect: new Vector(72, 8),
+  grassMiddle: {
+    size: 16,
+    width: 1,
+    height: 1,
+  },
+  cliff: {
+    size: 16,
+    width: 3,
+    height: 6,
+  },
+  farmLand: {
+    size: 16,
+    width: 3,
+    height: 3,
+  },
+  path: {
+    size: 16,
+    width: 3,
+    height: 6,
+  },
+  pathMiddle: {
+    size: 16,
+    width: 1,
+    height: 1,
   },
   water: {
-    vect: new Vector(72, 8),
+    size: 16,
+    width: 3,
+    height: 6,
   },
-  sand: {
-    vect: new Vector(72, 8),
-  },
-  rock: {
-    vect: new Vector(Environment.width * 3 + 8, 5 * 8),
+  waterMiddle: {
+    size: 16,
+    width: 1,
+    height: 1,
   },
 } as const;
-export type TileType = keyof typeof tiles;
+type TileType = keyof typeof tiles;
+
+
+export { Environment, tiles, TileType };
+
+
+function pickInRange<N extends number>(value: Range<N>) {
+  console.log(value);
+}

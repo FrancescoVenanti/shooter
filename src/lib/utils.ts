@@ -1,3 +1,4 @@
+import { tiles } from "../core/environment";
 import { events } from "../server/utils";
 
 function socketChannel<TChannel extends keyof typeof events>(
@@ -27,24 +28,19 @@ function loadSprites() {
       cachedImage.set(`${player}/${action}.png`, image);
     }
   }
-  const image = new Image();
-  image.src = "./src/assets/Map/tiles.png";
-  cachedImage.set("Map/tiles.png", image);
+  for(const tile in tiles) {
+    const image = new Image();
+    image.src = `./src/assets/Map/${tile}.png`;
+    cachedImage.set(`Map/${tile}.png`, image);
+  }
 }
 
-function absAngle(angle: number) {
-  if (angle < 0) {
-    return Math.PI - angle;
-  }
-  return angle;
-}
 
 export {
-  absAngle,
   cachedImage,
   keyPressed,
   loadSprites,
   playerActions,
   playerClass,
-  socketChannel,
+  socketChannel
 };

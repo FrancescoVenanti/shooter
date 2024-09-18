@@ -27,29 +27,6 @@ export class Sprite {
   }
 
   public animate() {
-    /*     //funziona diocan non provare ad eliminarlo o ti ammazzo
-    const angleInRadians = (this.angle + 2 * Math.PI) % (2 * Math.PI); // Normalize angle within 0 to 2π
-    const segmentSize = (2 * Math.PI) / 8; // 8 directions, so 45 degrees per segment
-
-    let directionIndex =
-      Math.floor((angleInRadians + segmentSize / 2) / segmentSize) % 8; // Add offset to center angles
-
-    // Shift directionIndex by -2 to align correctly with your spritesheet
-    directionIndex = (directionIndex - 2 + 8) % 8; // Ensure it wraps around using +8
-
-    const currentFrame = Math.floor(
-      (frame / MAX_FRAME) * playerActions[this.action]
-    ); // Handle animation frame
-
-    Canvas.imageRect(
-      `./src/assets/Sprites/${this.character}/${this.action}.png`,
-      new Vector(currentFrame * SPRITE_SIZE, directionIndex * SPRITE_SIZE), // X for animation frame, Y for direction
-      SPRITE_SIZE,
-      SPRITE_SIZE,
-      this.position,
-      SPRITE_SIZE * 5,
-      SPRITE_SIZE * 5 */
-    //il tuo invece non funziona sfigato del cazzo
     let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
     if (dy < 0) {
       dy = 8 + dy;
@@ -75,21 +52,18 @@ export class Sprite {
       Math.cos(this.angle) * this.speed * DELTA,
       Math.sin(this.angle) * this.speed * DELTA
     );
-
-    // X-axis movement constraint
     if (
-      (offset.x > 0 && this.position.x + this.size < Canvas.canvas.width) || // Moving right and inside bounds
-      (offset.x < 0 && this.position.x > 0) // Moving left and inside bounds
+      (offset.x > 0 && this.position.x + this.size < Canvas.canvas.width) ||
+      (offset.x < 0 && this.position.x > 0)
     ) {
-      this.position.x += offset.x; // Move by calculated offset
+      this.position.x += offset.x;
     }
 
-    // Y-axis movement constraint
     if (
-      (offset.y > 0 && this.position.y + this.size < Canvas.canvas.height) || // Moving down and inside bounds
-      (offset.y < 0 && this.position.y > 0) // Moving up and inside bounds
+      (offset.y > 0 && this.position.y + this.size < Canvas.canvas.height) ||
+      (offset.y < 0 && this.position.y > 0)
     ) {
-      this.position.y += offset.y; // Move by calculated offset
+      this.position.y += offset.y;
     }
   }
 }
