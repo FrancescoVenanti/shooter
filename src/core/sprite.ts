@@ -51,22 +51,22 @@ export class Sprite {
       SPRITE_SIZE * 5 */
     //il tuo invece non funziona sfigato del cazzo
     let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
-      if (dy < 0) {
-        dy = 8 + dy;
-      }
-      Canvas.imageRect(
-        `./src/assets/Sprites/${this.character}/${this.action}.png`,
-        new Vector(
-          Math.floor((frame / MAX_FRAME) * playerActions[this.action]) *
-            SPRITE_SIZE,
-          dy * SPRITE_SIZE
-        ),
-        SPRITE_SIZE,
-        SPRITE_SIZE,
-        this.position,
-        this.size,
-        this.size
-      );
+    if (dy < 0) {
+      dy = 8 + dy;
+    }
+    Canvas.imageRect(
+      `./src/assets/Sprites/${this.character}/${this.action}.png`,
+      new Vector(
+        Math.floor((frame / MAX_FRAME) * playerActions[this.action]) *
+          SPRITE_SIZE,
+        dy * SPRITE_SIZE
+      ),
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.position,
+      this.size,
+      this.size
+    );
   }
 
   public move(angle: number) {
