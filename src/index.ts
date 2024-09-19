@@ -11,12 +11,16 @@ export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
 export let DELTA = 0;
 const player = new Sprite("placeholder", "idle", 0.3, new Vector(0, 0));
-
+const enemies: Map<string, Sprite> = new Map<string, Sprite>();
 (function main() {
-  socket.on("chat", "send", (data) => {
-    console.log(data);
+  socket.on("room", "move", ({x, y, id}) => {
+    if(enemies.has(id)){
+      enemies.get(id).position = new Vector(x, y);
+    }
+    else{
+      enemies.set(id, new Sprite("placeholder", "idle", 0.3, new Vector(x, y)));
+    }
   });
-  socket.emit("chat", "send", "hello");
   listeners(player);
   loadSprites();
   Canvas.init();
@@ -34,6 +38,11 @@ function loop(delay?: number) {
   delay1 = delay;
   Canvas.ctx.clearRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
   new Environment().drawMap();
+
+  for (const enemy of enemies.values()) {
+    enemy.animate();
+  }
+
   let dx = 0;
   let dy = 0;
   DELTA = delay1 - delay2;

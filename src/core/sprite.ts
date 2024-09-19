@@ -1,4 +1,6 @@
 import { DELTA, FRAME, MAX_FRAME, SPRITE_SIZE } from "..";
+import { random } from "../lib/global";
+import { socket } from "../lib/socket";
 import { playerActions, playerClass } from "../lib/utils";
 import { Canvas } from "./canvas";
 import Vector from "./vector";
@@ -8,6 +10,8 @@ export class Sprite {
   public size: number;
   public speed: number;
   public angle: number;
+  public id: string;
+  public life: number = 100;
   public action: keyof typeof playerActions;
   protected character: (typeof playerClass)[number];
   constructor(
@@ -18,6 +22,10 @@ export class Sprite {
     size: number = SPRITE_SIZE * 4,
     angle: number = 0
   ) {
+    if(!localStorage.getItem('id')){
+      localStorage.setItem('id', random(10));
+    }
+    this.id = localStorage.getItem('id') as string;
     this.action = action;
     this.character = character;
     this.position = position;
@@ -65,5 +73,9 @@ export class Sprite {
     ) {
       this.position.y += offset.y;
     }
+    socket.emit('room', 'move', {x: this.position.x, y: this.position.y, id: this.id});
+  }
+  public changePosition(newPosition: Vector){
+    this.position = newPosition
   }
 }

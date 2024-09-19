@@ -38,5 +38,5 @@ export class SocketClient {
   private;
 }
 export const socket = new SocketClient(
-  io("http://localhost:3000", { transports: ["websocket"] })
+  io("http://192.168.50.77:3000", { transports: ["websocket"] })
 );

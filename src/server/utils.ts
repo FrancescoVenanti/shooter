@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { vector } from "../types/zod";
 
 export const events = {
   chat: {
@@ -6,5 +7,7 @@ export const events = {
   },
   room: {
     join: z.string(),
+    move: vector
   },
+
 } as const;
