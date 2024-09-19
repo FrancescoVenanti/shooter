@@ -90,4 +90,38 @@ export class Character {
     }
     Canvas.ctx.fillRect(this.position.x, this.position.y, this.size, this.size);
   }
+
+  public checkCollision(character: Character, enemies: Character[]) {
+    let possibleDirections: Map<string, boolean> = new Map([
+      ["up", true],
+      ["down", true],
+      ["left", true],
+      ["right", true],
+    ]);
+    for (const enemy of enemies) {
+      if (
+        this.position.x + this.size > enemy.position.x &&
+        this.position.x < enemy.position.x + enemy.size
+      ) {
+        if (
+          this.position.y + this.size > enemy.position.y &&
+          this.position.y < enemy.position.y + enemy.size
+        ) {
+          if (this.position.x + this.size > enemy.position.x) {
+            possibleDirections.set("right", false);
+          }
+          if (this.position.x < enemy.position.x + enemy.size) {
+            possibleDirections.set("left", false);
+          }
+          if (this.position.y + this.size > enemy.position.y) {
+            possibleDirections.set("down", false);
+          }
+          if (this.position.y < enemy.position.y + enemy.size) {
+            possibleDirections.set("up", false);
+          }
+        }
+      }
+    }
+    return possibleDirections;
+  }
 }
