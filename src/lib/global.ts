@@ -1,4 +1,3 @@
-import { Range } from "../types/zod";
 
 function random(length: number = 10) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -28,30 +27,6 @@ function global<T extends keyof typeof globals>(
   }
   return globals[provider];
 }
-
-// function asset<
-//   T extends keyof typeof assets,
-// >(
-//   params: T extends "environment" ? EnvironmentType : CharacterType<T, any>,
-// ) {}
-
-// type EnvironmentType<T extends keyof (typeof assets)["environment"]> = {
-//   variant: T;
-//   x: Range<(typeof assets)["environment"][T]["width"]>;
-//   y: Range<(typeof assets)["environment"][T]["height"]>;
-//   width: Range<(typeof assets)["environment"][T]["width"]>;
-//   height: Range<(typeof assets)["environment"][T]["width"]>;
-// };
-// type CharacterType<T extends keyof (typeof assets)["character"], Action extends keyof (typeof assets)['character'][T]> = {
-//   variant: T;
-//   action: Action;
-//   x: Range<(typeof assets)["character"][T][Action]["width"]>;
-//   y: Range<(typeof assets)["character"][T][Action]["height"]>;
-//   width: Range<(typeof assets)["character"][T][Action]["width"]>;
-//   height: Range<(typeof assets)["character"][T][Action]["width"]>;
-// };
-
-// asset("environment", "cliff", null, { x: 0, y: 0, width: 4, height: 8 });
 
 const assets = {
   environment: {
@@ -107,4 +82,6 @@ const assets = {
   },
 } as const;
 
-export { global, random };
+type Asset = typeof assets;
+
+export { Asset, assets, global, random };

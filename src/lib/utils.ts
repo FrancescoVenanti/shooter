@@ -1,5 +1,5 @@
-import { tiles } from "../core/environment";
 import { events } from "../server/utils";
+import { assets } from "./global";
 
 function socketChannel<TChannel extends keyof typeof events>(
   channel: TChannel,
@@ -14,21 +14,16 @@ const cachedImage: Map<string, HTMLImageElement> = new Map<
   HTMLImageElement
 >();
 
-const playerActions = {
-  idle: 4,
-  run: 4,
-} as const;
-const playerClass = ["placeholder"] as const;
 
 function loadSprites() {
-  for (const player of playerClass) {
-    for (const action in playerActions) {
+  for (const player in assets['character']) {
+    for (const action in assets['character'][player]) {
       const image = new Image();
       image.src = `/assets/character/${player}/${action}.png`;
       cachedImage.set(`${player}/${action}.png`, image);
     }
   }
-  for(const tile in tiles) {
+  for(const tile in assets['environment']) {
     const image = new Image();
     image.src = `/assets/environment/${tile}.png`;
     cachedImage.set(`environment/${tile}.png`, image);
@@ -40,7 +35,5 @@ export {
   cachedImage,
   keyPressed,
   loadSprites,
-  playerActions,
-  playerClass,
   socketChannel
 };
