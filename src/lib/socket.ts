@@ -38,5 +38,6 @@ export class SocketClient {
   private;
 }
 export const socket = new SocketClient(
-  io("http://192.168.50.77:3000", { transports: ["websocket"] })
+  io("https://shooter-j82n.onrender.com" || "http://192.168.50.77:3000", { transports: ["websocket"] })
 );
+/* process.env.SERVER_URL || */

@@ -1,10 +1,14 @@
+/* import dotenv from 'dotenv'; */
 import { Canvas } from "./core/canvas";
+import { Character } from "./core/character";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
-import { Character } from "./core/character";
 import Vector from "./core/vector";
 import { socket } from "./lib/socket";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
+/* dotenv.config();
+console.log(process.env);
+ */
 
 export let FRAME = 1;
 export const MAX_FRAME = 60;
