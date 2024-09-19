@@ -1,10 +1,12 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+import dotenv from 'dotenv';
 import livereload from "rollup-plugin-livereload";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import serve from "rollup-plugin-serve";
 
+dotenv.config();
 const dev = process.env.ROLLUP_WATCH;
 
 export default {
@@ -41,6 +43,7 @@ export default {
     "node:crypto",
     "node:fs",
     "node:process",
+    "dotenv"
     // "socket.io-client",
   ],
 };
