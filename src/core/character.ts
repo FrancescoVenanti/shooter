@@ -10,13 +10,15 @@ class Character {
   public angle: number = 0;
   public id: string;
   public life: number = 100;
-  protected character: keyof Asset['character'];
-  protected action: keyof Asset['character'][keyof Asset['character']];
-  protected width: number = assets['character']['placeholder']['idle']['width'] * 5;
-  protected height: number = assets['character']['placeholder']['idle']['height'] * 5;
+  protected character: keyof Asset["character"];
+  protected action: keyof Asset["character"][keyof Asset["character"]];
+  protected width: number =
+    assets["character"]["placeholder"]["idle"]["width"] * 5;
+  protected height: number =
+    assets["character"]["placeholder"]["idle"]["height"] * 5;
   constructor(
-    character: keyof Asset['character'],
-    action: keyof Asset['character'][keyof Asset['character']],
+    character: keyof Asset["character"],
+    action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
     speed: number = 3,
     life: number = 100
@@ -36,11 +38,7 @@ class Character {
     }
     Canvas.imageRect(
       `./src/assets/character/${this.character}/${this.action}.png`,
-      new Vector(
-        Math.floor((FRAME / MAX_FRAME) * 4) *
-          16,
-        dy * SPRITE_SIZE
-      ),
+      new Vector(Math.floor((FRAME / MAX_FRAME) * 4) * 16, dy * SPRITE_SIZE),
       SPRITE_SIZE,
       SPRITE_SIZE,
       this.position,
@@ -50,31 +48,44 @@ class Character {
     this.darkenPlayer();
   }
 
-  public move(angle: number) {
+  public move(angle: number, enemies: Map<String, Character>) {
+    const allowedDirections = this.checkCollision(
+      this,
+      Array.from(enemies.values())
+    );
     this.angle = angle;
     const offset = new Vector(
       Math.cos(this.angle) * this.speed * DELTA,
       Math.sin(this.angle) * this.speed * DELTA
     );
-    if (
-      (offset.x > 0 && this.position.x + this.width < Canvas.canvas.width) ||
-      (offset.x < 0 && this.position.x > 0)
-    ) {
-      this.position.x += offset.x;
+
+    if (offset.x > 0 && allowedDirections.get("right")) {
+      if (this.position.x + this.width < Canvas.canvas.width) {
+        this.position.x += offset.x;
+      }
+    } else if (offset.x < 0 && allowedDirections.get("left")) {
+      if (this.position.x > 0) {
+        this.position.x += offset.x;
+      }
     }
 
-    if (
-      (offset.y > 0 && this.position.y + this.height < Canvas.canvas.height) ||
-      (offset.y < 0 && this.position.y > 0)
-    ) {
-      this.position.y += offset.y;
+    if (offset.y > 0 && allowedDirections.get("down")) {
+      if (this.position.y + this.height < Canvas.canvas.height) {
+        this.position.y += offset.y;
+      }
+    } else if (offset.y < 0 && allowedDirections.get("up")) {
+      if (this.position.y > 0) {
+        this.position.y += offset.y;
+      }
     }
+
     socket.emit("room", "move", {
       x: this.position.x,
       y: this.position.y,
       id: this.id,
     });
   }
+
   public changePosition(newPosition: Vector) {
     this.position = newPosition;
   }
@@ -83,11 +94,16 @@ class Character {
     for (let i = 0; i < this.life; i++) {
       Canvas.ctx.fillStyle = `rgba(0, 0, 0, ${1 - i / 100})`;
     }
-    Canvas.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    Canvas.ctx.fillRect(
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
   }
 
   public checkCollision(character: Character, enemies: Character[]) {
-    let possibleDirections: Map<string, boolean> = new Map([
+    let allowedDirections: Map<string, boolean> = new Map([
       ["up", true],
       ["down", true],
       ["left", true],
@@ -103,23 +119,22 @@ class Character {
           this.position.y < enemy.position.y + enemy.height
         ) {
           if (this.position.x + this.width > enemy.position.x) {
-            possibleDirections.set("right", false);
+            allowedDirections.set("right", false);
           }
           if (this.position.x < enemy.position.x + enemy.width) {
-            possibleDirections.set("left", false);
+            allowedDirections.set("left", false);
           }
           if (this.position.y + this.height > enemy.position.y) {
-            possibleDirections.set("down", false);
+            allowedDirections.set("down", false);
           }
           if (this.position.y < enemy.position.y + enemy.height) {
-            possibleDirections.set("up", false);
+            allowedDirections.set("up", false);
           }
         }
       }
     }
-    return possibleDirections;
+    return allowedDirections;
   }
 }
-
 
 export { Character };
