@@ -1,7 +1,7 @@
 import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
-import { Sprite } from "./core/sprite";
+import { Character } from "./core/character";
 import Vector from "./core/vector";
 import { socket } from "./lib/socket";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
@@ -10,15 +10,17 @@ export let FRAME = 1;
 export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
 export let DELTA = 0;
-const player = new Sprite("placeholder", "idle", 0.3, new Vector(0, 0));
-const enemies: Map<string, Sprite> = new Map<string, Sprite>();
+const player = new Character("placeholder", "idle", 0.3, new Vector(0, 0));
+const enemies: Map<string, Character> = new Map<string, Character>();
 (function main() {
-  socket.on("room", "move", ({x, y, id}) => {
-    if(enemies.has(id)){
+  socket.on("room", "move", ({ x, y, id }) => {
+    if (enemies.has(id)) {
       enemies.get(id).position = new Vector(x, y);
-    }
-    else{
-      enemies.set(id, new Sprite("placeholder", "idle", 0.3, new Vector(x, y)));
+    } else {
+      enemies.set(
+        id,
+        new Character("placeholder", "idle", 0.3, new Vector(x, y))
+      );
     }
   });
   listeners(player);
