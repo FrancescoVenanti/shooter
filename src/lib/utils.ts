@@ -24,13 +24,13 @@ function loadSprites() {
   for (const player of playerClass) {
     for (const action in playerActions) {
       const image = new Image();
-      image.src = `./src/assets/Sprites/${player}/${action}.png`;
+      image.src = `./assets/Sprites/${player}/${action}.png`;
       cachedImage.set(`${player}/${action}.png`, image);
     }
   }
   for(const tile in tiles) {
     const image = new Image();
-    image.src = `./src/assets/Map/${tile}.png`;
+    image.src = `./assets/Map/${tile}.png`;
     cachedImage.set(`Map/${tile}.png`, image);
   }
 }
