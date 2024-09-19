@@ -9,7 +9,7 @@ class Environment {
   public drawTile<T extends TileType>(tile: T, col: Range<(typeof tiles)[T]['width']>, row: Range<(typeof tiles)[T]['height']>, drawPoint: Vector) {
     // Draw the tile
     Canvas.imageRect(
-      `./assets/Map/${tile}.png`,
+      `../assets/Map/${tile}.png`,
       new Vector(col * tiles[tile].size, row * tiles[tile].size),
       Environment.SIZE,
       Environment.SIZE,

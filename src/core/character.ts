@@ -40,7 +40,7 @@ export class Character {
       dy = 8 + dy;
     }
     Canvas.imageRect(
-      `./assets/Sprites/${this.character}/${this.action}.png`,
+      `../assets/Sprites/${this.character}/${this.action}.png`,
       new Vector(
         Math.floor((FRAME / MAX_FRAME) * playerActions[this.action]) *
           SPRITE_SIZE,
