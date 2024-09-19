@@ -67,9 +67,6 @@ export class Canvas {
     if(cachedImage.has(imagePath)){
       currentImage = cachedImage.get(imagePath)!;
     }
-    if (!currentImage) {
-      return console.log("image not found ", image);
-    }
     if (w && h) Canvas.ctx.drawImage(currentImage, x, y, w, h);
     else Canvas.ctx.drawImage(currentImage, x, y, 100, 100);
   }
@@ -78,9 +75,6 @@ export class Canvas {
     const imagePath = image.split('/').slice(-2).join('/');
     if(cachedImage.has(imagePath)){
       currentImage = cachedImage.get(imagePath)!;
-    }
-    if (!currentImage) {
-      return console.log("image not found ", image);
     }
     Canvas.ctx.drawImage(currentImage, sx, sy, sw, sh, dx, dy, dw, dh);
   }

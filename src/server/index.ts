@@ -31,15 +31,6 @@ io.on("connection", (socket: Socket) => {
   socket.on(socketChannel("chat", "send"), (data: any) => {
     socket.emit(socketChannel("chat", "send"), data);
   });
-  socket.on("clientMsg", (data) => {
-    console.log(data);
-    if (data.room === "") {
-      io.sockets.emit("serverMsg", data);
-    } else {
-      socket.join(data.room);
-      io.to(data.room).emit("serverMsg", data);
-    }
-  });
   socket.on(socketChannel('room', 'move'), data => {
     socket.broadcast.emit(socketChannel('room', 'move'), data)
   })

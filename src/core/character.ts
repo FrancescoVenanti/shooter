@@ -1,56 +1,51 @@
 import { DELTA, FRAME, MAX_FRAME, SPRITE_SIZE } from "..";
-import { random } from "../lib/global";
+import { Asset, assets, random } from "../lib/global";
 import { socket } from "../lib/socket";
-import { playerActions, playerClass } from "../lib/utils";
 import { Canvas } from "./canvas";
 import Vector from "./vector";
 
-export class Character {
+class Character {
   public position: Vector;
-  public size: number;
   public speed: number;
-  public angle: number;
+  public angle: number = 0;
   public id: string;
   public life: number = 100;
-  public action: keyof typeof playerActions;
-  protected character: (typeof playerClass)[number];
+  protected character: keyof Asset['character'];
+  protected action: keyof Asset['character'][keyof Asset['character']];
+  protected width: number = assets['character']['placeholder']['idle']['width'] * 5;
+  protected height: number = assets['character']['placeholder']['idle']['height'] * 5;
   constructor(
-    character: (typeof playerClass)[number],
-    action: keyof typeof playerActions,
-    speed: number,
-    position: Vector,
-    size: number = SPRITE_SIZE * 4,
-    angle: number = 0
+    character: keyof Asset['character'],
+    action: keyof Asset['character'][keyof Asset['character']],
+    position: Vector = new Vector(0, 0),
+    speed: number = 3,
+    life: number = 100
   ) {
-    if (!localStorage.getItem("id")) {
-      localStorage.setItem("id", random(10));
-    }
-    this.id = localStorage.getItem("id") as string;
+    this.life = life;
     this.action = action;
+    this.id = random(10);
     this.character = character;
     this.position = position;
     this.speed = speed;
-    this.angle = angle;
-    this.size = size;
   }
 
-  public animate() {
+  public draw() {
     let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
     if (dy < 0) {
       dy = 8 + dy;
     }
     Canvas.imageRect(
-      `./src/assets/Sprites/${this.character}/${this.action}.png`,
+      `./src/assets/character/${this.character}/${this.action}.png`,
       new Vector(
-        Math.floor((FRAME / MAX_FRAME) * playerActions[this.action]) *
-          SPRITE_SIZE,
+        Math.floor((FRAME / MAX_FRAME) * 4) *
+          16,
         dy * SPRITE_SIZE
       ),
       SPRITE_SIZE,
       SPRITE_SIZE,
       this.position,
-      this.size,
-      this.size
+      this.width,
+      this.height
     );
     this.darkenPlayer();
   }
@@ -62,14 +57,14 @@ export class Character {
       Math.sin(this.angle) * this.speed * DELTA
     );
     if (
-      (offset.x > 0 && this.position.x + this.size < Canvas.canvas.width) ||
+      (offset.x > 0 && this.position.x + this.width < Canvas.canvas.width) ||
       (offset.x < 0 && this.position.x > 0)
     ) {
       this.position.x += offset.x;
     }
 
     if (
-      (offset.y > 0 && this.position.y + this.size < Canvas.canvas.height) ||
+      (offset.y > 0 && this.position.y + this.height < Canvas.canvas.height) ||
       (offset.y < 0 && this.position.y > 0)
     ) {
       this.position.y += offset.y;
@@ -88,7 +83,7 @@ export class Character {
     for (let i = 0; i < this.life; i++) {
       Canvas.ctx.fillStyle = `rgba(0, 0, 0, ${1 - i / 100})`;
     }
-    Canvas.ctx.fillRect(this.position.x, this.position.y, this.size, this.size);
+    Canvas.ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
   public checkCollision(character: Character, enemies: Character[]) {
@@ -100,23 +95,23 @@ export class Character {
     ]);
     for (const enemy of enemies) {
       if (
-        this.position.x + this.size > enemy.position.x &&
-        this.position.x < enemy.position.x + enemy.size
+        this.position.x + this.width > enemy.position.x &&
+        this.position.x < enemy.position.x + enemy.width
       ) {
         if (
-          this.position.y + this.size > enemy.position.y &&
-          this.position.y < enemy.position.y + enemy.size
+          this.position.y + this.height > enemy.position.y &&
+          this.position.y < enemy.position.y + enemy.height
         ) {
-          if (this.position.x + this.size > enemy.position.x) {
+          if (this.position.x + this.width > enemy.position.x) {
             possibleDirections.set("right", false);
           }
-          if (this.position.x < enemy.position.x + enemy.size) {
+          if (this.position.x < enemy.position.x + enemy.width) {
             possibleDirections.set("left", false);
           }
-          if (this.position.y + this.size > enemy.position.y) {
+          if (this.position.y + this.height > enemy.position.y) {
             possibleDirections.set("down", false);
           }
-          if (this.position.y < enemy.position.y + enemy.size) {
+          if (this.position.y < enemy.position.y + enemy.height) {
             possibleDirections.set("up", false);
           }
         }
@@ -125,3 +120,6 @@ export class Character {
     return possibleDirections;
   }
 }
+
+
+export { Character };

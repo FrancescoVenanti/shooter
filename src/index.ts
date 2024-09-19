@@ -6,15 +6,13 @@ import listeners from "./core/listeners";
 import Vector from "./core/vector";
 import { socket } from "./lib/socket";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
-/* dotenv.config();
-console.log(process.env);
- */
+
 
 export let FRAME = 1;
 export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
 export let DELTA = 0;
-const player = new Character("placeholder", "idle", 0.3, new Vector(0, 0));
+const player = new Character("placeholder", "idle");
 const enemies: Map<string, Character> = new Map<string, Character>();
 (function main() {
   socket.on("room", "move", ({ x, y, id }) => {
@@ -23,7 +21,7 @@ const enemies: Map<string, Character> = new Map<string, Character>();
     } else {
       enemies.set(
         id,
-        new Character("placeholder", "idle", 0.3, new Vector(x, y))
+        new Character('placeholder', 'idle', new Vector(x, y), 3)
       );
     }
   });
@@ -43,15 +41,15 @@ function loop(delay?: number) {
   delay2 = delay1;
   delay1 = delay;
   Canvas.ctx.clearRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
-  new Environment().drawMap();
+  new Environment().draw();
 
   for (const enemy of enemies.values()) {
-    enemy.animate();
+    enemy.draw();
   }
 
   let dx = 0;
   let dy = 0;
-  DELTA = delay1 - delay2;
+  DELTA = (delay1 - delay2) / 10;
 
   if (keyPressed.has("w")) dy -= 1;
   if (keyPressed.has("s")) dy += 1;
@@ -64,9 +62,8 @@ function loop(delay?: number) {
   }
 
   if (keyPressed.has(" ")) {
-    console.log("space");
   }
-  player.animate();
+  player.draw();
   FRAME = (FRAME + 1) % MAX_FRAME;
   requestAnimationFrame(loop);
 }

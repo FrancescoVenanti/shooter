@@ -5,7 +5,8 @@ import Vector from "./vector";
 class Environment {
   static SIZE: number = 16;
   static tileGrowth: number = 3;
-  constructor() {}
+  constructor() {
+  }
   public drawTile<T extends TileType>(tile: T, col: Range<(typeof tiles)[T]['width']>, row: Range<(typeof tiles)[T]['height']>, drawPoint: Vector) {
     // Draw the tile
     Canvas.imageRect(
@@ -18,7 +19,7 @@ class Environment {
       Environment.SIZE * Environment.tileGrowth
     );
   }
-  public drawMap() {
+  public draw() {
     for (
       let y = 0;
       y < Canvas.canvas.height / Environment.SIZE / Environment.tileGrowth;
@@ -83,8 +84,3 @@ type TileType = keyof typeof tiles;
 
 
 export { Environment, tiles, TileType };
-
-
-function pickInRange<N extends number>(value: Range<N>) {
-  console.log(value);
-}
