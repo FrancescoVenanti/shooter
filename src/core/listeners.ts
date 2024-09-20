@@ -1,6 +1,6 @@
+import { Character } from "../entities/character";
 import { keyPressed } from "../lib/utils";
 import { Canvas } from "./canvas";
-import { Character } from "./character";
 
 export default function listeners(player: Character) {
   window.addEventListener("resize", (e) => {

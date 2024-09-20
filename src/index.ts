@@ -1,9 +1,10 @@
 /* import dotenv from 'dotenv'; */
 import { Canvas } from "./core/canvas";
-import { Character } from "./core/character";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
+import Enemy from "./entities/enemy";
+import Player from "./entities/player";
 import { socket } from "./lib/global";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
 
@@ -11,17 +12,17 @@ export let FRAME = 1;
 export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
 export let DELTA = 0;
-const player = new Character("placeholder", "idle");
-const enemies: Map<string, Character> = new Map<string, Character>();
+const player = new Player("placeholder", "idle");
+const enemies: Map<string, Enemy> = new Map<string, Enemy>();
 (function main() {
   console.log(process.env.SERVER_URL);
-  socket.on("room", "move", ({ x, y, id }) => {
+  socket.on("room", "move", ({ x, y, id, angle }) => {
     if (enemies.has(id)) {
-      enemies.get(id).rect.position = new Vector(x, y);
+      enemies.get(id).changePosition(new Vector(x, y), angle);
     } else {
       enemies.set(
         id,
-        new Character("placeholder", "idle", new Vector(x, y), 3)
+        new Enemy("placeholder", "idle", new Vector(x, y), 100)
       );
     }
   });

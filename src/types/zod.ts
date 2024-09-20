@@ -5,7 +5,8 @@ export type UuidSchema = z.infer<typeof uuid>;
 export const vector = z.object({
   x: z.number(),
   y: z.number(),
-  id: z.string()
+  id: z.string(),
+  angle: z.number(),
 })
 ///  Type that represents a range from 0 to N
 export type Range<N extends number, Result extends number[] = []> =
