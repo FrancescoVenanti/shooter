@@ -83,6 +83,11 @@ class Player extends Character {
     }
     return allowedDirections;
   }
+
+  public shot() {
+    let attack = new Attack("placeholder", this.rect, 10, 100, 1);
+    attack.fire(this.angle);
+  }
 }
 
 export default Player;

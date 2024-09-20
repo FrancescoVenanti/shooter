@@ -19,7 +19,7 @@ class Attack extends Entity {
     this.speed = speed;
   }
 
-  public shot(angle: number) {
+  public fire(angle: number) {
     console.log("shot");
     while (
       (console.log(this.rect.position.x),

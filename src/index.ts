@@ -50,10 +50,8 @@ function loop(delay?: number) {
   if (keyPressed.has("s")) dy += 1;
   if (keyPressed.has("a")) dx -= 1;
   if (keyPressed.has("d")) dx += 1;
-  if (keyPressed.has("Space")) {
-    console.log("shot (index)");
-    let attack = new Attack("placeholder", player.rect, 10, 100, 10);
-    attack.shot(player.angle);
+  if (keyPressed.has(" ")) {
+    player.shot();
   }
 
   if (dx !== 0 || dy !== 0) {
