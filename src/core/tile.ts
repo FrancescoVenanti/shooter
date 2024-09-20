@@ -12,12 +12,7 @@ class Tile extends Entity {
     widthImage: number = rect.width,
     heightImage: number = rect.height
   ) {
-    super(
-      rect.position,
-      `/assets/environment/${tile}.png`,
-      rect.width,
-      rect.height
-    );
+    super(`/assets/environment/${tile}.png`, rect);
   }
   public draw() {}
 }

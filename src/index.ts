@@ -3,11 +3,11 @@ import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
+import Attack from "./entities/attack";
 import Enemy from "./entities/enemy";
 import Player from "./entities/player";
 import { global, MAX_FRAME, socket } from "./lib/global";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
-
 
 const player = new Player("placeholder", "idle");
 const enemies: Map<string, Enemy> = new Map<string, Enemy>();
@@ -17,10 +17,7 @@ const enemies: Map<string, Enemy> = new Map<string, Enemy>();
     if (enemies.has(id)) {
       enemies.get(id).changePosition(new Vector(x, y), angle);
     } else {
-      enemies.set(
-        id,
-        new Enemy("placeholder", "idle", new Vector(x, y), 100)
-      );
+      enemies.set(id, new Enemy("placeholder", "idle", new Vector(x, y), 100));
     }
   });
   listeners(player);
@@ -53,6 +50,11 @@ function loop(delay?: number) {
   if (keyPressed.has("s")) dy += 1;
   if (keyPressed.has("a")) dx -= 1;
   if (keyPressed.has("d")) dx += 1;
+  if (keyPressed.has("Space")) {
+    console.log("shot (index)");
+    let attack = new Attack("placeholder", player.rect, 10, 100, 10);
+    attack.shot(player.angle);
+  }
 
   if (dx !== 0 || dy !== 0) {
     const angle = Math.atan2(dy, dx);
