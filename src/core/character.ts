@@ -1,21 +1,18 @@
+import { array } from "zod";
 import { DELTA, FRAME, MAX_FRAME, SPRITE_SIZE } from "..";
 import { Asset, assets, random } from "../lib/global";
 import { socket } from "../lib/socket";
 import { Canvas } from "./canvas";
+import Entity from "./entity";
 import Vector from "./vector";
 
-class Character {
-  public position: Vector;
+class Character extends Entity {
   public speed: number;
   public angle: number = 0;
   public id: string;
   public life: number = 100;
   protected character: keyof Asset["character"];
   protected action: keyof Asset["character"][keyof Asset["character"]];
-  protected width: number =
-    assets["character"]["placeholder"]["idle"]["width"] * 5;
-  protected height: number =
-    assets["character"]["placeholder"]["idle"]["height"] * 5;
   constructor(
     character: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
@@ -23,11 +20,16 @@ class Character {
     speed: number = 3,
     life: number = 100
   ) {
+    super(
+      position,
+      `./src/assets/character/${character}/${action}.png`,
+      assets["character"]["placeholder"]["idle"]["width"] * 5,
+      assets["character"]["placeholder"]["idle"]["height"] * 5
+    );
     this.life = life;
     this.action = action;
     this.id = random(10);
     this.character = character;
-    this.position = position;
     this.speed = speed;
   }
 
@@ -37,7 +39,7 @@ class Character {
       dy = 8 + dy;
     }
     Canvas.imageRect(
-      `./src/assets/character/${this.character}/${this.action}.png`,
+      this.image,
       new Vector(Math.floor((FRAME / MAX_FRAME) * 4) * 16, dy * SPRITE_SIZE),
       SPRITE_SIZE,
       SPRITE_SIZE,
@@ -49,10 +51,7 @@ class Character {
   }
 
   public move(angle: number, enemies: Map<String, Character>) {
-    let allowedDirections = this.checkCollision(
-      this,
-      Array.from(enemies.values() || [])
-    );
+    let allowedDirections = this.checkCollision(Array.from(enemies.values()));
     this.angle = angle;
     const offset = new Vector(
       Math.cos(this.angle) * this.speed * DELTA,
@@ -101,48 +100,32 @@ class Character {
     );
   }
 
-  public checkCollision(character: Character, enemies: Character[]) {
-    let allowedDirections: Map<'up' | 'down' | 'left' | 'right', boolean> = new Map([
+  public checkCollision(entities: Entity[]) {
+    const allowedDirections = new Map([
       ["up", true],
       ["down", true],
       ["left", true],
       ["right", true],
     ]);
-    if (enemies.length === 0) return allowedDirections;
-    for (const enemy of enemies) {
-      // const distance = Math.sqrt(Math.pow(this.position.x - enemy.position.x, 2) + Math.pow(this.position.y - enemy.position.y, 2));
-      // console.log(distance)
-      const distance = new Vector(this.position.x - enemy.position.x, this.position.y - enemy.position.y);
-      const isOverlapping = (axis: 'x' | 'y', playerPosition: Vector, enemyPosition: Vector) => {
-        if(axis === 'x'){
-          return Math.abs(playerPosition.x - enemyPosition.x) < this.width;
-        }
-        else{
-        return Math.abs(playerPosition.y - enemyPosition.y) < this.height;
-      }
-      };
-      if (isOverlapping('y', this.position, enemy.position)) {
-        // LEFT
-        if(this.position.x - (enemy.position.x + enemy.width) < 0 && this.position.x - (enemy.position.x + enemy.width) > -this.width) {
-          allowedDirections.set('left', false);
-        }
-        // RIGHT
-        if(this.position.x - enemy.position.x > -this.width && this.position.x - enemy.position.x < 0) {
-          allowedDirections.set('right', false);
-        }
-      }
-      if(isOverlapping('x', this.position, enemy.position)){
-          // UP
-          if(this.position.y <= (enemy.position.y + enemy.height) && this.position.y >= enemy.position.y) {
-            allowedDirections.set('up', false);
-          }
-          // DOWN
-          if(this.position.y + this.height > enemy.position.y && this.position.y < enemy.position.y + enemy.height) {
-            allowedDirections.set('down', false);
-          }
-        }
-      }
-      // console.log(allowedDirections);
+    for (const entity of entities) {
+      const allowedForEntity = this.collide(entity);
+      allowedDirections.set(
+        "up",
+        allowedDirections.get("up") && allowedForEntity.get("up")
+      );
+      allowedDirections.set(
+        "down",
+        allowedDirections.get("down") && allowedForEntity.get("down")
+      );
+      allowedDirections.set(
+        "left",
+        allowedDirections.get("left") && allowedForEntity.get("left")
+      );
+      allowedDirections.set(
+        "right",
+        allowedDirections.get("right") && allowedForEntity.get("right")
+      );
+    }
     return allowedDirections;
   }
 }
