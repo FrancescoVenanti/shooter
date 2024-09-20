@@ -1,5 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
+import replace from '@rollup/plugin-replace';
 import typescript from "@rollup/plugin-typescript";
 import dotenv from 'dotenv';
 import livereload from "rollup-plugin-livereload";
@@ -26,6 +27,10 @@ export default {
     resolve({
       browser: true,
       dedupe: ["socket.io-client"],
+    }),
+    replace({
+      'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL || 'http://localhost:3000'),
+      preventAssignment: true,
     }),
     commonjs(),
     typescript(),

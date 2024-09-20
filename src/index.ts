@@ -4,7 +4,7 @@ import { Character } from "./core/character";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
-import { socket } from "./lib/socket";
+import { socket } from "./lib/global";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
 
 export let FRAME = 1;
@@ -14,6 +14,7 @@ export let DELTA = 0;
 const player = new Character("placeholder", "idle");
 const enemies: Map<string, Character> = new Map<string, Character>();
 (function main() {
+  console.log(process.env.SERVER_URL);
   socket.on("room", "move", ({ x, y, id }) => {
     if (enemies.has(id)) {
       enemies.get(id).position = new Vector(x, y);

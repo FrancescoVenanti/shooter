@@ -1,9 +1,9 @@
-import { io, Socket } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { z, ZodType } from "zod";
 import { events } from "../server/utils";
 import { socketChannel } from "./utils";
 
-export class SocketClient {
+class SocketClient {
   private socket: Socket;
   constructor(socket: Socket) {
     this.socket = socket;
@@ -37,7 +37,5 @@ export class SocketClient {
   public to(room: string) {}
   private;
 }
-export const socket = new SocketClient(
-  io("https://shooter-j82n.onrender.com" || "http://192.168.50.77:3000", { transports: ["websocket"] })
-);
-/* process.env.SERVER_URL || */
+
+export { SocketClient };

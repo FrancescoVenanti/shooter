@@ -1,7 +1,5 @@
-import { array } from "zod";
 import { DELTA, FRAME, MAX_FRAME, SPRITE_SIZE } from "..";
-import { Asset, assets, random } from "../lib/global";
-import { socket } from "../lib/socket";
+import { Asset, assets, random, socket } from "../lib/global";
 import { Canvas } from "./canvas";
 import Entity from "./entity";
 import Vector from "./vector";

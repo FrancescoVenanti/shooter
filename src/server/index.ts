@@ -1,4 +1,3 @@
-import { instrument } from "@socket.io/admin-ui";
 import cors from "cors";
 import express from "express";
 import { createServer } from "http";
@@ -20,11 +19,6 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: false,
   },
-});
-
-instrument(io, {
-  auth: false,
-  mode: "development",
 });
 
 io.on("connection", (socket: Socket) => {

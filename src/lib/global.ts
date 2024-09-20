@@ -1,3 +1,5 @@
+import { io } from "socket.io-client";
+import { SocketClient } from "./socket";
 
 function random(length: number = 10) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -27,6 +29,10 @@ function global<T extends keyof typeof globals>(
   }
   return globals[provider];
 }
+
+const socket = new SocketClient(
+  io(process.env.SERVER_URL || "http://localhost:3000", { transports: ["websocket"] })
+);
 
 const assets = {
   environment: {
@@ -84,4 +90,4 @@ const assets = {
 
 type Asset = typeof assets;
 
-export { Asset, assets, global, random };
+export { Asset, assets, global, random, socket };
