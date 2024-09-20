@@ -51,7 +51,7 @@ class Character {
   public move(angle: number, enemies: Map<String, Character>) {
     let allowedDirections = this.checkCollision(
       this,
-      Array.from(enemies.values() ?? [])
+      Array.from(enemies.values() || [])
     );
     this.angle = angle;
     const offset = new Vector(

@@ -7,7 +7,6 @@ import Vector from "./core/vector";
 import { socket } from "./lib/socket";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
 
-
 export let FRAME = 1;
 export const MAX_FRAME = 60;
 export const SPRITE_SIZE = 16;
@@ -21,7 +20,7 @@ const enemies: Map<string, Character> = new Map<string, Character>();
     } else {
       enemies.set(
         id,
-        new Character('placeholder', 'idle', new Vector(x, y), 3)
+        new Character("placeholder", "idle", new Vector(x, y), 3)
       );
     }
   });
@@ -58,7 +57,7 @@ function loop(delay?: number) {
 
   if (dx !== 0 || dy !== 0) {
     const angle = Math.atan2(dy, dx);
-    player.move(angle);
+    player.move(angle, enemies);
   }
 
   if (keyPressed.has(" ")) {
