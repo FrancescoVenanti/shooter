@@ -1,11 +1,22 @@
 import Entity from "../core/entity";
-import Vector from "../core/vector";
+import Rect from "../core/rect";
 
 class Attack extends Entity {
   public damage: number;
   public range: number;
   public speed: number;
-  constructor(position: Vector, image: string, width: number, height: number) {
-    super(position, image, width, height);
+  constructor(
+    image: string,
+    rect: Rect,
+    damage: number,
+    range: number,
+    speed: number
+  ) {
+    super(image, rect);
+    this.damage = damage;
+    this.range = range;
+    this.speed = speed;
   }
 }
+
+export default Attack;

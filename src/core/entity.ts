@@ -4,9 +4,11 @@ import Vector from "./vector";
 class Entity {
   public rect: Rect;
   protected image: string;
-  constructor(position: Vector, image: string, width: number, height: number) {
-    this.rect = new Rect(position, width, height);
+  public imageRect: Rect;
+  constructor(image: string, rect: Rect, imageRect?: Rect) {
+    this.rect = rect;
     this.image = image;
+    if (imageRect) this.imageRect = imageRect;
   }
 
   public collide(entity: Entity) {
@@ -17,12 +19,6 @@ class Entity {
         ["left", true],
         ["right", true],
       ]);
-    // const distance = Math.sqrt(Math.pow(this.position.x - enemy.position.x, 2) + Math.pow(this.position.y - enemy.position.y, 2));
-    // console.log(distance)
-    const distance = new Vector(
-      this.rect.position.x - entity.rect.position.x,
-      this.rect.position.y - entity.rect.position.y
-    );
     const isOverlapping = (
       axis: "x" | "y",
       playerPosition: Vector,

@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import { SocketClient } from "./socket";
 
+const MAX_FRAME = 60;
 function random(length: number = 10) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
     .replace(/[xy]/g, function (c) {
@@ -12,16 +13,17 @@ function random(length: number = 10) {
 }
 
 const globals = {
-  state: 0,
-  node: 0,
+  DELTA: 0,
+  FRAME: 0,
 };
 
 function global<T extends keyof typeof globals>(
   provider: T,
-  newValue:
+  newValue?:
     | (typeof globals)[T]
     | ((oldValue: (typeof globals)[T]) => (typeof globals)[T])
-): number {
+): (typeof globals)[T] {
+  if (!newValue) return globals[provider];
   if (typeof newValue === "function") {
     globals[provider] = newValue(globals[provider]);
   } else {
@@ -31,7 +33,9 @@ function global<T extends keyof typeof globals>(
 }
 
 const socket = new SocketClient(
-  io(process.env.SERVER_URL || "http://localhost:3000", { transports: ["websocket"] })
+  io(process.env.SERVER_URL || "http://localhost:3000", {
+    transports: ["websocket"],
+  })
 );
 
 const assets = {
@@ -90,4 +94,5 @@ const assets = {
 
 type Asset = typeof assets;
 
-export { Asset, assets, global, random, socket };
+export { Asset, assets, global, MAX_FRAME, random, socket };
+

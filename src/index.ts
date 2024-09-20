@@ -5,13 +5,10 @@ import listeners from "./core/listeners";
 import Vector from "./core/vector";
 import Enemy from "./entities/enemy";
 import Player from "./entities/player";
-import { socket } from "./lib/global";
+import { global, MAX_FRAME, socket } from "./lib/global";
 import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
 
-export let FRAME = 1;
-export const MAX_FRAME = 60;
-export const SPRITE_SIZE = 16;
-export let DELTA = 0;
+
 const player = new Player("placeholder", "idle");
 const enemies: Map<string, Enemy> = new Map<string, Enemy>();
 (function main() {
@@ -50,7 +47,7 @@ function loop(delay?: number) {
 
   let dx = 0;
   let dy = 0;
-  DELTA = (delay1 - delay2) / 10;
+  global("DELTA", (delay1 - delay2) / 10);
 
   if (keyPressed.has("w")) dy -= 1;
   if (keyPressed.has("s")) dy += 1;
@@ -65,6 +62,6 @@ function loop(delay?: number) {
   if (keyPressed.has(" ")) {
   }
   player.draw();
-  FRAME = (FRAME + 1) % MAX_FRAME;
+  global("FRAME", (prev) => (prev + 1) % MAX_FRAME);
   requestAnimationFrame(loop);
 }

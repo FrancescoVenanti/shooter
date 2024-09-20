@@ -1,9 +1,8 @@
-import { FRAME, MAX_FRAME, SPRITE_SIZE } from "..";
 import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, assets, random } from "../lib/global";
+import { Asset, assets, global, MAX_FRAME, random } from "../lib/global";
 
 class Character extends Entity {
   public angle: number = 0;
@@ -18,10 +17,12 @@ class Character extends Entity {
     life: number = 100
   ) {
     super(
-      position,
       `./src/assets/character/${sprite}/${action}.png`,
-      assets["character"]["placeholder"]["idle"]["width"] * 5,
-      assets["character"]["placeholder"]["idle"]["height"] * 5
+      new Rect(
+        position,
+        assets["character"][sprite][action]["width"] * 5,
+        assets["character"][sprite][action]["height"] * 5
+      )
     );
     this.life = life;
     this.action = action;
@@ -37,9 +38,9 @@ class Character extends Entity {
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((FRAME / MAX_FRAME) * 4) * 16, dy * SPRITE_SIZE),
-        SPRITE_SIZE,
-        SPRITE_SIZE
+        new Vector(Math.floor((global("FRAME") / MAX_FRAME) * 4) * 16, dy * 16),
+        16,
+        16
       ),
       this.rect
     );

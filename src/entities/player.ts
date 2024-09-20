@@ -1,19 +1,21 @@
-import { DELTA } from "..";
 import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Vector from "../core/vector";
-import { Asset, socket } from "../lib/global";
+import { Asset, global, socket } from "../lib/global";
+import Attack from "./attack";
 import { Character } from "./character";
 
 class Player extends Character {
   public speed: number;
+  public default: Attack;
+  public special: Attack;
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
     speed: number = 3,
     life: number = 100
-  ){
+  ) {
     super(sprite, action, position, life);
     this.speed = speed;
   }
@@ -22,8 +24,8 @@ class Player extends Character {
     let allowedDirections = this.checkCollision(Array.from(enemies.values()));
     this.angle = angle;
     const offset = new Vector(
-      Math.cos(this.angle) * this.speed * DELTA,
-      Math.sin(this.angle) * this.speed * DELTA
+      Math.cos(this.angle) * this.speed * global("DELTA"),
+      Math.sin(this.angle) * this.speed * global("DELTA")
     );
     if (offset.x > 0 && allowedDirections.get("right")) {
       if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
@@ -49,7 +51,7 @@ class Player extends Character {
       x: this.rect.position.x,
       y: this.rect.position.y,
       id: this.id,
-      angle
+      angle,
     });
   }
 
