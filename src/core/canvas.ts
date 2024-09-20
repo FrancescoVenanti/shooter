@@ -1,6 +1,7 @@
 /* || */
 
 import { cachedImage } from "../lib/utils";
+import Rect from "./rect";
 import Vector from "./vector";
 
 interface CanvasLinesProps {
@@ -47,12 +48,12 @@ export class Canvas {
     Canvas.ctx.arc(x, y, r, 0, 2 * Math.PI);
     Canvas.ctx.stroke();
   }
-  static rect({ x, y }: Vector, w?: number, h?: number): void {
+  static rect({ position: { x, y }, width: w, height: h }: Rect): void {
     // Canvas.ctx.beginPath();
     Canvas.ctx.rect(x, y, w || this.canvas.width, h || this.canvas.height);
     // Canvas.ctx.stroke();
   }
-  static fillRect({ x, y }: Vector, w?: number, h?: number): void {
+  static fillRect({ position: { x, y }, width: w, height: h }: Rect): void {
     // Canvas.ctx.beginPath();
     Canvas.ctx.fillRect(x, y, w || this.canvas.width, h || this.canvas.height);
     // Canvas.ctx.stroke();
@@ -61,19 +62,26 @@ export class Canvas {
     Canvas.ctx.font = "30px Arial";
     Canvas.ctx.fillText(text, x, y);
   }
-  static image(image: string, { x, y }: Vector, w?: number, h?: number): void {
+  static image(
+    image: string,
+    { position: { x, y }, width: w, height: h }: Rect
+  ): void {
     let currentImage: HTMLImageElement | undefined = undefined;
-    const imagePath = image.split('/').slice(-2).join('/');
-    if(cachedImage.has(imagePath)){
+    const imagePath = image.split("/").slice(-2).join("/");
+    if (cachedImage.has(imagePath)) {
       currentImage = cachedImage.get(imagePath)!;
     }
     if (w && h) Canvas.ctx.drawImage(currentImage, x, y, w, h);
     else Canvas.ctx.drawImage(currentImage, x, y, 100, 100);
   }
-  static imageRect(image: string, {x: sx, y: sy}: Vector, sw: number, sh: number, {x: dx, y: dy}:Vector, dw: number, dh: number){
+  static imageRect(
+    image: string,
+    { position: { x: sx, y: sy }, width: sw, height: sh }: Rect,
+    { position: { x: dx, y: dy }, width: dw, height: dh }: Rect
+  ) {
     let currentImage: HTMLImageElement | undefined = undefined;
-    const imagePath = image.split('/').slice(-2).join('/');
-    if(cachedImage.has(imagePath)){
+    const imagePath = image.split("/").slice(-2).join("/");
+    if (cachedImage.has(imagePath)) {
       currentImage = cachedImage.get(imagePath)!;
     }
     Canvas.ctx.drawImage(currentImage, sx, sy, sw, sh, dx, dy, dw, dh);

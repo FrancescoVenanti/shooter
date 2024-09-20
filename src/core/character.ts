@@ -3,6 +3,7 @@ import { Asset, assets, random, socket } from "../lib/global";
 import { Canvas } from "./canvas";
 import Entity from "./entity";
 import Vector from "./vector";
+import Rect from "./rect";
 
 class Character extends Entity {
   public speed: number;
@@ -38,14 +39,13 @@ class Character extends Entity {
     }
     Canvas.imageRect(
       this.image,
-      new Vector(Math.floor((FRAME / MAX_FRAME) * 4) * 16, dy * SPRITE_SIZE),
-      SPRITE_SIZE,
-      SPRITE_SIZE,
-      this.position,
-      this.width,
-      this.height
+      new Rect(
+        new Vector(Math.floor((FRAME / MAX_FRAME) * 4) * 16, dy * SPRITE_SIZE),
+        SPRITE_SIZE,
+        SPRITE_SIZE
+      ),
+      this.rect
     );
-    this.darkenPlayer();
   }
 
   public move(angle: number, enemies: Map<String, Character>) {
@@ -56,46 +56,41 @@ class Character extends Entity {
       Math.sin(this.angle) * this.speed * DELTA
     );
     if (offset.x > 0 && allowedDirections.get("right")) {
-      if (this.position.x + this.width < Canvas.canvas.width) {
-        this.position.x += offset.x;
+      if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
+        this.rect.position.x += offset.x;
       }
     } else if (offset.x < 0 && allowedDirections.get("left")) {
-      if (this.position.x > 0) {
-        this.position.x += offset.x;
+      if (this.rect.position.x > 0) {
+        this.rect.position.x += offset.x;
       }
     }
 
     if (offset.y > 0 && allowedDirections.get("down")) {
-      if (this.position.y + this.height < Canvas.canvas.height) {
-        this.position.y += offset.y;
+      if (this.rect.position.y + this.rect.height < Canvas.canvas.height) {
+        this.rect.position.y += offset.y;
       }
     } else if (offset.y < 0 && allowedDirections.get("up")) {
-      if (this.position.y > 0) {
-        this.position.y += offset.y;
+      if (this.rect.position.y > 0) {
+        this.rect.position.y += offset.y;
       }
     }
 
     socket.emit("room", "move", {
-      x: this.position.x,
-      y: this.position.y,
+      x: this.rect.position.x,
+      y: this.rect.position.y,
       id: this.id,
     });
   }
 
   public changePosition(newPosition: Vector) {
-    this.position = newPosition;
+    this.rect.position = newPosition;
   }
 
   public darkenPlayer() {
     for (let i = 0; i < this.life; i++) {
       Canvas.ctx.fillStyle = `rgba(0, 0, 0, ${1 - i / 100})`;
     }
-    Canvas.ctx.fillRect(
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height
-    );
+    Canvas.fillRect(this.rect);
   }
 
   public checkCollision(entities: Entity[]) {
