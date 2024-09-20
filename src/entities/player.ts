@@ -1,5 +1,6 @@
 import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
+import Rect from "../core/rect";
 import Vector from "../core/vector";
 import { Asset, global, socket } from "../lib/global";
 import Attack from "./attack";
@@ -85,7 +86,12 @@ class Player extends Character {
   }
 
   public shot() {
-    let attack = new Attack("placeholder", this.rect, 10, 100, 1);
+    let rect = new Rect(
+      new Vector(this.rect.position.x, this.rect.position.y),
+      10,
+      10
+    );
+    let attack = new Attack("placeholder", rect, 10, 100, 0.001);
     attack.fire(this.angle);
   }
 }
