@@ -17,7 +17,7 @@ export default function listeners(player: Character) {
   );
   window.addEventListener("keyup", (e) => {
     keyPressed.delete(e.key.toLowerCase());
-    if (
+    /* if (
       keyPressed.has("a") ||
       keyPressed.has("d") ||
       keyPressed.has("s") ||
@@ -26,6 +26,6 @@ export default function listeners(player: Character) {
       player.action = "run";
     } else {
       player.action = "idle";
-    }
+    } */
   });
 }

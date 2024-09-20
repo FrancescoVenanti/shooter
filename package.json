@@ -6,7 +6,7 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "server": "tsx watch ./src/server/index.ts",
-    "start": "concurrently \"bun server\" \"bun build ./src/index.ts --outdir dist\""
+    "start": "concurrently \"bun server\" \"bun dev\""
   },
   "devDependencies": {
     "@types/bun": "latest",

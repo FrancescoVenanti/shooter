@@ -58,7 +58,6 @@ class Character {
       Math.cos(this.angle) * this.speed * DELTA,
       Math.sin(this.angle) * this.speed * DELTA
     );
-
     if (offset.x > 0 && allowedDirections.get("right")) {
       if (this.position.x + this.width < Canvas.canvas.width) {
         this.position.x += offset.x;
@@ -103,7 +102,7 @@ class Character {
   }
 
   public checkCollision(character: Character, enemies: Character[]) {
-    let allowedDirections: Map<string, boolean> = new Map([
+    let allowedDirections: Map<'up' | 'down' | 'left' | 'right', boolean> = new Map([
       ["up", true],
       ["down", true],
       ["left", true],
@@ -111,29 +110,39 @@ class Character {
     ]);
     if (enemies.length === 0) return allowedDirections;
     for (const enemy of enemies) {
-      if (
-        this.position.x + this.width > enemy.position.x &&
-        this.position.x < enemy.position.x + enemy.width
-      ) {
-        if (
-          this.position.y + this.height > enemy.position.y &&
-          this.position.y < enemy.position.y + enemy.height
-        ) {
-          if (this.position.x + this.width > enemy.position.x) {
-            allowedDirections.set("right", false);
+      // const distance = Math.sqrt(Math.pow(this.position.x - enemy.position.x, 2) + Math.pow(this.position.y - enemy.position.y, 2));
+      // console.log(distance)
+      const distance = new Vector(this.position.x - enemy.position.x, this.position.y - enemy.position.y);
+      const isOverlapping = (axis: 'x' | 'y', playerPosition: Vector, enemyPosition: Vector) => {
+        if(axis === 'x'){
+          return Math.abs(playerPosition.x - enemyPosition.x) < this.width;
+        }
+        else{
+        return Math.abs(playerPosition.y - enemyPosition.y) < this.height;
+      }
+      };
+      if (isOverlapping('y', this.position, enemy.position)) {
+        // LEFT
+        if(this.position.x - (enemy.position.x + enemy.width) < 0 && this.position.x - (enemy.position.x + enemy.width) > -this.width) {
+          allowedDirections.set('left', false);
+        }
+        // RIGHT
+        if(this.position.x - enemy.position.x > -this.width && this.position.x - enemy.position.x < 0) {
+          allowedDirections.set('right', false);
+        }
+      }
+      if(isOverlapping('x', this.position, enemy.position)){
+          // UP
+          if(this.position.y <= (enemy.position.y + enemy.height) && this.position.y >= enemy.position.y) {
+            allowedDirections.set('up', false);
           }
-          if (this.position.x < enemy.position.x + enemy.width) {
-            allowedDirections.set("left", false);
-          }
-          if (this.position.y + this.height > enemy.position.y) {
-            allowedDirections.set("down", false);
-          }
-          if (this.position.y < enemy.position.y + enemy.height) {
-            allowedDirections.set("up", false);
+          // DOWN
+          if(this.position.y + this.height > enemy.position.y && this.position.y < enemy.position.y + enemy.height) {
+            allowedDirections.set('down', false);
           }
         }
       }
-    }
+      // console.log(allowedDirections);
     return allowedDirections;
   }
 }
