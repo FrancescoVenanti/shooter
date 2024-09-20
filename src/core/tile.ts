@@ -1,22 +1,26 @@
 import { Asset } from "../lib/global";
 import type { Range } from "../types/zod";
-import { Sprite } from "./sprite";
+import Entity from "./entity";
+import Rect from "./rect";
 import Vector from "./vector";
 
-class Tile extends Sprite<'environment'> {
-  constructor(tile: keyof Asset['environment'],
-    position: Vector,
-    width: number,
-    height: number,
-    col: Range<Asset['environment'][typeof tile]['width']>,
-    row: Range<Asset['environment'][typeof tile]['height']>,
-    widthImage: number = width,
-    heightImage: number = height) {
-    super(`/assets/environment/${tile}.png`, position, width, height, new Vector(col * width, row * height), widthImage, heightImage);
+class Tile extends Entity {
+  constructor(
+    tile: keyof Asset["environment"],
+    rect: Rect,
+    col: Range<Asset["environment"][typeof tile]["width"]>,
+    row: Range<Asset["environment"][typeof tile]["height"]>,
+    widthImage: number = rect.width,
+    heightImage: number = rect.height
+  ) {
+    super(
+      rect.position,
+      `/assets/environment/${tile}.png`,
+      rect.width,
+      rect.height
+    );
   }
-  public draw() {
-
-  }
+  public draw() {}
 }
 
 export { Tile };

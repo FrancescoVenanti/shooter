@@ -1,15 +1,12 @@
+import Rect from "./rect";
 import Vector from "./vector";
 
 class Entity {
-  public position: Vector;
+  public rect: Rect;
   protected image: string;
-  protected width: number;
-  protected height: number;
   constructor(position: Vector, image: string, width: number, height: number) {
-    this.position = position;
+    this.rect = new Rect(position, width, height);
     this.image = image;
-    this.width = width;
-    this.height = height;
   }
 
   public collide(entity: Entity) {
@@ -23,8 +20,8 @@ class Entity {
     // const distance = Math.sqrt(Math.pow(this.position.x - enemy.position.x, 2) + Math.pow(this.position.y - enemy.position.y, 2));
     // console.log(distance)
     const distance = new Vector(
-      this.position.x - entity.position.x,
-      this.position.y - entity.position.y
+      this.rect.position.x - entity.rect.position.x,
+      this.rect.position.y - entity.rect.position.y
     );
     const isOverlapping = (
       axis: "x" | "y",
@@ -32,39 +29,41 @@ class Entity {
       enemyPosition: Vector
     ) => {
       if (axis === "x") {
-        return Math.abs(playerPosition.x - enemyPosition.x) < this.width;
+        return Math.abs(playerPosition.x - enemyPosition.x) < this.rect.width;
       } else {
-        return Math.abs(playerPosition.y - enemyPosition.y) < this.height;
+        return Math.abs(playerPosition.y - enemyPosition.y) < this.rect.height;
       }
     };
-    if (isOverlapping("y", this.position, entity.position)) {
+    if (isOverlapping("y", this.rect.position, entity.rect.position)) {
       // LEFT
       if (
-        this.position.x - (entity.position.x + entity.width) < 0 &&
-        this.position.x - (entity.position.x + entity.width) > -this.width
+        this.rect.position.x - (entity.rect.position.x + entity.rect.width) <
+          0 &&
+        this.rect.position.x - (entity.rect.position.x + entity.rect.width) >
+          -this.rect.width
       ) {
         allowedDirections.set("left", false);
       }
       // RIGHT
       if (
-        this.position.x - entity.position.x > -this.width &&
-        this.position.x - entity.position.x < 0
+        this.rect.position.x - entity.rect.position.x > -this.rect.width &&
+        this.rect.position.x - entity.rect.position.x < 0
       ) {
         allowedDirections.set("right", false);
       }
     }
-    if (isOverlapping("x", this.position, entity.position)) {
+    if (isOverlapping("x", this.rect.position, entity.rect.position)) {
       // UP
       if (
-        this.position.y <= entity.position.y + entity.height &&
-        this.position.y >= entity.position.y
+        this.rect.position.y <= entity.rect.position.y + entity.rect.height &&
+        this.rect.position.y >= entity.rect.position.y
       ) {
         allowedDirections.set("up", false);
       }
       // DOWN
       if (
-        this.position.y + this.height > entity.position.y &&
-        this.position.y < entity.position.y + entity.height
+        this.rect.position.y + this.rect.height > entity.rect.position.y &&
+        this.rect.position.y < entity.rect.position.y + entity.rect.height
       ) {
         allowedDirections.set("down", false);
       }

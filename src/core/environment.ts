@@ -1,22 +1,33 @@
 import { type Range } from "../types/zod";
 import { Canvas } from "./canvas";
+import Rect from "./rect";
+import { Tile } from "./tile";
 import Vector from "./vector";
 
 class Environment {
   static SIZE: number = 16;
   static tileGrowth: number = 3;
-  constructor() {
-  }
-  public drawTile<T extends TileType>(tile: T, col: Range<(typeof tiles)[T]['width']>, row: Range<(typeof tiles)[T]['height']>, drawPoint: Vector) {
+  public tiles: Tile[][] = [];
+  constructor() {}
+  public drawTile<T extends TileType>(
+    tile: T,
+    col: Range<(typeof tiles)[T]["width"]>,
+    row: Range<(typeof tiles)[T]["height"]>,
+    drawPoint: Vector
+  ) {
     // Draw the tile
     Canvas.imageRect(
       `/assets/environment/${tile}.png`,
-      new Vector(col * tiles[tile].size, row * tiles[tile].size),
-      Environment.SIZE,
-      Environment.SIZE,
-      drawPoint,
-      Environment.SIZE * Environment.tileGrowth,
-      Environment.SIZE * Environment.tileGrowth
+      new Rect(
+        new Vector(col * tiles[tile].size, row * tiles[tile].size),
+        Environment.SIZE,
+        Environment.SIZE
+      ),
+      new Rect(
+        drawPoint,
+        Environment.SIZE * Environment.tileGrowth,
+        Environment.SIZE * Environment.tileGrowth
+      )
     );
   }
   public draw() {
@@ -31,8 +42,9 @@ class Environment {
         x++
       ) {
         this.drawTile(
-          'farmLand',
-          1, 1,
+          "farmLand",
+          1,
+          1,
           new Vector(
             x * Environment.SIZE * Environment.tileGrowth,
             y * Environment.SIZE * Environment.tileGrowth
@@ -81,6 +93,5 @@ const tiles = {
   },
 } as const;
 type TileType = keyof typeof tiles;
-
 
 export { Environment, tiles, TileType };

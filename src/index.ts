@@ -16,7 +16,7 @@ const enemies: Map<string, Character> = new Map<string, Character>();
 (function main() {
   socket.on("room", "move", ({ x, y, id }) => {
     if (enemies.has(id)) {
-      enemies.get(id).position = new Vector(x, y);
+      enemies.get(id).rect.position = new Vector(x, y);
     } else {
       enemies.set(
         id,
