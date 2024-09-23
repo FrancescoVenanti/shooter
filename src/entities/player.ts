@@ -91,8 +91,13 @@ class Player extends Character {
       10,
       10
     );
-    let attack = new Attack("placeholder", rect, 10, 100, 0.1);
-    Canvas.imageRect(this.image, rect, rect);
+    let attack = new Attack(
+      "../../assets/environment/waterMiddle.png",
+      rect,
+      10,
+      100,
+      0.1
+    );
     attack.fire(this.angle);
   }
 }

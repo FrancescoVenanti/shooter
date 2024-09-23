@@ -60,6 +60,7 @@ function loop(delay?: number) {
   }
 
   if (keyPressed.has(" ")) {
+    player.shot();
   }
   player.draw();
   global("FRAME", (prev) => (prev + 1) % MAX_FRAME);
