@@ -2,7 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, global, socket } from "../lib/global";
+import { Asset, GLOBAL, socket } from "../lib/global";
 import Attack from "./attack";
 import { Character } from "./character";
 
@@ -25,8 +25,8 @@ class Player extends Character {
     let allowedDirections = this.checkCollision(Array.from(enemies.values()));
     this.angle = angle;
     const offset = new Vector(
-      Math.cos(this.angle) * this.speed * global("DELTA"),
-      Math.sin(this.angle) * this.speed * global("DELTA")
+      Math.cos(this.angle) * this.speed * GLOBAL("DELTA"),
+      Math.sin(this.angle) * this.speed * GLOBAL("DELTA")
     );
     if (offset.x > 0 && allowedDirections.get("right")) {
       if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
@@ -65,22 +65,12 @@ class Player extends Character {
     ]);
     for (const entity of entities) {
       const allowedForEntity = this.collide(entity);
-      allowedDirections.set(
-        "up",
-        allowedDirections.get("up") && allowedForEntity.get("up")
-      );
-      allowedDirections.set(
-        "down",
-        allowedDirections.get("down") && allowedForEntity.get("down")
-      );
-      allowedDirections.set(
-        "left",
-        allowedDirections.get("left") && allowedForEntity.get("left")
-      );
-      allowedDirections.set(
-        "right",
-        allowedDirections.get("right") && allowedForEntity.get("right")
-      );
+      (["up", "down", "left", "right"] as const).forEach((direction) => {
+        allowedDirections.set(
+          direction,
+          allowedDirections.get(direction) && allowedForEntity.get(direction)
+        );
+      });
     }
     return allowedDirections;
   }

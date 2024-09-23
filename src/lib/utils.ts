@@ -1,5 +1,5 @@
 import { events } from "../server/utils";
-import { assets } from "./global";
+import { ASSETS, GLOBAL } from "./global";
 
 function socketChannel<TChannel extends keyof typeof events>(
   channel: TChannel,
@@ -7,35 +7,21 @@ function socketChannel<TChannel extends keyof typeof events>(
 ) {
   return `{${channel}}{${event as string}}`;
 }
-const keyPressed = new Map<string, boolean>();
-// const cachedImage: HTMLImageElement[] = [];
-const cachedImage: Map<string, HTMLImageElement> = new Map<
-  string,
-  HTMLImageElement
->();
-
 
 function loadSprites() {
-  for (const player in assets['character']) {
-    for (const action in assets['character'][player]) {
+  for (const player in ASSETS["character"]) {
+    for (const action in ASSETS["character"][player]) {
       const image = new Image();
       image.src = `/assets/character/${player}/${action}.png`;
-      cachedImage.set(`${player}/${action}.png`, image);
+      GLOBAL("CACHED_IMAGE").set(`${player}/${action}.png`, image);
     }
   }
-  for(const tile in assets['environment']) {
+  for (const tile in ASSETS["environment"]) {
     const image = new Image();
     image.src = `/assets/environment/${tile}.png`;
-    cachedImage.set(`environment/${tile}.png`, image);
+    GLOBAL("CACHED_IMAGE").set(`environment/${tile}.png`, image);
   }
 }
 
+export { loadSprites, socketChannel };
 
-
-
-export {
-  cachedImage,
-  keyPressed,
-  loadSprites,
-  socketChannel
-};

@@ -20,13 +20,11 @@ class Attack extends Entity {
   }
 
   public fire(angle: number) {
-    console.log("shot");
     while (
-      (console.log(this.rect.position.x),
       this.rect.position.x < Canvas.canvas.width &&
-        this.rect.position.x > 0 &&
-        this.rect.position.y < Canvas.canvas.height &&
-        this.rect.position.y > 0)
+      this.rect.position.x > 0 &&
+      this.rect.position.y < Canvas.canvas.height &&
+      this.rect.position.y > 0
     ) {
       this.rect.position.x += Math.cos(angle) * this.speed;
       this.rect.position.y += Math.sin(angle) * this.speed;
