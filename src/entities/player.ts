@@ -91,7 +91,8 @@ class Player extends Character {
       10,
       10
     );
-    let attack = new Attack("placeholder", rect, 10, 100, 0.001);
+    let attack = new Attack("placeholder", rect, 10, 100, 0.1);
+    Canvas.imageRect(this.image, rect, rect);
     attack.fire(this.angle);
   }
 }
