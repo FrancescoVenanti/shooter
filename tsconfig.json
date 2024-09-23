@@ -5,8 +5,10 @@
     "outDir": "./dist",
     "rootDir": ".",
     "moduleResolution": "node",
-    "esModuleInterop": true
-
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "types": ["node"],
+    "resolveJsonModule": true
   },
   "include": ["**/*"],
   "exclude": ["node_modules", "dist"]

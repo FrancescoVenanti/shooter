@@ -1,6 +1,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
-import replace from '@rollup/plugin-replace';
+import replace from "@rollup/plugin-replace";
 import typescript from "@rollup/plugin-typescript";
 import dotenv from "dotenv";
 import livereload from "rollup-plugin-livereload";
@@ -19,17 +19,20 @@ export default {
     sourcemap: true,
     globals: {
       "node:crypto": "crypto",
-      // "socket.io-client": "socket_ioClient",
     },
   },
   plugins: [
-    nodePolyfills(/* options */),
+    nodePolyfills({
+      include: ["node:crypto", "node:fs", "node:process", "worker_threads"],
+    }),
     resolve({
       browser: true,
-      dedupe: ["socket.io-client"],
+      dedupe: ["socket.io-client", "worker_threads"],
     }),
     replace({
-      'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL || 'http://localhost:3000'),
+      "process.env.SERVER_URL": JSON.stringify(
+        process.env.SERVER_URL || "http://localhost:3000"
+      ),
       preventAssignment: true,
     }),
     commonjs(),
@@ -37,7 +40,7 @@ export default {
     dev &&
       serve({
         open: true,
-        contentBase: ["dist", "."], // or ['public', '.'] if using a public folder
+        contentBase: ["dist", "."],
         host: "localhost",
         port: 10001,
       }),
@@ -48,7 +51,7 @@ export default {
     "node:crypto",
     "node:fs",
     "node:process",
+    "worker_threads", // Ensure worker_threads is marked as external
     "dotenv",
-    // "socket.io-client",
   ],
 };
