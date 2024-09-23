@@ -2,7 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, assets, global, MAX_FRAME, random } from "../lib/global";
+import { Asset, ASSETS, GLOBAL, MAX_FRAME, random } from "../lib/global";
 
 class Character extends Entity {
   public angle: number = 0;
@@ -20,8 +20,8 @@ class Character extends Entity {
       `./src/assets/character/${sprite}/${action}.png`,
       new Rect(
         position,
-        assets["character"][sprite][action]["width"] * 5,
-        assets["character"][sprite][action]["height"] * 5
+        ASSETS["character"][sprite][action]["width"] * 5,
+        ASSETS["character"][sprite][action]["height"] * 5
       )
     );
     this.life = life;
@@ -38,7 +38,7 @@ class Character extends Entity {
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((global("FRAME") / MAX_FRAME) * 4) * 16, dy * 16),
+        new Vector(Math.floor((GLOBAL("FRAME") / MAX_FRAME) * 4) * 16, dy * 16),
         16,
         16
       ),

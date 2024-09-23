@@ -3,11 +3,10 @@ import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
-import Attack from "./entities/attack";
 import Enemy from "./entities/enemy";
 import Player from "./entities/player";
-import { global, MAX_FRAME, socket } from "./lib/global";
-import { cachedImage, keyPressed, loadSprites } from "./lib/utils";
+import { GLOBAL, MAX_FRAME, socket } from "./lib/global";
+import { loadSprites } from "./lib/utils";
 
 const player = new Player("placeholder", "idle");
 const enemies: Map<string, Enemy> = new Map<string, Enemy>();
@@ -24,7 +23,7 @@ const enemies: Map<string, Enemy> = new Map<string, Enemy>();
   loadSprites();
   Canvas.init();
   Promise.all(
-    Array.from(cachedImage.values()).map(
+    Array.from(GLOBAL("CACHED_IMAGE").values()).map(
       (img) => new Promise((resolve) => (img.onload = resolve))
     )
   ).then(() => loop());
@@ -44,13 +43,13 @@ function loop(delay?: number) {
 
   let dx = 0;
   let dy = 0;
-  global("DELTA", (delay1 - delay2) / 10);
+  GLOBAL("DELTA", (delay1 - delay2) / 10);
 
-  if (keyPressed.has("w")) dy -= 1;
-  if (keyPressed.has("s")) dy += 1;
-  if (keyPressed.has("a")) dx -= 1;
-  if (keyPressed.has("d")) dx += 1;
-  if (keyPressed.has(" ")) {
+  if (GLOBAL("KEY_PRESSED").has("w")) dy -= 1;
+  if (GLOBAL("KEY_PRESSED").has("s")) dy += 1;
+  if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
+  if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
+  if (GLOBAL("KEY_PRESSED").has(" ")) {
     player.shot();
   }
 
@@ -59,10 +58,10 @@ function loop(delay?: number) {
     player.move(angle, enemies);
   }
 
-  if (keyPressed.has(" ")) {
+  if (GLOBAL("KEY_PRESSED").has(" ")) {
     player.shot();
   }
   player.draw();
-  global("FRAME", (prev) => (prev + 1) % MAX_FRAME);
+  GLOBAL("FRAME", (prev) => (prev + 1) % MAX_FRAME);
   requestAnimationFrame(loop);
 }

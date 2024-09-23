@@ -1,6 +1,5 @@
 /* || */
-
-import { cachedImage } from "../lib/utils";
+import { GLOBAL } from "../lib/global";
 import Rect from "./rect";
 import Vector from "./vector";
 
@@ -68,8 +67,8 @@ export class Canvas {
   ): void {
     let currentImage: HTMLImageElement | undefined = undefined;
     const imagePath = image.split("/").slice(-2).join("/");
-    if (cachedImage.has(imagePath)) {
-      currentImage = cachedImage.get(imagePath)!;
+    if (GLOBAL("CACHED_IMAGE").has(imagePath)) {
+      currentImage = GLOBAL("CACHED_IMAGE").get(imagePath)!;
     }
     if (w && h) Canvas.ctx.drawImage(currentImage, x, y, w, h);
     else Canvas.ctx.drawImage(currentImage, x, y, 100, 100);
@@ -81,8 +80,8 @@ export class Canvas {
   ) {
     let currentImage: HTMLImageElement | undefined = undefined;
     const imagePath = image.split("/").slice(-2).join("/");
-    if (cachedImage.has(imagePath)) {
-      currentImage = cachedImage.get(imagePath)!;
+    if (GLOBAL("CACHED_IMAGE").has(imagePath)) {
+      currentImage = GLOBAL("CACHED_IMAGE").get(imagePath)!;
     }
     Canvas.ctx.drawImage(currentImage, sx, sy, sw, sh, dx, dy, dw, dh);
   }

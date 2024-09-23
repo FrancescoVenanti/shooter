@@ -1,4 +1,3 @@
-import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 
@@ -24,7 +23,6 @@ class Attack extends Entity {
 
     this.rect.position.x += Math.cos(angle) * this.speed;
     this.rect.position.y += Math.sin(angle) * this.speed;
-    Canvas.image(this.image, this.rect);
   }
 }
 

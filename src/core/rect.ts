@@ -9,6 +9,14 @@ class Rect {
     this.width = width;
     this.height = height;
   }
+
+  public clone(): Rect {
+    return new Rect(
+      new Vector(this.position.x, this.position.y),
+      this.width,
+      this.height
+    );
+  }
 }
 
 export default Rect;
