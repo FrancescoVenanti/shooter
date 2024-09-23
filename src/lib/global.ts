@@ -89,7 +89,7 @@ function GLOBAL<T extends keyof typeof globals>(
   return globals[provider];
 }
 
-const socket = new SocketClient(
+const SOCKET = new SocketClient(
   io(process.env.SERVER_URL || "http://localhost:3000", {
     transports: ["websocket"],
   })
@@ -97,5 +97,4 @@ const socket = new SocketClient(
 
 type Asset = typeof ASSETS;
 
-export { Asset, ASSETS, GLOBAL, MAX_FRAME, random, socket };
-
+export { Asset, ASSETS, GLOBAL, MAX_FRAME, random, SOCKET };

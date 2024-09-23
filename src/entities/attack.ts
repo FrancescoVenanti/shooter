@@ -1,8 +1,9 @@
-import { Worker } from "worker_threads";
-import path from "path";
-import Entity from "../core/entity";
-import Rect from "../core/rect";
-import Vector from "../core/vector";
+import Entity from '../core/entity';
+import Rect from '../core/rect';
+import ShotWorker from '../worker/shotWorker?worker'; // Adjusted for correct path
+
+
+
 
 class Attack extends Entity {
   public damage: number;
@@ -23,11 +24,9 @@ class Attack extends Entity {
   }
 
   public fire(angle: number) {
-    console.log("shot");
+    console.log('shot');
 
-    const worker = new Worker(
-      path.resolve(__dirname, "../workers/shotWorker.ts")
-    );
+    const worker = new ShotWorker();
 
     // Pass shot data to the worker
     worker.postMessage({
@@ -38,24 +37,12 @@ class Attack extends Entity {
       range: this.range,
     });
 
-    worker.on("message", (result) => {
-      // Handle the result from the worker, e.g., move the projectile
-      this.rect.position.x = result.endX;
-      this.rect.position.y = result.endY;
-      console.log("Shot finished, hit:", result.hit);
-
-      // Optionally, handle collision or end the attack if range is completed
-    });
-
-    worker.on("error", (err) => {
-      console.error("Worker error:", err);
-    });
-
-    worker.on("exit", (code) => {
-      if (code !== 0) {
-        console.error(`Worker stopped with exit code ${code}`);
-      }
-    });
+    // Listen for worker's message (i.e., the result)
+    worker.onmessage = (e) => {
+      const { x, y } = e.data;
+      console.log(`Shot ended at (${x}, ${y})`);
+      // Handle the result in your game (e.g., place the shot, check collision, etc.)
+    };
   }
 }
 

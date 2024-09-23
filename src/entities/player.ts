@@ -2,7 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, GLOBAL, socket } from "../lib/global";
+import { Asset, GLOBAL, SOCKET } from "../lib/global";
 import Attack from "./attack";
 import { Character } from "./character";
 
@@ -48,7 +48,7 @@ class Player extends Character {
       }
     }
 
-    socket.emit("room", "move", {
+    SOCKET.emit("room", "move", {
       x: this.rect.position.x,
       y: this.rect.position.y,
       id: this.id,

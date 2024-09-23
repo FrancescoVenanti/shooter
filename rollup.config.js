@@ -4,8 +4,12 @@ import replace from "@rollup/plugin-replace";
 import typescript from "@rollup/plugin-typescript";
 import dotenv from "dotenv";
 import livereload from "rollup-plugin-livereload";
+import builtins from "rollup-plugin-node-builtins";
+import globals from "rollup-plugin-node-globals";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import serve from "rollup-plugin-serve";
+import webWorkerLoader from "rollup-plugin-web-worker-loader";
+
 
 dotenv.config();
 const dev = process.env.ROLLUP_WATCH;
@@ -14,20 +18,18 @@ export default {
   input: "src/index.ts",
   output: {
     file: "dist/bundle.js",
-    format: "iife",
+    format: "es",
     name: "app",
     sourcemap: true,
     globals: {
-      "node:crypto": "crypto",
     },
   },
   plugins: [
-    nodePolyfills({
-      include: ["node:crypto", "node:fs", "node:process", "worker_threads"],
-    }),
+    webWorkerLoader(),
+    nodePolyfills(),
     resolve({
       browser: true,
-      dedupe: ["socket.io-client", "worker_threads"],
+      dedupe: ["socket.io-client"],
     }),
     replace({
       "process.env.SERVER_URL": JSON.stringify(
@@ -37,6 +39,8 @@ export default {
     }),
     commonjs(),
     typescript(),
+    builtins(),
+    globals(),
     dev &&
       serve({
         open: true,
@@ -51,7 +55,7 @@ export default {
     "node:crypto",
     "node:fs",
     "node:process",
-    "worker_threads", // Ensure worker_threads is marked as external
+    // "node:worker_threads", // Ensure worker_threads is marked as external
     "dotenv",
   ],
 };

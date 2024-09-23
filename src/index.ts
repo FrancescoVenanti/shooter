@@ -1,24 +1,40 @@
-/* import dotenv from 'dotenv'; */
 import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
 import Enemy from "./entities/enemy";
 import Player from "./entities/player";
-import { GLOBAL, MAX_FRAME, socket } from "./lib/global";
+import { GLOBAL, MAX_FRAME, SOCKET } from "./lib/global";
 import { loadSprites } from "./lib/utils";
+import ShotWorker from './worker/shotWorker?worker'; // Correct path
+
+
+
+
+
+
+
+
 
 const player = new Player("placeholder", "idle");
 const enemies: Map<string, Enemy> = new Map<string, Enemy>();
 (function main() {
+
   console.log(process.env.SERVER_URL);
-  socket.on("room", "move", ({ x, y, id, angle }) => {
+  SOCKET.on("room", "move", ({ x, y, id, angle }) => {
     if (enemies.has(id)) {
       enemies.get(id).changePosition(new Vector(x, y), angle);
     } else {
       enemies.set(id, new Enemy("placeholder", "idle", new Vector(x, y), 100));
     }
   });
+  const worker = new ShotWorker();
+  worker.addEventListener('message', (event) => {
+    const data = event.data;
+    console.log(data);
+  });
+
+
   listeners(player);
   loadSprites();
   Canvas.init();
