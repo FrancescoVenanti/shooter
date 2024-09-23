@@ -1,4 +1,3 @@
-import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 
@@ -20,15 +19,10 @@ class Attack extends Entity {
   }
 
   public fire(angle: number) {
-    while (
-      this.rect.position.x < Canvas.canvas.width &&
-      this.rect.position.x > 0 &&
-      this.rect.position.y < Canvas.canvas.height &&
-      this.rect.position.y > 0
-    ) {
-      this.rect.position.x += Math.cos(angle) * this.speed;
-      this.rect.position.y += Math.sin(angle) * this.speed;
-    }
+    console.log("shot");
+
+    this.rect.position.x += Math.cos(angle) * this.speed;
+    this.rect.position.y += Math.sin(angle) * this.speed;
   }
 }
 

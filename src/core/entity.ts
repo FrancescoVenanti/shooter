@@ -3,7 +3,7 @@ import Vector from "./vector";
 
 class Entity {
   public rect: Rect;
-  protected image: string;
+  public image: string;
   public imageRect: Rect;
   constructor(image: string, rect: Rect, imageRect?: Rect) {
     this.rect = rect;
