@@ -3,11 +3,9 @@ import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
 import Enemy from "./entities/enemy";
-import Player from "./entities/player";
 import { GLOBAL, SOCKET } from "./lib/global";
 import { loadSprites } from "./lib/utils";
 
-const PLAYER = new Player("placeholder", "idle");
 const ENVIRONMENT = new Environment();
 (function main() {
   SOCKET.on("room", "move", ({ x, y, id, angle }) => {
@@ -18,7 +16,7 @@ const ENVIRONMENT = new Environment();
     }
   });
 
-  listeners(PLAYER);
+  listeners();
   loadSprites();
   Canvas.init();
   Promise.all(
@@ -43,7 +41,7 @@ function loop(delay?: number) {
 
   GLOBAL("DELTA", (delay1 - delay2) / 10);
 
-  PLAYER.update();
+  GLOBAL('PLAYER').update();
 
   GLOBAL("FPS", 100 / GLOBAL("DELTA"));
   GLOBAL("FRAME", (prev) => (prev + 1) % GLOBAL('FPS'));

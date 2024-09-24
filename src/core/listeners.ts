@@ -1,9 +1,8 @@
-import { Character } from "../entities/character";
 import { GLOBAL } from "../lib/global";
 
 import { Canvas } from "./canvas";
 
-export default function listeners(player: Character) {
+export default function listeners() {
   window.addEventListener("resize", (e) => {
     Canvas.canvas.width = window.innerWidth;
     Canvas.canvas.height = window.innerHeight;

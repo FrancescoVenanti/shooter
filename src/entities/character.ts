@@ -2,7 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, ASSETS, GLOBAL, MAX_FRAME, random } from "../lib/global";
+import { Asset, ASSETS, GLOBAL, random } from "../lib/global";
 
 class Character extends Entity {
   public angle: number = 0;
@@ -42,7 +42,7 @@ class Character extends Entity {
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / MAX_FRAME) * 4) * 16, dy * 16),
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * 4) * 16, dy * 16),
         16,
         16
       ),

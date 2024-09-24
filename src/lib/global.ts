@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import Enemy from "../entities/enemy";
+import Player from "../entities/player";
 import { SocketClient } from "./socket";
 
 const ASSETS = {
@@ -56,7 +57,6 @@ const ASSETS = {
   },
 } as const;
 
-const MAX_FRAME = 60;
 function random(length: number = 10) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
     .replace(/[xy]/g, function (c) {
@@ -74,7 +74,8 @@ const globals = {
   KEY_PRESSED: new Map<string, boolean>(),
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
-  FPS: 60
+  FPS: 60,
+  PLAYER: new Player("placeholder", "idle"),
 };
 
 function GLOBAL<T extends keyof typeof globals>(
@@ -100,4 +101,4 @@ const SOCKET = new SocketClient(
 
 type Asset = typeof ASSETS;
 
-export { Asset, ASSETS, GLOBAL, MAX_FRAME, random, SOCKET };
+export { Asset, ASSETS, GLOBAL, random, SOCKET };
