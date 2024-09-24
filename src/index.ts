@@ -6,7 +6,6 @@ import Enemy from "./entities/enemy";
 import Player from "./entities/player";
 import { GLOBAL, MAX_FRAME, SOCKET } from "./lib/global";
 import { loadSprites } from "./lib/utils";
-import ShotWorker from './worker/shotWorker?worker'; // Correct path
 
 
 
@@ -28,7 +27,8 @@ const enemies: Map<string, Enemy> = new Map<string, Enemy>();
       enemies.set(id, new Enemy("placeholder", "idle", new Vector(x, y), 100));
     }
   });
-  const worker = new ShotWorker();
+  const worker = new Worker('worker/shotWorker.ts');
+  worker.postMessage("icao")
   worker.addEventListener('message', (event) => {
     const data = event.data;
     console.log(data);

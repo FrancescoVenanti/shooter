@@ -1,6 +1,5 @@
 import Entity from '../core/entity';
 import Rect from '../core/rect';
-import ShotWorker from '../worker/shotWorker?worker'; // Adjusted for correct path
 
 
 
@@ -24,9 +23,8 @@ class Attack extends Entity {
   }
 
   public fire(angle: number) {
-    console.log('shot');
 
-    const worker = new ShotWorker();
+    const worker = new Worker('../worker/shotWorker.ts');
 
     // Pass shot data to the worker
     worker.postMessage({
@@ -43,6 +41,7 @@ class Attack extends Entity {
       console.log(`Shot ended at (${x}, ${y})`);
       // Handle the result in your game (e.g., place the shot, check collision, etc.)
     };
+    console.log(worker);
   }
 }
 
