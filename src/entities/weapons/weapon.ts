@@ -1,16 +1,14 @@
-import Entity from '../../core/entity';
-import Rect from '../../core/rect';
-import Vector from '../../core/vector';
-
-
-
+import Entity from "../../core/entity";
+import Rect from "../../core/rect";
+import Vector from "../../core/vector";
 
 abstract class Weapon extends Entity {
   public damage: number;
   public range: number;
   public speed: number;
   public rate: number; // rate of fire in seconds
-  public delay: number = 0;
+  public reloadTime: number;
+  public magazineSize: number;
 
   constructor(
     image: string,
@@ -19,26 +17,27 @@ abstract class Weapon extends Entity {
     range: number,
     speed: number,
     rate: number = 1,
-    delay: number = 1
+    reloadTime: number = 1,
+    magazineSize: number = 1
   ) {
     super(image, rect);
     this.damage = damage;
     this.range = range;
     this.speed = speed;
     this.rate = rate;
-    this.delay = delay
+    this.reloadTime = reloadTime;
+    this.magazineSize = magazineSize;
   }
 
   public attack(angle: number, position: Vector) {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
   public update() {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 }
 
 export default Weapon;
-
 
 // const worker = new Worker('../worker/shotWorker.ts');
 // worker.addEventListener('message', (event) => {

@@ -12,9 +12,10 @@ class Gun extends Weapon {
     range: number,
     speed: number,
     rate: number = 5,
-    delay: number = 1
+    reloadTime: number = 3,
+    magazineSize: number = 20
   ) {
-    super(image, rect, damage, range, speed, rate, delay);
+    super(image, rect, damage, range, speed, rate, reloadTime, magazineSize);
   }
 
   public attack(angle: number, position: Vector) {
@@ -23,18 +24,21 @@ class Gun extends Weapon {
       if (curr.date > now - 1000) {
         prev++;
       }
-      return prev
+      return prev;
     }, 0);
 
-    if(count < this.delay && (this.bullets.length === 0 || this.bullets[this.bullets.length - 1].date <= now - this.rate)) {
-      this.bullets.push(new Bullet(position.clone(), angle))
+    if (
+      count < this.reloadTime &&
+      (this.bullets.length === 0 ||
+        this.bullets[this.bullets.length - 1].date <= now - this.rate)
+    ) {
+      this.bullets.push(new Bullet(position.clone(), angle));
     }
   }
 
   public update() {
     const toDelete = new Set<number>();
-    for(let i = 0; i < this.bullets.length; i++) {
-
+    for (let i = 0; i < this.bullets.length; i++) {
       this.bullets[i].move();
     }
   }
