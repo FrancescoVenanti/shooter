@@ -45,7 +45,7 @@ export default {
       serve({
         open: true,
         contentBase: ["dist", "."],
-        host: "localhost",
+        host: "0.0.0.0",
         port: 10001,
       }),
     dev && livereload("dist"),

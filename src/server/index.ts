@@ -28,6 +28,10 @@ io.on("connection", (socket: Socket) => {
   socket.on(socketChannel('room', 'move'), data => {
     socket.broadcast.emit(socketChannel('room', 'move'), data)
   })
+
+  socket.on(socketChannel('attack', 'move'), data => {
+    socket.broadcast.emit(socketChannel('attack', 'move'), data)
+  })
 });
 
 server.listen(3000, () => {

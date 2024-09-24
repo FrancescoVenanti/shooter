@@ -4,7 +4,6 @@ import Bullet from "./bullet";
 import Weapon from "./weapon";
 
 class Gun extends Weapon {
-  public bullets: Bullet[] = [];
   private remainingBullets: number = 0;
   private lastShotTime: number = 0;
   private reloading: boolean = false;
@@ -39,6 +38,7 @@ class Gun extends Weapon {
 
     if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
       this.bullets.push(new Bullet(position.clone(), angle));
+
       this.remainingBullets--;
       this.lastShotTime = now;
     }

@@ -1,6 +1,7 @@
 import Entity from "../../core/entity";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
+import Bullet from "./bullet";
 
 abstract class Weapon extends Entity {
   public damage: number;
@@ -9,6 +10,7 @@ abstract class Weapon extends Entity {
   public rate: number; // rate of fire in seconds
   public reloadTime: number;
   public magazineSize: number;
+  public bullets: Bullet[] = []
 
   constructor(
     image: string,

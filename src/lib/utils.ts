@@ -8,6 +8,13 @@ function socketChannel<TChannel extends keyof typeof events>(
   return `{${channel}}{${event as string}}`;
 }
 
+function inBetween(value: number, start: number, end: number): boolean {
+  if(value >= start && value <= end) {
+    return true;
+  }
+  return false;
+}
+
 function loadSprites() {
   for (const player in ASSETS["character"]) {
     for (const action in ASSETS["character"][player]) {
@@ -23,5 +30,4 @@ function loadSprites() {
   }
 }
 
-export { loadSprites, socketChannel };
-
+export { inBetween, loadSprites, socketChannel };

@@ -1,3 +1,4 @@
+import { inBetween } from "../lib/utils";
 import { Directions } from "../types/general";
 import Rect from "./rect";
 import Vector from "./vector";
@@ -68,6 +69,11 @@ class Entity {
 
     // console.log(allowedDirections);
     return allowedDirections;
+  }
+
+  public hasCollision({rect: { position, width, height }}: Entity): boolean{
+    if(inBetween(this.rect.position.x, position.x, position.x + width) && inBetween(this.rect.position.y, position.y, position.y + height)) return true
+    return false;
   }
 }
 

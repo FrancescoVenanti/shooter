@@ -1,24 +1,14 @@
 import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
-import Vector from "./core/vector";
-import Enemy from "./entities/enemy";
-import { GLOBAL, SOCKET } from "./lib/global";
+import { GLOBAL } from "./lib/global";
 import { loadSprites } from "./lib/utils";
 
 const ENVIRONMENT = new Environment();
 (function main() {
-  SOCKET.on("room", "move", ({ x, y, id, angle }) => {
-    if (GLOBAL('ENEMIES').has(id)) {
-      GLOBAL('ENEMIES').get(id).changePosition(new Vector(x, y), angle);
-    } else {
-      GLOBAL('ENEMIES').set(id, new Enemy("placeholder", "idle", new Vector(x, y), 100));
-    }
-  });
-
-  listeners();
-  loadSprites();
   Canvas.init();
+  loadSprites();
+  listeners();
   Promise.all(
     Array.from(GLOBAL("CACHED_IMAGE").values()).map(
       (img) => new Promise((resolve) => (img.onload = resolve))
