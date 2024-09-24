@@ -32,10 +32,7 @@ class Player extends Character {
     if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
     if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
     if (GLOBAL("KEY_PRESSED").has(" ")) {
-      if (1000 / GLOBAL("DELTA") * GLOBAL("FRAME") > 1) {
-
-        this.attack();
-      }
+      this.attack();
     }
 
     if (dx !== 0 || dy !== 0) {

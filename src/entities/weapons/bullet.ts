@@ -2,11 +2,12 @@ import { Canvas } from "../../core/canvas";
 import Entity from "../../core/entity";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import { GLOBAL } from "../../lib/global";
+import { GLOBAL, SOCKET } from "../../lib/global";
 
 class Bullet extends Entity {
   public angle: number;
   public speed: number;
+  public date: number = new Date().getTime();
   constructor(position: Vector, angle: number, speed: number = 10) {
     super("bullet", new Rect(position, 10, 10));
     this.angle = angle;
@@ -21,6 +22,14 @@ class Bullet extends Entity {
       this.rect.position.x + offset.x,
       this.rect.position.y + offset.y
     );
+    SOCKET.emit('attack', 'move', {
+      id: 'asdsdfv',
+      angle: this.angle,
+      position: {
+        x: this.rect.position.x,
+        y: this.rect.position.y
+      }
+    })
     this.draw()
   }
   public draw() {

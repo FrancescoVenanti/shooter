@@ -7,7 +7,12 @@ export const events = {
   },
   room: {
     join: z.string(),
-    move: vector
+    move: z.union([vector, z.object({ id: z.string() })]),
   },
-
+  attack: {
+    move: z.object({
+      id: z.string(),
+      angle: z.number(),
+      position: vector
+    })}
 } as const;

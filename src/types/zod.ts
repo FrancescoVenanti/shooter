@@ -5,7 +5,6 @@ export type UuidSchema = z.infer<typeof uuid>;
 export const vector = z.object({
   x: z.number(),
   y: z.number(),
-  id: z.string(),
   angle: z.number(),
 })
 ///  Type that represents a range from 0 to N
