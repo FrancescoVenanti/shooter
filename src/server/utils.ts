@@ -7,7 +7,7 @@ export const events = {
   },
   room: {
     join: z.string(),
-    move: z.union([vector, z.object({ id: z.string() })]),
+    move: vector.merge(z.object({ id: z.string() })),
   },
   attack: {
     move: z.object({
