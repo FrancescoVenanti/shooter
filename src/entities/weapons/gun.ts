@@ -5,6 +5,11 @@ import Weapon from "./weapon";
 
 class Gun extends Weapon {
   public bullets: Bullet[] = [];
+  private remainingBullets: number = 0;
+  private lastShotTime: number = 0;
+  private reloading: boolean = false;
+  private reloadStartTime: number = 0;
+
   constructor(
     image: string,
     rect: Rect,
@@ -16,28 +21,39 @@ class Gun extends Weapon {
     magazineSize: number = 20
   ) {
     super(image, rect, damage, range, speed, rate, reloadTime, magazineSize);
+    this.remainingBullets = magazineSize;
   }
 
   public attack(angle: number, position: Vector) {
     const now = new Date().getTime();
-    const count = this.bullets.reduce((prev, curr) => {
-      if (curr.date > now - 1000) {
-        prev++;
-      }
-      return prev;
-    }, 0);
 
-    if (
-      count < this.reloadTime &&
-      (this.bullets.length === 0 ||
-        this.bullets[this.bullets.length - 1].date <= now - this.rate)
-    ) {
+    if (this.reloading) {
+      const reloadElapsed = (now - this.reloadStartTime) / 1000;
+      if (reloadElapsed < this.reloadTime) return;
+      this.remainingBullets = this.magazineSize;
+      this.reloading = false;
+    }
+
+    const timeSinceLastShot = (now - this.lastShotTime) / 1000;
+    const minTimeBetweenShots = 1 / this.rate;
+
+    if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
       this.bullets.push(new Bullet(position.clone(), angle));
+      this.remainingBullets--;
+      this.lastShotTime = now;
+    }
+
+    if (this.remainingBullets === 0) {
+      this.startReloading(now);
     }
   }
 
+  private startReloading(now: number) {
+    this.reloading = true;
+    this.reloadStartTime = now;
+  }
+
   public update() {
-    const toDelete = new Set<number>();
     for (let i = 0; i < this.bullets.length; i++) {
       this.bullets[i].move();
     }
