@@ -3,26 +3,57 @@ import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
 import { Asset, GLOBAL, SOCKET } from "../lib/global";
-import Attack from "./attack";
 import { Character } from "./character";
+import Gun from "./weapons/gun";
+import Weapon from "./weapons/weapon";
 
 class Player extends Character {
   public speed: number;
-  public default: Attack;
-  public special: Attack;
+  public primaryWeapon: Weapon;
+  public specialWeapon: Weapon;
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
     speed: number = 3,
-    life: number = 100
+    life: number = 100,
+    primaryWeapon: Weapon = new Gun('', new Rect(new Vector(0, 0), 0, 0), 0, 0, 0),
   ) {
     super(sprite, action, position, life);
     this.speed = speed;
+    this.primaryWeapon = primaryWeapon;
   }
 
-  public move(angle: number, enemies: Map<String, Character>) {
-    let allowedDirections = this.checkCollision(Array.from(enemies.values()));
+  public update() {
+    let dx = 0;
+    let dy = 0;
+    if (GLOBAL("KEY_PRESSED").has("w")) dy -= 1;
+    if (GLOBAL("KEY_PRESSED").has("s")) dy += 1;
+    if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
+    if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
+    if (GLOBAL("KEY_PRESSED").has(" ")) {
+      if (1000 / GLOBAL("DELTA") * GLOBAL("FRAME") > 1) {
+
+        this.attack();
+      }
+    }
+
+    if (dx !== 0 || dy !== 0) {
+      const angle = Math.atan2(dy, dx);
+      this.move(angle);
+      SOCKET.emit("room", "move", {
+        x: this.rect.position.x,
+        y: this.rect.position.y,
+        id: this.id,
+        angle,
+      });
+    }
+    this.draw();
+    this.primaryWeapon.update();
+  }
+
+  public move(angle: number) {
+    let allowedDirections = this.checkCollision(Array.from(GLOBAL('ENEMIES').values()));
     this.angle = angle;
     const offset = new Vector(
       Math.cos(this.angle) * this.speed * GLOBAL("DELTA"),
@@ -32,7 +63,8 @@ class Player extends Character {
       if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
         this.rect.position.x += offset.x;
       }
-    } else if (offset.x < 0 && allowedDirections.get("left")) {
+    }
+    if (offset.x < 0 && allowedDirections.get("left")) {
       if (this.rect.position.x > 0) {
         this.rect.position.x += offset.x;
       }
@@ -42,18 +74,12 @@ class Player extends Character {
       if (this.rect.position.y + this.rect.height < Canvas.canvas.height) {
         this.rect.position.y += offset.y;
       }
-    } else if (offset.y < 0 && allowedDirections.get("up")) {
+    }
+    if (offset.y < 0 && allowedDirections.get("up")) {
       if (this.rect.position.y > 0) {
         this.rect.position.y += offset.y;
       }
     }
-
-    SOCKET.emit("room", "move", {
-      x: this.rect.position.x,
-      y: this.rect.position.y,
-      id: this.id,
-      angle,
-    });
   }
 
   public checkCollision(entities: Entity[]) {
@@ -75,20 +101,8 @@ class Player extends Character {
     return allowedDirections;
   }
 
-  public shot() {
-    let rect = new Rect(
-      new Vector(this.rect.position.x, this.rect.position.y),
-      10,
-      10
-    );
-    let attack = new Attack(
-      "../../assets/environment/waterMiddle.png",
-      rect,
-      10,
-      100,
-      0.1
-    );
-    attack.fire(this.angle);
+  public attack() {
+    this.primaryWeapon.attack(this.angle, this.rect.position);
   }
 }
 

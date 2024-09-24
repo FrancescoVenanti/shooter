@@ -30,6 +30,10 @@ class Character extends Entity {
     this.sprite = sprite;
   }
 
+  public update() {
+
+  }
+
   public draw() {
     let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
     if (dy < 0) {

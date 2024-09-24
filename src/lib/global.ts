@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
+import Enemy from "../entities/enemy";
 import { SocketClient } from "./socket";
 
 const ASSETS = {
@@ -72,6 +73,8 @@ const globals = {
   CACHED_IMAGE: new Map<string, HTMLImageElement>(),
   KEY_PRESSED: new Map<string, boolean>(),
   ASSETS,
+  ENEMIES: new Map<string, Enemy>(),
+  FPS: 60
 };
 
 function GLOBAL<T extends keyof typeof globals>(

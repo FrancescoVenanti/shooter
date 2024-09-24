@@ -1,3 +1,4 @@
+import { Directions } from "../types/general";
 import Rect from "./rect";
 import Vector from "./vector";
 
@@ -12,7 +13,7 @@ class Entity {
   }
 
   public collide(entity: Entity) {
-    let allowedDirections: Map<"up" | "down" | "left" | "right", boolean> =
+    let allowedDirections: Map<Directions, boolean> =
       new Map([
         ["up", true],
         ["down", true],
