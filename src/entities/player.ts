@@ -32,6 +32,7 @@ class Player extends Character {
     if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
     if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
     if (GLOBAL("KEY_PRESSED").has(" ")) {
+      this.action = 'attack';
       this.attack();
     }
 
