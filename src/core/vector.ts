@@ -61,6 +61,13 @@ class Vector {
   public static add(v1: Vector, v2: Vector) {
     return new Vector(v1.x + v2.x, v1.y + v2.y);
   }
+
+  public distance(v: Vector) {
+    return Math.sqrt((v.x - this.x) ** 2 + (v.y - this.y) ** 2);
+  }
+  public getAngle(v: Vector) {
+    return Math.atan2(v.y - this.y, v.x - this.x);
+  }
 }
 
 export default Vector;

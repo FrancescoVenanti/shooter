@@ -1,19 +1,20 @@
 import Entity from "../../core/entity";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import Bullet from "./bullet";
+import { TODO } from "../../lib/global";
+import Bullet from "./projectile";
 
-abstract class Weapon extends Entity {
+abstract class Weapon {
   public damage: number;
   public range: number;
   public speed: number;
   public rate: number; // rate of fire in seconds
   public reloadTime: number;
   public magazineSize: number;
-  public bullets: Bullet[] = []
+  public bullets: Bullet[] = [];
+  public rect: Rect;
 
   constructor(
-    image: string,
     rect: Rect,
     damage: number,
     range: number,
@@ -22,7 +23,7 @@ abstract class Weapon extends Entity {
     reloadTime: number = 1,
     magazineSize: number = 1
   ) {
-    super(image, rect);
+    this.rect = rect;
     this.damage = damage;
     this.range = range;
     this.speed = speed;
@@ -32,10 +33,10 @@ abstract class Weapon extends Entity {
   }
 
   public attack(angle: number, position: Vector) {
-    throw new Error("Method not implemented.");
+    TODO;
   }
   public update() {
-    throw new Error("Method not implemented.");
+    TODO;
   }
 }
 

@@ -2,7 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, ASSETS, GLOBAL, random } from "../lib/global";
+import { Asset, ASSETS, GLOBAL, random, TODO } from "../lib/global";
 
 class Character extends Entity {
   public angle: number = 0;
@@ -31,20 +31,30 @@ class Character extends Entity {
   }
 
   public update() {
-
+    TODO
   }
 
   public draw() {
-    const {width, height, size} = ASSETS['character'][this.sprite][this.action];
+    const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
+    let dy = (4 - Math.floor(this.angle / Math.PI * 2)) % 4;
+
+    // if(dy < 0){
+    //   dy = 4 + dy;
+    // }
+    console.log(dy)
+
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width + width / 4, 6 * height + height / 2),
-        width - width / 4,
-        height / 2
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height),
+        width,
+        height
       ),
       new Rect(this.rect.position, width / GLOBAL('ZOOM'), height / GLOBAL('ZOOM'))
     );
+    if(this.action === 'attack' && Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) === size - 1){
+      this.action = 'idle';
+    }
   }
 
   public changePosition(newPosition: Vector, angle: number) {
@@ -61,4 +71,4 @@ class Character extends Entity {
   }
 }
 
-export { Character };
+export default Character ;

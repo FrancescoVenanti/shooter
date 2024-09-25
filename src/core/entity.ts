@@ -1,9 +1,10 @@
+import { TODO } from "../lib/global";
 import { inBetween } from "../lib/utils";
 import { Directions } from "../types/general";
 import Rect from "./rect";
 import Vector from "./vector";
 
-class Entity {
+class Entity  {
   public rect: Rect;
   public image: string;
   public imageRect: Rect;
@@ -79,7 +80,7 @@ class Entity {
     return false;
   }
   public draw() {
-    throw new Error("Method not implemented.");
+    TODO
   }
 }
 

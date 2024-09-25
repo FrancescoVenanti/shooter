@@ -1,16 +1,17 @@
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import Bullet from "./bullet";
+import Projectile from "./projectile";
 import Weapon from "./weapon";
 
-class Gun extends Weapon {
+class Ranged extends Weapon {
   private remainingBullets: number = 0;
   private lastShotTime: number = 0;
   private reloading: boolean = false;
   private reloadStartTime: number = 0;
+  private projectileImage: string;
 
   constructor(
-    image: string,
+    projectileImage: string,
     rect: Rect,
     damage: number,
     range: number,
@@ -19,8 +20,9 @@ class Gun extends Weapon {
     reloadTime: number = 3,
     magazineSize: number = 20
   ) {
-    super(image, rect, damage, range, speed, rate, reloadTime, magazineSize);
+    super(rect, damage, range, speed, rate, reloadTime, magazineSize);
     this.remainingBullets = magazineSize;
+    this.projectileImage = projectileImage;
   }
 
   public attack(angle: number, position: Vector) {
@@ -37,7 +39,7 @@ class Gun extends Weapon {
     const minTimeBetweenShots = 1 / this.rate;
 
     if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
-      this.bullets.push(new Bullet(position.clone(), angle));
+      this.bullets.push(new Projectile("bullet", position.clone(), angle));
 
       this.remainingBullets--;
       this.lastShotTime = now;
@@ -60,4 +62,4 @@ class Gun extends Weapon {
   }
 }
 
-export default Gun;
+export default Ranged;

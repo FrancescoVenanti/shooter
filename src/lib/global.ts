@@ -3,26 +3,39 @@ import Enemy from "../entities/enemy";
 import Player from "../entities/player";
 import { SocketClient } from "./socket";
 
+const TODO = new Proxy({}, {
+  get(target, p, receiver) {
+    throw new Error("TODO");
+  },
+})
+
 const idle = {
-  size: 3,
-  width: 64,
-  height: 64
+  size: 1,
+  width: 60,
+  height: 60,
+  start: 0,
+  directions: 4
 }
 const attack = {
   size: 4,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60,
+  start: 2,
+  directions: 4
 }
-
 const run = {
   size: 4,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60,
+  start: 1,
+  directions: 4
 }
 const death = {
   size: 4,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60,
+  start: 3,
+  directions: 1
 }
 
 const ASSETS = {
@@ -115,7 +128,7 @@ const globals = {
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
-  PLAYER: new Player('dwarf', "attack"),
+  PLAYER: new Player('dwarf', "run"),
   ZOOM: 1
 };
 
@@ -142,4 +155,4 @@ const SOCKET = new SocketClient(
 
 type Asset = typeof ASSETS;
 
-export { Asset, ASSETS, GLOBAL, random, SOCKET };
+export { Asset, ASSETS, GLOBAL, random, SOCKET, TODO };
