@@ -9,8 +9,8 @@ export default function listeners() {
   window.addEventListener("resize", (e) => {
     Canvas.canvas.width = window.innerWidth;
     Canvas.canvas.height = window.innerHeight;
-    GLOBAL('ZOOM', window.devicePixelRatio);
-    console.log(GLOBAL('ZOOM'))
+    GLOBAL("ZOOM", window.devicePixelRatio);
+    console.log(GLOBAL("ZOOM"));
   });
 
   window.addEventListener("DOMContentLoaded", (e) => {
@@ -25,18 +25,21 @@ export default function listeners() {
   });
 
   SOCKET.on("room", "move", ({ x, y, id, angle }) => {
-    if (GLOBAL('ENEMIES').has(id)) {
-      GLOBAL('ENEMIES').get(id).changePosition(new Vector(x, y), angle);
+    if (GLOBAL("ENEMIES").has(id)) {
+      GLOBAL("ENEMIES").get(id).changePosition(new Vector(x, y), angle);
     } else {
-      GLOBAL('ENEMIES').set(id, new Enemy('shroom', "idle", new Vector(x, y), 100));
+      GLOBAL("ENEMIES").set(
+        id,
+        new Enemy("wizard", "run", new Vector(x, y), 100)
+      );
     }
   });
 
-  SOCKET.on('attack', 'move', ({id, angle, position: { x, y }}) => {
-    Canvas.ctx.strokeStyle = 'red';
-    Canvas.ctx.fillStyle = 'red';
-    console.log(Canvas.ctx.strokeStyle)
-    Canvas.fillRect(new Rect(new Vector(100, 100), 100, 100))
-    Canvas.fillRect(new Rect(new Vector(x, y), 10, 10))
-  })
+  SOCKET.on("attack", "move", ({ id, angle, position: { x, y } }) => {
+    Canvas.ctx.strokeStyle = "red";
+    Canvas.ctx.fillStyle = "red";
+    console.log(Canvas.ctx.strokeStyle);
+    Canvas.fillRect(new Rect(new Vector(100, 100), 100, 100));
+    Canvas.fillRect(new Rect(new Vector(x, y), 10, 10));
+  });
 }
