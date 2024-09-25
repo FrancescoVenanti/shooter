@@ -3,6 +3,28 @@ import Enemy from "../entities/enemy";
 import Player from "../entities/player";
 import { SocketClient } from "./socket";
 
+const idle = {
+  size: 3,
+  width: 64,
+  height: 64
+}
+const attack = {
+  size: 4,
+  width: 64,
+  height: 64
+}
+
+const run = {
+  size: 4,
+  width: 64,
+  height: 64
+}
+const death = {
+  size: 4,
+  width: 64,
+  height: 64
+}
+
 const ASSETS = {
   environment: {
     grassMiddle: {
@@ -42,18 +64,36 @@ const ASSETS = {
     },
   },
   character: {
-    placeholder: {
-      idle: {
-        size: 16,
-        width: 4,
-        height: 8,
-      },
-      run: {
-        size: 16,
-        width: 4,
-        height: 8,
-      },
+    dwarf: {
+      idle,
+      attack,
+      death,
+      run
     },
+    wizard: {
+      idle,
+      attack,
+      death,
+      run
+    },
+    slime: {
+      idle,
+      attack,
+      death,
+      run
+    },
+    shroom: {
+      idle,
+      attack,
+      death,
+      run
+    },
+    ghast: {
+      idle,
+      attack,
+      death,
+      run
+    }
   },
 } as const;
 
@@ -75,7 +115,7 @@ const globals = {
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
-  PLAYER: new Player("placeholder", "idle"),
+  PLAYER: new Player('dwarf', "attack"),
 };
 
 function GLOBAL<T extends keyof typeof globals>(

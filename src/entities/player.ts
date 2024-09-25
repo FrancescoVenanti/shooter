@@ -15,7 +15,7 @@ class Player extends Character {
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
-    speed: number = 3,
+    speed: number = 5,
     life: number = 100,
     primaryWeapon: Weapon = new Gun('', new Rect(new Vector(0, 0), 0, 0), 0, 0, 0),
   ) {

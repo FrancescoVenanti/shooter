@@ -26,7 +26,7 @@ export default function listeners() {
     if (GLOBAL('ENEMIES').has(id)) {
       GLOBAL('ENEMIES').get(id).changePosition(new Vector(x, y), angle);
     } else {
-      GLOBAL('ENEMIES').set(id, new Enemy("placeholder", "idle", new Vector(x, y), 100));
+      GLOBAL('ENEMIES').set(id, new Enemy('shroom', "idle", new Vector(x, y), 100));
     }
   });
 

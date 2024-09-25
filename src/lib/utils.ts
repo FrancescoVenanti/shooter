@@ -19,8 +19,8 @@ function loadSprites() {
   for (const player in ASSETS["character"]) {
     for (const action in ASSETS["character"][player]) {
       const image = new Image();
-      image.src = `/assets/character/${player}/${action}.png`;
-      GLOBAL("CACHED_IMAGE").set(`${player}/${action}.png`, image);
+      image.src = `/assets/character/${player}/${player}.png`;
+      GLOBAL("CACHED_IMAGE").set(`${player}/${player}.png`, image);
     }
   }
   for (const tile in ASSETS["environment"]) {

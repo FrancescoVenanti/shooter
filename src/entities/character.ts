@@ -17,11 +17,11 @@ class Character extends Entity {
     life: number = 100
   ) {
     super(
-      `./src/assets/character/${sprite}/${action}.png`,
+      `./src/assets/character/${sprite}/${sprite}.png`,
       new Rect(
         position,
-        ASSETS["character"][sprite][action]["width"] * 5,
-        ASSETS["character"][sprite][action]["height"] * 5
+        ASSETS["character"][sprite][action]["width"],
+        ASSETS["character"][sprite][action]["height"]
       )
     );
     this.life = life;
@@ -35,16 +35,13 @@ class Character extends Entity {
   }
 
   public draw() {
-    let dy = ((this.angle - Math.PI / 2) / Math.PI) * 4;
-    if (dy < 0) {
-      dy = 8 + dy;
-    }
+    const {width, height, size} = ASSETS['character'][this.sprite][this.action];
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * 4) * 16, dy * 16),
-        16,
-        16
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width + width / 4, 6 * height + height / 2),
+        width - width / 4,
+        height / 2
       ),
       this.rect
     );
