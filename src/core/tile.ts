@@ -1,4 +1,4 @@
-import { Asset, ASSETS } from "../lib/global";
+import { Asset, ASSETS, GLOBAL } from "../lib/global";
 import type { Range } from "../types/zod";
 import { Canvas } from "./canvas";
 import Entity from "./entity";
@@ -23,7 +23,7 @@ class Tile extends Entity {
     Canvas.imageRect(
       this.image,
       new Rect(new Vector(0, 0), width, height),
-      this.rect
+      new Rect(this.rect.position, this.rect.width * GLOBAL("ZOOM"), this.rect.height * GLOBAL("ZOOM"))
     );
   }
 }

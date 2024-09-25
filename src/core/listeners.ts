@@ -9,6 +9,8 @@ export default function listeners() {
   window.addEventListener("resize", (e) => {
     Canvas.canvas.width = window.innerWidth;
     Canvas.canvas.height = window.innerHeight;
+    GLOBAL('ZOOM', window.devicePixelRatio);
+    console.log(GLOBAL('ZOOM'))
   });
 
   window.addEventListener("DOMContentLoaded", (e) => {
