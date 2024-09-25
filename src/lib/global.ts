@@ -128,7 +128,7 @@ const globals = {
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
-  PLAYER: new Player('dwarf', "idle"),
+  PLAYER: new Player('dwarf', "run"),
   ZOOM: 1
 };
 

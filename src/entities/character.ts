@@ -45,7 +45,7 @@ class Character extends Entity {
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height - 6),
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height),
         width,
         height
       ),
