@@ -3,26 +3,31 @@ import Enemy from "../entities/enemy";
 import Player from "../entities/player";
 import { SocketClient } from "./socket";
 
+const TODO = new Proxy({}, {
+  get(target, p, receiver) {
+    throw new Error("TODO");
+  },
+})
+
 const idle = {
   size: 3,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60
 }
 const attack = {
   size: 4,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60
 }
-
 const run = {
   size: 4,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60
 }
 const death = {
   size: 4,
-  width: 64,
-  height: 64
+  width: 60,
+  height: 60
 }
 
 const ASSETS = {
@@ -142,4 +147,4 @@ const SOCKET = new SocketClient(
 
 type Asset = typeof ASSETS;
 
-export { Asset, ASSETS, GLOBAL, random, SOCKET };
+export { Asset, ASSETS, GLOBAL, random, SOCKET, TODO };

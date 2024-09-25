@@ -2,7 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, ASSETS, GLOBAL, random } from "../lib/global";
+import { Asset, ASSETS, GLOBAL, random, TODO } from "../lib/global";
 
 class Character extends Entity {
   public angle: number = 0;
@@ -31,7 +31,7 @@ class Character extends Entity {
   }
 
   public update() {
-
+    TODO
   }
 
   public draw() {
@@ -61,4 +61,4 @@ class Character extends Entity {
   }
 }
 
-export { Character };
+export default Character;

@@ -1,3 +1,4 @@
+import { TODO } from "../lib/global";
 import { inBetween } from "../lib/utils";
 import { Directions } from "../types/general";
 import Rect from "./rect";
@@ -79,7 +80,7 @@ class Entity {
     return false;
   }
   public draw() {
-    throw new Error("Method not implemented.");
+    TODO
   }
 }
 

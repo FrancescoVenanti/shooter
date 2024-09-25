@@ -1,7 +1,8 @@
 import Entity from "../../core/entity";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import Bullet from "./bullet";
+import { TODO } from "../../lib/global";
+import Bullet from "./projectile";
 
 abstract class Weapon extends Entity {
   public damage: number;
@@ -32,10 +33,10 @@ abstract class Weapon extends Entity {
   }
 
   public attack(angle: number, position: Vector) {
-    throw new Error("Method not implemented.");
+    TODO
   }
   public update() {
-    throw new Error("Method not implemented.");
+    TODO
   }
 }
 

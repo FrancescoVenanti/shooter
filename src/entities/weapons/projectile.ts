@@ -5,7 +5,7 @@ import Vector from "../../core/vector";
 import { GLOBAL, SOCKET } from "../../lib/global";
 import { inBetween } from "../../lib/utils";
 
-class Bullet extends Entity {
+class Projectile extends Entity {
   public angle: number;
   public speed: number;
   public date: number = new Date().getTime();
@@ -50,4 +50,4 @@ class Bullet extends Entity {
     Canvas.fillRect(this.rect);
   }
 }
-export default Bullet;
+export default Projectile;

@@ -1,6 +1,6 @@
 import Vector from "../core/vector";
 import { Asset } from "../lib/global";
-import { Character } from "./character";
+import Character from "./character";
 
 class Enemy extends Character {
 

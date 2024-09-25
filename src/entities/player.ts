@@ -3,8 +3,8 @@ import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
 import { Asset, GLOBAL, SOCKET } from "../lib/global";
-import { Character } from "./character";
-import Gun from "./weapons/gun";
+import Character from "./character";
+import Ranged from "./weapons/ranged";
 import Weapon from "./weapons/weapon";
 
 class Player extends Character {
@@ -17,7 +17,7 @@ class Player extends Character {
     position: Vector = new Vector(0, 0),
     speed: number = 5,
     life: number = 100,
-    primaryWeapon: Weapon = new Gun('', new Rect(new Vector(0, 0), 0, 0), 0, 0, 0),
+    primaryWeapon: Weapon = new Ranged('', new Rect(new Vector(0, 0), 0, 0), 0, 0, 0),
   ) {
     super(sprite, action, position, life);
     this.speed = speed;
