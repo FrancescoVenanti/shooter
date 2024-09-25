@@ -37,10 +37,11 @@ class Character extends Entity {
   public draw() {
     const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
     let dy = Math.floor(this.angle / Math.PI * 2);
+
     if(dy < 0){
       dy = 4 + dy;
     }
-    console.log(dy)
+
     Canvas.imageRect(
       this.image,
       new Rect(
