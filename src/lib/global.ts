@@ -10,24 +10,32 @@ const TODO = new Proxy({}, {
 })
 
 const idle = {
-  size: 3,
+  size: 1,
   width: 60,
-  height: 60
+  height: 60,
+  start: 0,
+  directions: 4
 }
 const attack = {
   size: 4,
   width: 60,
-  height: 60
+  height: 60,
+  start: 2,
+  directions: 4
 }
 const run = {
   size: 4,
   width: 60,
-  height: 60
+  height: 60,
+  start: 1,
+  directions: 4
 }
 const death = {
   size: 4,
   width: 60,
-  height: 60
+  height: 60,
+  start: 3,
+  directions: 1
 }
 
 const ASSETS = {
@@ -120,7 +128,7 @@ const globals = {
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
-  PLAYER: new Player('dwarf', "attack"),
+  PLAYER: new Player('dwarf', "idle"),
   ZOOM: 1
 };
 

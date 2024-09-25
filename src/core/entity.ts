@@ -4,7 +4,7 @@ import { Directions } from "../types/general";
 import Rect from "./rect";
 import Vector from "./vector";
 
-class Entity {
+class Entity  {
   public rect: Rect;
   public image: string;
   public imageRect: Rect;

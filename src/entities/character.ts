@@ -35,13 +35,18 @@ class Character extends Entity {
   }
 
   public draw() {
-    const {width, height, size} = ASSETS['character'][this.sprite][this.action];
+    const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
+    let dy = Math.floor(this.angle / Math.PI * 2);
+    if(dy < 0){
+      dy = 4 + dy;
+    }
+    console.log(dy)
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width + width / 4, 6 * height + height / 2),
-        width - width / 4,
-        height / 2
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height - 6),
+        width,
+        height
       ),
       new Rect(this.rect.position, width / GLOBAL('ZOOM'), height / GLOBAL('ZOOM'))
     );
@@ -61,4 +66,4 @@ class Character extends Entity {
   }
 }
 
-export default Character;
+export default Character ;
