@@ -4,6 +4,7 @@ import Rect from "../core/rect";
 import Vector from "../core/vector";
 import { Asset, GLOBAL, SOCKET } from "../lib/global";
 import Character from "./character";
+import Melee from "./weapons/melee";
 import Ranged from "./weapons/ranged";
 import Weapon from "./weapons/weapon";
 
@@ -17,7 +18,12 @@ class Player extends Character {
     position: Vector = new Vector(0, 0),
     speed: number = 5,
     life: number = 100,
-    primaryWeapon: Weapon = new Ranged('', new Rect(new Vector(0, 0), 0, 0), 0, 0, 0),
+    primaryWeapon: Weapon = new Melee(
+      new Rect(new Vector(0, 0), 0, 0),
+      50,
+      50,
+      50
+    )
   ) {
     super(sprite, action, position, life);
     this.speed = speed;
@@ -32,7 +38,7 @@ class Player extends Character {
     if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
     if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
     if (GLOBAL("KEY_PRESSED").has(" ")) {
-      this.action = 'attack';
+      this.action = "attack";
       this.attack();
     }
 
@@ -51,11 +57,13 @@ class Player extends Character {
   }
 
   public move(angle: number) {
-    let allowedDirections = this.checkCollision(Array.from(GLOBAL('ENEMIES').values()));
+    let allowedDirections = this.checkCollision(
+      Array.from(GLOBAL("ENEMIES").values())
+    );
     this.angle = angle;
     const offset = new Vector(
-      Math.cos(this.angle) * this.speed * GLOBAL("DELTA") / GLOBAL("ZOOM"),
-      Math.sin(this.angle) * this.speed * GLOBAL("DELTA") / GLOBAL("ZOOM")
+      (Math.cos(this.angle) * this.speed * GLOBAL("DELTA")) / GLOBAL("ZOOM"),
+      (Math.sin(this.angle) * this.speed * GLOBAL("DELTA")) / GLOBAL("ZOOM")
     );
     if (offset.x > 0 && allowedDirections.get("right")) {
       if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {

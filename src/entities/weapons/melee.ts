@@ -11,7 +11,7 @@ class Melee extends Weapon {
   constructor(
     rect: Rect,
     damage: number,
-    range: number,
+    range: number = 50,
     speed: number,
     rate: number = 1,
     magazineSize: number = 1,
@@ -41,3 +41,5 @@ class Melee extends Weapon {
     this.reloadStartTime = now;
   }
 }
+
+export default Melee;
