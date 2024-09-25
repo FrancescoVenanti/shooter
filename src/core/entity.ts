@@ -14,13 +14,12 @@ class Entity {
   }
 
   public collide(entity: Entity) {
-    let allowedDirections: Map<Directions, boolean> =
-      new Map([
-        ["up", true],
-        ["down", true],
-        ["left", true],
-        ["right", true],
-      ]);
+    let allowedDirections: Map<Directions, boolean> = new Map([
+      ["up", true],
+      ["down", true],
+      ["left", true],
+      ["right", true],
+    ]);
     const isOverlapping = (
       axis: "x" | "y",
       playerPosition: Vector,
@@ -71,9 +70,16 @@ class Entity {
     return allowedDirections;
   }
 
-  public hasCollision({rect: { position, width, height }}: Entity): boolean{
-    if(inBetween(this.rect.position.x, position.x, position.x + width) && inBetween(this.rect.position.y, position.y, position.y + height)) return true
+  public hasCollision({ rect: { position, width, height } }: Entity): boolean {
+    if (
+      inBetween(this.rect.position.x, position.x, position.x + width) &&
+      inBetween(this.rect.position.y, position.y, position.y + height)
+    )
+      return true;
     return false;
+  }
+  public draw() {
+    throw new Error("Method not implemented.");
   }
 }
 
