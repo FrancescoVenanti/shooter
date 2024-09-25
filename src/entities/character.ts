@@ -43,7 +43,7 @@ class Character extends Entity {
         width - width / 4,
         height / 2
       ),
-      this.rect
+      new Rect(this.rect.position, width / GLOBAL('ZOOM'), height / GLOBAL('ZOOM'))
     );
   }
 

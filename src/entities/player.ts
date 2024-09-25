@@ -54,8 +54,8 @@ class Player extends Character {
     let allowedDirections = this.checkCollision(Array.from(GLOBAL('ENEMIES').values()));
     this.angle = angle;
     const offset = new Vector(
-      Math.cos(this.angle) * this.speed * GLOBAL("DELTA"),
-      Math.sin(this.angle) * this.speed * GLOBAL("DELTA")
+      Math.cos(this.angle) * this.speed * GLOBAL("DELTA") / GLOBAL("ZOOM"),
+      Math.sin(this.angle) * this.speed * GLOBAL("DELTA") / GLOBAL("ZOOM")
     );
     if (offset.x > 0 && allowedDirections.get("right")) {
       if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {

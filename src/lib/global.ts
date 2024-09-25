@@ -116,6 +116,7 @@ const globals = {
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
   PLAYER: new Player('dwarf', "attack"),
+  ZOOM: 1
 };
 
 function GLOBAL<T extends keyof typeof globals>(
