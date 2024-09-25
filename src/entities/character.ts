@@ -36,11 +36,12 @@ class Character extends Entity {
 
   public draw() {
     const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
-    let dy = Math.floor(this.angle / Math.PI * 2);
+    let dy = (4 - Math.floor(this.angle / Math.PI * 2)) % 4;
 
-    if(dy < 0){
-      dy = 4 + dy;
-    }
+    // if(dy < 0){
+    //   dy = 4 + dy;
+    // }
+    console.log(dy)
 
     Canvas.imageRect(
       this.image,
@@ -51,6 +52,9 @@ class Character extends Entity {
       ),
       new Rect(this.rect.position, width / GLOBAL('ZOOM'), height / GLOBAL('ZOOM'))
     );
+    if(this.action === 'attack' && Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) === size - 1){
+      this.action = 'idle';
+    }
   }
 
   public changePosition(newPosition: Vector, angle: number) {
