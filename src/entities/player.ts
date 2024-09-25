@@ -21,7 +21,7 @@ class Player extends Character {
     primaryWeapon: Weapon = new Melee(
       new Rect(new Vector(0, 0), 0, 0),
       50,
-      50,
+      1000,
       50
     )
   ) {

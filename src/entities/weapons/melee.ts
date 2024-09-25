@@ -29,6 +29,8 @@ class Melee extends Weapon {
     if (timeSinceLastShot >= minTimeBetweenShots) {
       //todo
       GLOBAL("ENEMIES").forEach((enemy) => {
+        console.log(this.rect.getDistance(enemy.rect));
+        console.log(this.range);
         if (this.rect.getDistance(enemy.rect)[1] < this.range) {
           console.log("hit");
         }
