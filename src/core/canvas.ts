@@ -82,6 +82,8 @@ export class Canvas {
     const imagePath = image.split("/").slice(-2).join("/");
     if (GLOBAL("CACHED_IMAGE").has(imagePath)) {
       currentImage = GLOBAL("CACHED_IMAGE").get(imagePath)!;
+    } else {
+      console.error(`Image ${imagePath} not found`);
     }
     Canvas.ctx.drawImage(currentImage, sx, sy, sw, sh, dx, dy, dw, dh);
   }

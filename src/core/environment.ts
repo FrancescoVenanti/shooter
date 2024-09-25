@@ -7,8 +7,10 @@ import Vector from "./vector";
 class Environment {
   static SIZE: number = 16;
   static tileGrowth: number = 3;
-  public tiles: Tile[][] = [];
-  constructor() {}
+  private tiles: Tile[][] = [];
+  constructor() {
+    this.generateEnvironment();
+  }
   public drawTile<T extends TileType>(
     tile: T,
     col: Range<(typeof tiles)[T]["width"]>,
@@ -31,24 +33,21 @@ class Environment {
     );
   }
   public generateEnvironment() {
-    for (
-      let y = 0;
-      y < Canvas.canvas.height / Environment.SIZE / Environment.tileGrowth;
-      y++
-    ) {
+    for (let y = 0; y < 100; y++) {
       this.tiles.push([]);
-      for (
-        let x = 0;
-        x < Canvas.canvas.width / Environment.SIZE / Environment.tileGrowth;
-        x++
-      ) {
-        const x = new Tile(
-          "grassMiddle",
-          new Rect(new Vector(0, 0), Environment.SIZE, Environment.SIZE),
-          0,
-          0
+      for (let x = 0; x < 100; x++) {
+        this.tiles[y].push(
+          new Tile(
+            "grassMiddle",
+            new Rect(
+              new Vector(Environment.SIZE * x, Environment.SIZE * y),
+              Environment.SIZE,
+              Environment.SIZE
+            ),
+            0,
+            0
+          )
         );
-        this.tiles[y].push(x);
       }
     }
   }
@@ -75,11 +74,7 @@ class Environment {
         );
       }
     } */
-    this.tiles.forEach((row, y) => {
-      row.forEach((tile, x) => {
-        tile.draw();
-      });
-    });
+    this.tiles.forEach((row) => row.forEach((tile) => tile.draw()));
   }
 }
 

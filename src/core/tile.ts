@@ -6,6 +6,7 @@ import Rect from "./rect";
 import Vector from "./vector";
 
 class Tile extends Entity {
+  public tile: keyof Asset["environment"];
   constructor(
     tile: keyof Asset["environment"],
     rect: Rect,
@@ -14,10 +15,11 @@ class Tile extends Entity {
     widthImage: number = rect.width,
     heightImage: number = rect.height
   ) {
-    super(`/assets/environment/${tile}.png`, rect);
+    super(`environment/${tile}.png`, rect);
+    this.tile = tile;
   }
   public draw() {
-    const { width, height } = ASSETS["environment"][this.image];
+    const { width, height } = ASSETS["environment"][this.tile];
     Canvas.imageRect(
       this.image,
       new Rect(new Vector(0, 0), width, height),
