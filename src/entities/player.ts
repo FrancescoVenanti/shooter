@@ -17,16 +17,11 @@ class Player extends Character {
     action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
     speed: number = 5,
-    life: number = 100,
-    primaryWeapon: Weapon = new Melee(
-      new Rect(new Vector(0, 0), 0, 0),
-      50,
-      1000,
-      50
-    )
+    life: number = 100
   ) {
     super(sprite, action, position, life);
     this.speed = speed;
+    const primaryWeapon: Weapon = new Melee(this.rect, 50, 1000, 50);
     this.primaryWeapon = primaryWeapon;
   }
 
