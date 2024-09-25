@@ -30,8 +30,31 @@ class Environment {
       )
     );
   }
-  public draw() {
+  public generateEnvironment() {
     for (
+      let y = 0;
+      y < Canvas.canvas.height / Environment.SIZE / Environment.tileGrowth;
+      y++
+    ) {
+      this.tiles.push([]);
+      for (
+        let x = 0;
+        x < Canvas.canvas.width / Environment.SIZE / Environment.tileGrowth;
+        x++
+      ) {
+        const x = new Tile(
+          "grassMiddle",
+          new Rect(new Vector(0, 0), Environment.SIZE, Environment.SIZE),
+          0,
+          0
+        );
+        this.tiles[y].push(x);
+      }
+    }
+  }
+
+  public draw() {
+    /* for (
       let y = 0;
       y < Canvas.canvas.height / Environment.SIZE / Environment.tileGrowth;
       y++
@@ -51,7 +74,12 @@ class Environment {
           )
         );
       }
-    }
+    } */
+    this.tiles.forEach((row, y) => {
+      row.forEach((tile, x) => {
+        tile.draw();
+      });
+    });
   }
 }
 
