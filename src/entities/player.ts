@@ -1,7 +1,9 @@
 import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
+import { Environment } from "../core/environment";
 import Vector from "../core/vector";
 import { Asset, GLOBAL, SOCKET } from "../lib/global";
+import { inBetween } from "../lib/utils";
 import Character from "./character";
 import Melee from "./weapons/melee";
 import Weapon from "./weapons/weapon";
@@ -18,10 +20,6 @@ class Player extends Character {
   ) {
     super(sprite, action, new Vector(0, 0), life);
     this.speed = speed;
-    // this.rect.position = new Vector(
-    //   Canvas.canvas.width / 2 - this.rect.width / 2,
-    //   Canvas.canvas.height / 2 - this.rect.height / 2
-    // );
     const primaryWeapon: Weapon = new Melee(this.rect, 50, 1000, 50);
     this.primaryWeapon = primaryWeapon;
   }
@@ -63,10 +61,12 @@ class Player extends Character {
       (Math.cos(this.angle) * this.speed * GLOBAL("DELTA")) / GLOBAL("ZOOM"),
       (Math.sin(this.angle) * this.speed * GLOBAL("DELTA")) / GLOBAL("ZOOM")
     );
-    if (offset.x > 0 && allowedDirections.get("right")) {
-      if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
-        GLOBAL("POSITION").x += offset.x;
-        // this.rect.position.x += offset.x;
+    if(inBetween(GLOBAL('POSITION').x + offset.x, -this.rect.position.x, Environment.WIDTH * Environment.TILE_GROWTH * Environment.SIZE - this.rect.position.x - this.rect.width)) {
+
+      if (offset.x > 0 && allowedDirections.get("right")) {
+        if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
+          GLOBAL("POSITION").x += offset.x;
+          // this.rect.position.x += offset.x;
       }
     }
     if (offset.x < 0 && allowedDirections.get("left")) {
@@ -75,7 +75,8 @@ class Player extends Character {
         // this.rect.position.x += offset.x;
       }
     }
-
+  }
+  if(inBetween(GLOBAL('POSITION').y + offset.y, -this.rect.position.y, Environment.HEIGHT * Environment.TILE_GROWTH * Environment.SIZE - this.rect.position.y - this.rect.height)) {
     if (offset.y > 0 && allowedDirections.get("down")) {
       if (this.rect.position.y + this.rect.height < Canvas.canvas.height) {
         GLOBAL("POSITION").y += offset.y;
@@ -89,6 +90,7 @@ class Player extends Character {
       }
     }
   }
+}
 
   public checkCollision(entities: Entity[]) {
     const allowedDirections = new Map([

@@ -6,6 +6,8 @@ import Vector from "./vector";
 
 class Environment {
   static SIZE: number = 16;
+  static WIDTH: number = 50;
+  static HEIGHT: number = 50;
   static TILE_GROWTH: number = 3;
   private tiles: Tile[][] = [];
   constructor() {
@@ -33,12 +35,12 @@ class Environment {
     );
   }
   public generateEnvironment() {
-    for (let y = 0; y < 50; y++) {
+    for (let y = 0; y < Environment.HEIGHT; y++) {
       this.tiles.push([]);
-      for (let x = 0; x < 50; x++) {
+      for (let x = 0; x < Environment.WIDTH; x++) {
         this.tiles[y].push(
           new Tile(
-            (x + y) % 2 == 0 ? "grassMiddle" : 'pathMiddle',
+            (['grassMiddle', 'waterMiddle', 'pathMiddle'] as const)[Math.floor(Math.random() * 3)] ,
             new Rect(
               new Vector((Environment.SIZE * Environment.TILE_GROWTH) * x, (Environment.SIZE * Environment.TILE_GROWTH) * y),
               Environment.SIZE * Environment.TILE_GROWTH,

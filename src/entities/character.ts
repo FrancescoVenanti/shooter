@@ -47,15 +47,15 @@ class Character extends Entity {
       new Rect(
         new Vector(
           Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) * width,
-          start * height * 4 + dy * height
+          start * height * 4 + dy * height + height / 6
         ),
         width,
         height
       ),
       new Rect(
         this.rect.position,
-        width / GLOBAL("ZOOM"),
-        height / GLOBAL("ZOOM")
+        width / GLOBAL("ZOOM") * 1.2,
+        height / GLOBAL("ZOOM") * 1.2
       )
     );
     if (
