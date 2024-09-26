@@ -18,10 +18,10 @@ class Player extends Character {
   ) {
     super(sprite, action, new Vector(0, 0), life);
     this.speed = speed;
-    this.rect.position = new Vector(
-      window.innerWidth / 2 - this.rect.width / 2,
-      window.innerHeight / 2 - this.rect.height / 2
-    );
+    // this.rect.position = new Vector(
+    //   Canvas.canvas.width / 2 - this.rect.width / 2,
+    //   Canvas.canvas.height / 2 - this.rect.height / 2
+    // );
     const primaryWeapon: Weapon = new Melee(this.rect, 50, 1000, 50);
     this.primaryWeapon = primaryWeapon;
   }
@@ -29,7 +29,7 @@ class Player extends Character {
   public update() {
     let dx = 0;
     let dy = 0;
-    if(this.action !== 'attack') {
+    if (this.action !== "attack") {
       if (GLOBAL("KEY_PRESSED").has("w")) dy -= 1;
       if (GLOBAL("KEY_PRESSED").has("s")) dy += 1;
       if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
@@ -44,8 +44,8 @@ class Player extends Character {
       const angle = Math.atan2(dy, dx);
       this.move(angle);
       SOCKET.emit("room", "move", {
-        x: this.rect.position.x,
-        y: this.rect.position.y,
+        x: GLOBAL("POSITION").x,
+        y: GLOBAL('POSITION').y,
         id: this.id,
         angle,
       });

@@ -1,12 +1,20 @@
 import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
+import Vector from "./core/vector";
 import { GLOBAL } from "./lib/global";
 import { loadSprites } from "./lib/utils";
 
 const ENVIRONMENT = new Environment();
 (function main() {
   Canvas.init();
+  GLOBAL("PLAYER", (prev) => {
+    prev.rect.position = new Vector(
+      Canvas.canvas.width / 2 - prev.rect.width / 2,
+      Canvas.canvas.height / 2 - prev.rect.height / 2
+    );
+    return prev;
+  });
   loadSprites();
   listeners();
   Promise.all(
@@ -24,16 +32,15 @@ function loop(delay?: number) {
   Canvas.ctx.clearRect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
   ENVIRONMENT.draw();
 
-  for (const enemy of GLOBAL('ENEMIES').values()) {
+  for (const enemy of GLOBAL("ENEMIES").values()) {
     enemy.draw();
   }
 
-
   GLOBAL("DELTA", (delay1 - delay2) / 10);
 
-  GLOBAL('PLAYER').update();
+  GLOBAL("PLAYER").update();
 
   GLOBAL("FPS", 100 / GLOBAL("DELTA"));
-  GLOBAL("FRAME", (prev) => (prev + 1) % GLOBAL('FPS'));
+  GLOBAL("FRAME", (prev) => (prev + 1) % GLOBAL("FPS"));
   requestAnimationFrame(loop);
 }

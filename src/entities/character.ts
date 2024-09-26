@@ -34,15 +34,21 @@ class Character extends Entity {
     TODO;
   }
 
-  public draw() {
-    const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
+  public draw(offset: Vector = new Vector(0, 0)) {
+    const { width, height, size, start } =
+      ASSETS["character"][this.sprite][this.action];
+    const dy = (4 - Math.floor((this.angle / Math.PI) * 2)) % 4;
 
-    const dy = (4 - Math.floor(this.angle / Math.PI * 2)) % 4;
+    this.rect.position.x += offset.x;
+    this.rect.position.y += offset.y;
 
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height),
+        new Vector(
+          Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) * width,
+          start * height * 4 + dy * height
+        ),
         width,
         height
       ),
