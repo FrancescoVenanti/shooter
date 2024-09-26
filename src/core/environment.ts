@@ -38,7 +38,7 @@ class Environment {
       for (let x = 0; x < 50; x++) {
         this.tiles[y].push(
           new Tile(
-            "grassMiddle",
+            (x + y) % 2 == 0 ? "grassMiddle" : 'pathMiddle',
             new Rect(
               new Vector((Environment.SIZE * Environment.TILE_GROWTH) * x, (Environment.SIZE * Environment.TILE_GROWTH) * y),
               Environment.SIZE * Environment.TILE_GROWTH,
