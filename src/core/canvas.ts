@@ -52,7 +52,13 @@ export class Canvas {
     Canvas.ctx.rect(x, y, w || this.canvas.width, h || this.canvas.height);
     // Canvas.ctx.stroke();
   }
-  static fillRect({ position: { x, y }, width: w, height: h }: Rect): void {
+  static fillRect(rect: Rect): void {
+    if (!rect.collide(this.getCanvasRect())) return;
+    const {
+      position: { x, y },
+      width: w,
+      height: h,
+    } = rect;
     // Canvas.ctx.beginPath();
     Canvas.ctx.fillRect(x, y, w || this.canvas.width, h || this.canvas.height);
     // Canvas.ctx.stroke();
@@ -61,10 +67,13 @@ export class Canvas {
     Canvas.ctx.font = "30px Arial";
     Canvas.ctx.fillText(text, x, y);
   }
-  static image(
-    image: string,
-    { position: { x, y }, width: w, height: h }: Rect
-  ): void {
+  static image(image: string, rect: Rect): void {
+    if (!rect.collide(this.getCanvasRect())) return;
+    const {
+      position: { x, y },
+      width: w,
+      height: h,
+    } = rect;
     let currentImage: HTMLImageElement | undefined = undefined;
     const imagePath = image.split("/").slice(-2).join("/");
     if (GLOBAL("CACHED_IMAGE").has(imagePath)) {
@@ -76,8 +85,14 @@ export class Canvas {
   static imageRect(
     image: string,
     { position: { x: sx, y: sy }, width: sw, height: sh }: Rect,
-    { position: { x: dx, y: dy }, width: dw, height: dh }: Rect
+    rect: Rect
   ) {
+    if (!rect.collide(this.getCanvasRect())) return;
+    const {
+      position: { x: dx, y: dy },
+      width: dw,
+      height: dh,
+    } = rect;
     let currentImage: HTMLImageElement | undefined = undefined;
     const imagePath = image.split("/").slice(-2).join("/");
     if (GLOBAL("CACHED_IMAGE").has(imagePath)) {
@@ -95,5 +110,13 @@ export class Canvas {
     setTimeout(() => {
       Canvas.ctx.clearRect(x, y, w, h);
     }, 1);
+  }
+
+  static getCanvasRect(): Rect {
+    return new Rect(
+      new Vector(0, 0),
+      this.canvas.width - 0,
+      this.canvas.height - 0
+    );
   }
 }

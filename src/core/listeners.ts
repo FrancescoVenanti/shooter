@@ -5,16 +5,18 @@ import { Canvas } from "./canvas";
 import Rect from "./rect";
 import Vector from "./vector";
 
+const PADDING = 20;
+
 export default function listeners() {
   window.addEventListener("resize", (e) => {
-    Canvas.canvas.width = window.innerWidth;
-    Canvas.canvas.height = window.innerHeight;
+    Canvas.canvas.width = window.innerWidth - PADDING;
+    Canvas.canvas.height = window.innerHeight - PADDING;
     GLOBAL("ZOOM", window.devicePixelRatio);
   });
 
   window.addEventListener("DOMContentLoaded", (e) => {
-    Canvas.canvas.width = window.innerWidth;
-    Canvas.canvas.height = window.innerHeight;
+    Canvas.canvas.width = window.innerWidth - PADDING;
+    Canvas.canvas.height = window.innerHeight - PADDING;
   });
   window.addEventListener("keydown", (e) =>
     GLOBAL("KEY_PRESSED").set(e.key.toLowerCase(), true)

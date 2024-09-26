@@ -26,6 +26,15 @@ class Rect {
     );
   }
 
+  public collide(rect: Rect): boolean {
+    return (
+      this.position.x < rect.position.x + rect.width &&
+      this.position.x + this.width > rect.position.x &&
+      this.position.y < rect.position.y + rect.height &&
+      this.position.y + this.height > rect.position.y
+    );
+  }
+
   public getClosestPoint(r: Rect): Vector {
     const center = this.getCenter();
     if (inBetween(center.x, r.position.x, r.position.x + r.width)) {
