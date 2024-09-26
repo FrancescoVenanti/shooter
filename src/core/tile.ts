@@ -15,15 +15,21 @@ class Tile extends Entity {
     widthImage: number = rect.width,
     heightImage: number = rect.height
   ) {
-    super(`environment/${tile}.png`, rect);
-    this.tile = tile;
+    super(`environment/${tile}.png`, rect), (this.tile = tile);
   }
   public draw() {
     const { width, height } = ASSETS["environment"][this.tile];
     Canvas.imageRect(
       this.image,
       new Rect(new Vector(0, 0), width, height),
-      new Rect(this.rect.position, this.rect.width * GLOBAL("ZOOM"), this.rect.height * GLOBAL("ZOOM"))
+      new Rect(
+        new Vector(
+          this.rect.position.x - GLOBAL("POSITION").x,
+          this.rect.position.y - GLOBAL("POSITION").y
+        ),
+        this.rect.width * GLOBAL("ZOOM"),
+        this.rect.height * GLOBAL("ZOOM")
+      )
     );
   }
 }

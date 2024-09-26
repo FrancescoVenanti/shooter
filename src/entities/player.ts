@@ -15,12 +15,15 @@ class Player extends Character {
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
-    position: Vector = new Vector(0, 0),
     speed: number = 5,
     life: number = 100
   ) {
-    super(sprite, action, position, life);
+    super(sprite, action, new Vector(0, 0), life);
     this.speed = speed;
+    this.rect.position = new Vector(
+      window.innerWidth / 2 - this.rect.width / 2,
+      window.innerHeight / 2 - this.rect.height / 2
+    );
     const primaryWeapon: Weapon = new Melee(this.rect, 50, 1000, 50);
     this.primaryWeapon = primaryWeapon;
   }
@@ -62,23 +65,27 @@ class Player extends Character {
     );
     if (offset.x > 0 && allowedDirections.get("right")) {
       if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
-        this.rect.position.x += offset.x;
+        GLOBAL("POSITION").x += offset.x;
+        // this.rect.position.x += offset.x;
       }
     }
     if (offset.x < 0 && allowedDirections.get("left")) {
       if (this.rect.position.x > 0) {
-        this.rect.position.x += offset.x;
+        GLOBAL("POSITION").x += offset.x;
+        // this.rect.position.x += offset.x;
       }
     }
 
     if (offset.y > 0 && allowedDirections.get("down")) {
       if (this.rect.position.y + this.rect.height < Canvas.canvas.height) {
-        this.rect.position.y += offset.y;
+        GLOBAL("POSITION").y += offset.y;
+        // this.rect.position.y += offset.y;
       }
     }
     if (offset.y < 0 && allowedDirections.get("up")) {
       if (this.rect.position.y > 0) {
-        this.rect.position.y += offset.y;
+        GLOBAL("POSITION").y += offset.y;
+        // this.rect.position.y += offset.y;
       }
     }
   }

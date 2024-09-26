@@ -31,29 +31,35 @@ class Character extends Entity {
   }
 
   public update() {
-    TODO
+    TODO;
   }
 
   public draw() {
-    const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
-    let dy = (4 - Math.floor(this.angle / Math.PI * 2)) % 4;
-
-    // if(dy < 0){
-    //   dy = 4 + dy;
-    // }
-    console.log(dy)
+    const { width, height, size, start } =
+      ASSETS["character"][this.sprite][this.action];
+    let dy = (4 - Math.floor((this.angle / Math.PI) * 2)) % 4;
 
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height),
+        new Vector(
+          Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) * width,
+          start * height * 4 + dy * height
+        ),
         width,
         height
       ),
-      new Rect(this.rect.position, width / GLOBAL('ZOOM'), height / GLOBAL('ZOOM'))
+      new Rect(
+        this.rect.position,
+        width / GLOBAL("ZOOM"),
+        height / GLOBAL("ZOOM")
+      )
     );
-    if(this.action === 'attack' && Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) === size - 1){
-      this.action = 'idle';
+    if (
+      this.action === "attack" &&
+      Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) === size - 1
+    ) {
+      this.action = "idle";
     }
   }
 
@@ -71,4 +77,4 @@ class Character extends Entity {
   }
 }
 
-export default Character ;
+export default Character;
