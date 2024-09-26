@@ -31,7 +31,7 @@ class Character extends Entity {
   }
 
   public update() {
-    TODO
+    TODO;
   }
 
   public draw() {
@@ -42,14 +42,21 @@ class Character extends Entity {
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width + width / 6, start * height * 4 + dy * height + height / 6),
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height),
         width,
         height
       ),
-      new Rect(this.rect.position, width / GLOBAL('ZOOM'), height / GLOBAL('ZOOM'))
+      new Rect(
+        this.rect.position,
+        width / GLOBAL("ZOOM"),
+        height / GLOBAL("ZOOM")
+      )
     );
-    if(this.action === 'attack' && Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) === size - 1){
-      this.action = 'idle';
+    if (
+      this.action === "attack" &&
+      Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) === size - 1
+    ) {
+      this.action = "idle";
     }
   }
 
@@ -67,4 +74,4 @@ class Character extends Entity {
   }
 }
 
-export default Character ;
+export default Character;

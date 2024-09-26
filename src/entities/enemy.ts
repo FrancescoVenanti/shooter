@@ -1,5 +1,5 @@
 import Vector from "../core/vector";
-import { Asset } from "../lib/global";
+import { Asset, GLOBAL } from "../lib/global";
 import Character from "./character";
 
 class Enemy extends Character {
@@ -12,6 +12,14 @@ class Enemy extends Character {
   ) {
     super(sprite, action, position, life);
     this.angle = angle;
+  }
+
+  public draw() {
+    (this.rect.position = new Vector(
+      this.rect.position.x - GLOBAL("POSITION").x,
+      this.rect.position.y - GLOBAL("POSITION").y
+    )),
+      super.draw();
   }
 }
 

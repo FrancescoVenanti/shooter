@@ -1,42 +1,46 @@
 import { io } from "socket.io-client";
+import Vector from "../core/vector";
 import Enemy from "../entities/enemy";
 import Player from "../entities/player";
 import { SocketClient } from "./socket";
 
-const TODO = new Proxy({}, {
-  get(target, p, receiver) {
-    throw new Error("TODO");
-  },
-})
+const TODO = new Proxy(
+  {},
+  {
+    get(target, p, receiver) {
+      throw new Error("TODO");
+    },
+  }
+);
 
 const idle = {
   size: 1,
   width: 60,
   height: 60,
   start: 0,
-  directions: 4
-}
+  directions: 4,
+};
 const attack = {
   size: 4,
   width: 60,
   height: 60,
   start: 2,
-  directions: 4
-}
+  directions: 4,
+};
 const run = {
   size: 4,
   width: 60,
   height: 60,
   start: 1,
-  directions: 4
-}
+  directions: 4,
+};
 const death = {
   size: 4,
   width: 60,
   height: 60,
   start: 3,
-  directions: 1
-}
+  directions: 1,
+};
 
 const shot = {
 
@@ -85,32 +89,32 @@ const ASSETS = {
       idle,
       attack,
       death,
-      run
+      run,
     },
     wizard: {
       idle,
       attack,
       death,
-      run
+      run,
     },
     slime: {
       idle,
       attack,
       death,
-      run
+      run,
     },
     shroom: {
       idle,
       attack,
       death,
-      run
+      run,
     },
     ghast: {
       idle,
       attack,
       death,
-      run
-    }
+      run,
+    },
   },
 } as const;
 
@@ -132,6 +136,9 @@ const globals = {
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
+  PLAYER: new Player("dwarf", "run"),
+  ZOOM: 1,
+  POSITION: new Vector(0, 0),
   PLAYER: new Player('wizard', "idle"),
   ZOOM: 1
 };
