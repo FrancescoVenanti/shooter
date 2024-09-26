@@ -36,17 +36,13 @@ class Character extends Entity {
 
   public draw() {
     const {width, height, size, start} = ASSETS['character'][this.sprite][this.action];
-    let dy = (4 - Math.floor(this.angle / Math.PI * 2)) % 4;
 
-    // if(dy < 0){
-    //   dy = 4 + dy;
-    // }
-    console.log(dy)
+    const dy = (4 - Math.floor(this.angle / Math.PI * 2)) % 4;
 
     Canvas.imageRect(
       this.image,
       new Rect(
-        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width, start * height * 4 + dy * height),
+        new Vector(Math.floor((GLOBAL("FRAME") / GLOBAL('FPS')) * size) * width + width / 6, start * height * 4 + dy * height + height / 6),
         width,
         height
       ),

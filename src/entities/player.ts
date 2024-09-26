@@ -1,11 +1,9 @@
 import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
-import Rect from "../core/rect";
 import Vector from "../core/vector";
 import { Asset, GLOBAL, SOCKET } from "../lib/global";
 import Character from "./character";
 import Melee from "./weapons/melee";
-import Ranged from "./weapons/ranged";
 import Weapon from "./weapons/weapon";
 
 class Player extends Character {
@@ -28,10 +26,12 @@ class Player extends Character {
   public update() {
     let dx = 0;
     let dy = 0;
-    if (GLOBAL("KEY_PRESSED").has("w")) dy -= 1;
-    if (GLOBAL("KEY_PRESSED").has("s")) dy += 1;
-    if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
-    if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
+    if(this.action !== 'attack') {
+      if (GLOBAL("KEY_PRESSED").has("w")) dy -= 1;
+      if (GLOBAL("KEY_PRESSED").has("s")) dy += 1;
+      if (GLOBAL("KEY_PRESSED").has("a")) dx -= 1;
+      if (GLOBAL("KEY_PRESSED").has("d")) dx += 1;
+    }
     if (GLOBAL("KEY_PRESSED").has(" ")) {
       this.action = "attack";
       this.attack();

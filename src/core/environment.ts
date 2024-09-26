@@ -6,7 +6,7 @@ import Vector from "./vector";
 
 class Environment {
   static SIZE: number = 16;
-  static tileGrowth: number = 3;
+  static TILE_GROWTH: number = 3;
   private tiles: Tile[][] = [];
   constructor() {
     this.generateEnvironment();
@@ -27,22 +27,22 @@ class Environment {
       ),
       new Rect(
         drawPoint,
-        Environment.SIZE * Environment.tileGrowth,
-        Environment.SIZE * Environment.tileGrowth
+        Environment.SIZE * Environment.TILE_GROWTH,
+        Environment.SIZE * Environment.TILE_GROWTH
       )
     );
   }
   public generateEnvironment() {
-    for (let y = 0; y < 100; y++) {
+    for (let y = 0; y < 50; y++) {
       this.tiles.push([]);
-      for (let x = 0; x < 100; x++) {
+      for (let x = 0; x < 50; x++) {
         this.tiles[y].push(
           new Tile(
             "grassMiddle",
             new Rect(
-              new Vector(Environment.SIZE * x, Environment.SIZE * y),
-              Environment.SIZE,
-              Environment.SIZE
+              new Vector((Environment.SIZE * Environment.TILE_GROWTH) * x, (Environment.SIZE * Environment.TILE_GROWTH) * y),
+              Environment.SIZE * Environment.TILE_GROWTH,
+              Environment.SIZE * Environment.TILE_GROWTH
             ),
             0,
             0

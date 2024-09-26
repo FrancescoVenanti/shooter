@@ -38,6 +38,10 @@ const death = {
   directions: 1
 }
 
+const shot = {
+
+}
+
 const ASSETS = {
   environment: {
     grassMiddle: {
@@ -128,7 +132,7 @@ const globals = {
   ASSETS,
   ENEMIES: new Map<string, Enemy>(),
   FPS: 60,
-  PLAYER: new Player('dwarf', "run"),
+  PLAYER: new Player('wizard', "idle"),
   ZOOM: 1
 };
 

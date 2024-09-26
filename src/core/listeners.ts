@@ -30,7 +30,7 @@ export default function listeners() {
     } else {
       GLOBAL("ENEMIES").set(
         id,
-        new Enemy("wizard", "run", new Vector(x, y), 100)
+        new Enemy("dwarf", "run", new Vector(x, y), 100)
       );
     }
   });
