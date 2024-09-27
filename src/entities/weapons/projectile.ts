@@ -2,7 +2,7 @@ import { Canvas } from "../../core/canvas";
 import Entity from "../../core/entity";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import { GLOBAL, SOCKET } from "../../lib/global";
+import { GLOBAL, SOCKET, WEAPON } from "../../lib/global";
 import { inBetween } from "../../lib/utils";
 
 class Projectile extends Entity {
@@ -12,12 +12,15 @@ class Projectile extends Entity {
   public active: boolean = true;
 
   constructor(
-    image: string,
+    image: keyof typeof WEAPON,
     position: Vector,
     angle: number,
     speed: number = 10
   ) {
-    super(image, new Rect(position, 10, 10));
+    super(
+      `../../assets/character/${WEAPON[image]["image"]}/${WEAPON[image]["image"]}.png`,
+      new Rect(position, 10, 10)
+    );
     this.angle = angle;
     this.speed = speed;
   }
@@ -56,7 +59,24 @@ class Projectile extends Entity {
     this.draw();
   }
   public draw() {
-    Canvas.fillRect(this.rect);
+    const { width, height, size, start } = WEAPON["book"];
+    const dy = (4 - Math.floor((this.angle / Math.PI) * 2)) % 4;
+    Canvas.imageRect(
+      this.image,
+      new Rect(
+        new Vector(
+          Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) * width,
+          start * height * 4 + dy * height + height / 6
+        ),
+        width,
+        height
+      ),
+      new Rect(
+        this.rect.position,
+        (width / GLOBAL("ZOOM")) * 1.2,
+        (height / GLOBAL("ZOOM")) * 1.2
+      )
+    );
   }
 }
 export default Projectile;

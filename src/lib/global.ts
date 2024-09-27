@@ -42,10 +42,6 @@ const death = {
   directions: 1,
 };
 
-const shot = {
-
-}
-
 const ASSETS = {
   environment: {
     grassMiddle: {
@@ -118,6 +114,17 @@ const ASSETS = {
   },
 } as const;
 
+const WEAPON = {
+  book: {
+    size: 4,
+    width: 60,
+    height: 60,
+    start: 3.25,
+    directions: 1,
+    image: "wizard",
+  },
+} as const;
+
 function random(length: number = 10) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
     .replace(/[xy]/g, function (c) {
@@ -138,7 +145,7 @@ const globals = {
   FPS: 60,
   ZOOM: 1,
   POSITION: new Vector(0, 0),
-  PLAYER: new Player('wizard', "idle"),
+  PLAYER: new Player("wizard", "idle"),
 };
 
 function GLOBAL<T extends keyof typeof globals>(
@@ -164,4 +171,4 @@ const SOCKET = new SocketClient(
 
 type Asset = typeof ASSETS;
 
-export { Asset, ASSETS, GLOBAL, random, SOCKET, TODO };
+export { Asset, ASSETS, GLOBAL, random, SOCKET, TODO, WEAPON };
