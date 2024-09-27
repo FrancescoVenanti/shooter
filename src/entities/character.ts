@@ -9,7 +9,7 @@ class Character extends Entity {
   public id: string;
   public life: number = 100;
   protected sprite: keyof Asset["character"];
-  protected action: keyof Asset["character"][keyof Asset["character"]];
+  public action: keyof Asset["character"][keyof Asset["character"]];
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
@@ -39,7 +39,6 @@ class Character extends Entity {
       ASSETS["character"][this.sprite][this.action];
     const dy = (4 - Math.floor((this.angle / Math.PI) * 2)) % 4;
 
-
     Canvas.imageRect(
       this.image,
       new Rect(
@@ -51,9 +50,12 @@ class Character extends Entity {
         height
       ),
       new Rect(
-        new Vector(this.rect.position.x - offset.x, this.rect.position.y - offset.y),
-        width / GLOBAL("ZOOM") * 1.2,
-        height / GLOBAL("ZOOM") * 1.2
+        new Vector(
+          this.rect.position.x - offset.x,
+          this.rect.position.y - offset.y
+        ),
+        (width / GLOBAL("ZOOM")) * 1.2,
+        (height / GLOBAL("ZOOM")) * 1.2
       )
     );
     if (
