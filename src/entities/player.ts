@@ -41,12 +41,6 @@ class Player extends Character {
     if (dx !== 0 || dy !== 0) {
       const angle = Math.atan2(dy, dx);
       this.move(angle);
-      SOCKET.emit("room", "move", {
-        x: GLOBAL("POSITION").x,
-        y: GLOBAL('POSITION').y,
-        id: this.id,
-        angle,
-      });
     }
     this.draw();
     this.primaryWeapon.update();
@@ -90,6 +84,12 @@ class Player extends Character {
       }
     }
   }
+  SOCKET.emit("room", "move", {
+    x: GLOBAL("POSITION").x,
+    y: GLOBAL('POSITION').y,
+    id: this.id,
+    angle,
+  });
 }
 
   public checkCollision(entities: Entity[]) {

@@ -138,7 +138,7 @@ const globals = {
   FPS: 60,
   ZOOM: 1,
   POSITION: new Vector(0, 0),
-  PLAYER: new Player('wizard', "idle"),
+  PLAYER: new Player('wizard', "run"),
 };
 
 function GLOBAL<T extends keyof typeof globals>(

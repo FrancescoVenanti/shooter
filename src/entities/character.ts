@@ -39,8 +39,6 @@ class Character extends Entity {
       ASSETS["character"][this.sprite][this.action];
     const dy = (4 - Math.floor((this.angle / Math.PI) * 2)) % 4;
 
-    this.rect.position.x += offset.x;
-    this.rect.position.y += offset.y;
 
     Canvas.imageRect(
       this.image,
@@ -53,7 +51,7 @@ class Character extends Entity {
         height
       ),
       new Rect(
-        this.rect.position,
+        new Vector(this.rect.position.x - offset.x, this.rect.position.y - offset.y),
         width / GLOBAL("ZOOM") * 1.2,
         height / GLOBAL("ZOOM") * 1.2
       )
