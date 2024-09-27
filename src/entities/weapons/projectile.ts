@@ -15,7 +15,7 @@ class Projectile extends Entity {
     image: keyof typeof WEAPON,
     position: Vector,
     angle: number,
-    speed: number = 10
+    speed: number
   ) {
     super(
       `../../assets/character/${WEAPON[image]["image"]}/${WEAPON[image]["image"]}.png`,
@@ -38,7 +38,6 @@ class Projectile extends Entity {
       this.active = false;
     }
     if (!this.active) return;
-
     const offset = new Vector(
       Math.cos(this.angle) * this.speed * GLOBAL("DELTA"),
       Math.sin(this.angle) * this.speed * GLOBAL("DELTA")
@@ -59,14 +58,14 @@ class Projectile extends Entity {
     this.draw();
   }
   public draw() {
+    console.log("drawing");
     const { width, height, size, start } = WEAPON["book"];
-    const dy = (4 - Math.floor((this.angle / Math.PI) * 2)) % 4;
     Canvas.imageRect(
       this.image,
       new Rect(
         new Vector(
           Math.floor((GLOBAL("FRAME") / GLOBAL("FPS")) * size) * width,
-          start * height * 4 + dy * height + height / 6
+          start * height * 4 + 0 * height + height / 6
         ),
         width,
         height

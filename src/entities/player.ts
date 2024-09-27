@@ -6,6 +6,7 @@ import { Asset, GLOBAL, SOCKET } from "../lib/global";
 import { inBetween } from "../lib/utils";
 import Character from "./character";
 import Melee from "./weapons/melee";
+import Ranged from "./weapons/ranged";
 import Weapon from "./weapons/weapon";
 
 class Player extends Character {
@@ -20,7 +21,16 @@ class Player extends Character {
   ) {
     super(sprite, action, new Vector(0, 0), life);
     this.speed = speed;
-    const primaryWeapon: Weapon = new Melee(this.rect, 50, 1000, 50);
+    const primaryWeapon: Weapon = new Ranged({
+      projectileImage: "book",
+      rect: this.rect,
+      damage: 100,
+      range: 100,
+      speed: 1,
+      rate: 1,
+      reloadTime: 1,
+      magazineSize: 1,
+    });
     this.primaryWeapon = primaryWeapon;
   }
 
@@ -43,7 +53,7 @@ class Player extends Character {
       this.move(angle);
       SOCKET.emit("room", "move", {
         x: GLOBAL("POSITION").x,
-        y: GLOBAL('POSITION').y,
+        y: GLOBAL("POSITION").y,
         id: this.id,
         angle,
       });
@@ -61,36 +71,51 @@ class Player extends Character {
       (Math.cos(this.angle) * this.speed * GLOBAL("DELTA")) / GLOBAL("ZOOM"),
       (Math.sin(this.angle) * this.speed * GLOBAL("DELTA")) / GLOBAL("ZOOM")
     );
-    if(inBetween(GLOBAL('POSITION').x + offset.x, -this.rect.position.x, Environment.WIDTH * Environment.TILE_GROWTH * Environment.SIZE - this.rect.position.x - this.rect.width)) {
-
+    if (
+      inBetween(
+        GLOBAL("POSITION").x + offset.x,
+        -this.rect.position.x,
+        Environment.WIDTH * Environment.TILE_GROWTH * Environment.SIZE -
+          this.rect.position.x -
+          this.rect.width
+      )
+    ) {
       if (offset.x > 0 && allowedDirections.get("right")) {
         if (this.rect.position.x + this.rect.width < Canvas.canvas.width) {
           GLOBAL("POSITION").x += offset.x;
           // this.rect.position.x += offset.x;
+        }
+      }
+      if (offset.x < 0 && allowedDirections.get("left")) {
+        if (this.rect.position.x > 0) {
+          GLOBAL("POSITION").x += offset.x;
+          // this.rect.position.x += offset.x;
+        }
       }
     }
-    if (offset.x < 0 && allowedDirections.get("left")) {
-      if (this.rect.position.x > 0) {
-        GLOBAL("POSITION").x += offset.x;
-        // this.rect.position.x += offset.x;
+    if (
+      inBetween(
+        GLOBAL("POSITION").y + offset.y,
+        -this.rect.position.y,
+        Environment.HEIGHT * Environment.TILE_GROWTH * Environment.SIZE -
+          this.rect.position.y -
+          this.rect.height
+      )
+    ) {
+      if (offset.y > 0 && allowedDirections.get("down")) {
+        if (this.rect.position.y + this.rect.height < Canvas.canvas.height) {
+          GLOBAL("POSITION").y += offset.y;
+          // this.rect.position.y += offset.y;
+        }
+      }
+      if (offset.y < 0 && allowedDirections.get("up")) {
+        if (this.rect.position.y > 0) {
+          GLOBAL("POSITION").y += offset.y;
+          // this.rect.position.y += offset.y;
+        }
       }
     }
   }
-  if(inBetween(GLOBAL('POSITION').y + offset.y, -this.rect.position.y, Environment.HEIGHT * Environment.TILE_GROWTH * Environment.SIZE - this.rect.position.y - this.rect.height)) {
-    if (offset.y > 0 && allowedDirections.get("down")) {
-      if (this.rect.position.y + this.rect.height < Canvas.canvas.height) {
-        GLOBAL("POSITION").y += offset.y;
-        // this.rect.position.y += offset.y;
-      }
-    }
-    if (offset.y < 0 && allowedDirections.get("up")) {
-      if (this.rect.position.y > 0) {
-        GLOBAL("POSITION").y += offset.y;
-        // this.rect.position.y += offset.y;
-      }
-    }
-  }
-}
 
   public checkCollision(entities: Entity[]) {
     const allowedDirections = new Map([
