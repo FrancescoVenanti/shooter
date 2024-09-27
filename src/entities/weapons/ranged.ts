@@ -1,7 +1,19 @@
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
+import { WEAPON } from "../../lib/global";
 import Projectile from "./projectile";
 import Weapon from "./weapon";
+
+interface IRanged {
+  projectileImage: keyof typeof WEAPON;
+  rect: Rect;
+  damage: number;
+  range: number;
+  speed: number;
+  rate: number;
+  reloadTime: number;
+  magazineSize: number;
+}
 
 class Ranged extends Weapon {
   private remainingBullets: number = 0;
@@ -10,16 +22,16 @@ class Ranged extends Weapon {
   private reloadStartTime: number = 0;
   private projectileImage: string;
 
-  constructor(
-    projectileImage: string,
-    rect: Rect,
-    damage: number,
-    range: number,
-    speed: number,
-    rate: number = 5,
-    reloadTime: number = 3,
-    magazineSize: number = 20
-  ) {
+  constructor({
+    projectileImage,
+    rect,
+    damage = 100,
+    range = 100,
+    speed = 1,
+    rate = 1,
+    reloadTime = 1,
+    magazineSize = 1,
+  }: IRanged) {
     super(rect, damage, range, speed, rate, reloadTime, magazineSize);
     this.remainingBullets = magazineSize;
     this.projectileImage = projectileImage;
@@ -37,10 +49,10 @@ class Ranged extends Weapon {
 
     const timeSinceLastShot = (now - this.lastShotTime) / 1000;
     const minTimeBetweenShots = 1 / this.rate;
-
     if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
-      this.bullets.push(new Projectile("bullet", position.clone(), angle));
-
+      this.bullets.push(
+        new Projectile("book", position.clone(), angle, this.speed)
+      );
       this.remainingBullets--;
       this.lastShotTime = now;
     }
