@@ -51,8 +51,8 @@ class Player extends Character {
       const angle = Math.atan2(dy, dx);
       this.move(angle);
       SOCKET.emit("room", "move", {
-        x: GLOBAL("POSITION").x,
-        y: GLOBAL("POSITION").y,
+        x: GLOBAL("POSITION").x + this.rect.position.x,
+        y: GLOBAL("POSITION").y + this.rect.position.y,
         id: this.id,
         angle,
       });
@@ -124,7 +124,7 @@ class Player extends Character {
       ["right", true],
     ]);
     for (const entity of entities) {
-      const allowedForEntity = this.collide(entity);
+      const allowedForEntity = this.collide(entity, GLOBAL('POSITION'));
       (["up", "down", "left", "right"] as const).forEach((direction) => {
         allowedDirections.set(
           direction,
@@ -136,7 +136,10 @@ class Player extends Character {
   }
 
   public attack() {
-    this.primaryWeapon.attack(this.angle, this.rect.position);
+    this.primaryWeapon.attack(
+      this.angle,
+      this.rect.position.clone().add(GLOBAL("POSITION"))
+    );
   }
 }
 

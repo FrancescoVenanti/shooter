@@ -4,7 +4,7 @@ import { Directions } from "../types/general";
 import Rect from "./rect";
 import Vector from "./vector";
 
-class Entity  {
+class Entity {
   public rect: Rect;
   public image: string;
   public imageRect: Rect;
@@ -14,7 +14,8 @@ class Entity  {
     if (imageRect) this.imageRect = imageRect;
   }
 
-  public collide(entity: Entity) {
+  public collide(entity: Entity, offset: Vector = new Vector(0, 0)) {
+    const position = this.rect.position.clone().add(offset);
     let allowedDirections: Map<Directions, boolean> = new Map([
       ["up", true],
       ["down", true],
@@ -32,36 +33,35 @@ class Entity  {
         return Math.abs(playerPosition.y - enemyPosition.y) < this.rect.height;
       }
     };
-    if (isOverlapping("y", this.rect.position, entity.rect.position)) {
+    if (isOverlapping("y", position, entity.rect.position)) {
       // LEFT
       if (
-        this.rect.position.x - (entity.rect.position.x + entity.rect.width) <
-          0 &&
-        this.rect.position.x - (entity.rect.position.x + entity.rect.width) >
+        position.x - (entity.rect.position.x + entity.rect.width) < 0 &&
+        position.x - (entity.rect.position.x + entity.rect.width) >
           -this.rect.width
       ) {
         allowedDirections.set("left", false);
       }
       // RIGHT
       if (
-        this.rect.position.x - entity.rect.position.x > -this.rect.width &&
-        this.rect.position.x - entity.rect.position.x < 0
+        position.x - entity.rect.position.x > -this.rect.width &&
+        position.x - entity.rect.position.x < 0
       ) {
         allowedDirections.set("right", false);
       }
     }
-    if (isOverlapping("x", this.rect.position, entity.rect.position)) {
+    if (isOverlapping("x", position, entity.rect.position)) {
       // UP
       if (
-        this.rect.position.y <= entity.rect.position.y + entity.rect.height &&
-        this.rect.position.y >= entity.rect.position.y
+        position.y <= entity.rect.position.y + entity.rect.height &&
+        position.y >= entity.rect.position.y
       ) {
         allowedDirections.set("up", false);
       }
       // DOWN
       if (
-        this.rect.position.y + this.rect.height > entity.rect.position.y &&
-        this.rect.position.y < entity.rect.position.y + entity.rect.height
+        position.y + this.rect.height > entity.rect.position.y &&
+        position.y < entity.rect.position.y + entity.rect.height
       ) {
         allowedDirections.set("down", false);
       }
@@ -80,7 +80,7 @@ class Entity  {
     return false;
   }
   public draw() {
-    TODO
+    TODO;
   }
 }
 

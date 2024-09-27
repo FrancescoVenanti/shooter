@@ -15,13 +15,7 @@ class Enemy extends Character {
   }
 
   public draw() {
-    console.log(
-      new Vector(
-        this.rect.position.x - GLOBAL("POSITION").x,
-        this.rect.position.y - GLOBAL("POSITION").y
-      )
-    );
-    super.draw(new Vector(-GLOBAL("POSITION").x, -GLOBAL("POSITION").y));
+    super.draw(GLOBAL("POSITION"));
   }
 }
 

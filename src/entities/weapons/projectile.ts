@@ -51,14 +51,13 @@ class Projectile extends Entity {
       id: GLOBAL("PLAYER").id,
       angle: this.angle,
       position: {
-        x: this.rect.position.x,
-        y: this.rect.position.y,
+        x: GLOBAL('POSITION').x + this.rect.position.x,
+        y: GLOBAL('POSITION').y + this.rect.position.y,
       },
     });
-    this.draw();
+    this.draw(GLOBAL("POSITION"));
   }
-  public draw() {
-    console.log("drawing");
+  public draw(offset: Vector = new Vector(0, 0)) {
     const { width, height, size, start } = WEAPON["book"];
     Canvas.imageRect(
       this.image,
@@ -71,7 +70,10 @@ class Projectile extends Entity {
         height
       ),
       new Rect(
-        this.rect.position,
+        new Vector(
+          this.rect.position.x - offset.x,
+          this.rect.position.y - offset.y
+        ),
         (width / GLOBAL("ZOOM")) * 1.2,
         (height / GLOBAL("ZOOM")) * 1.2
       )

@@ -6,24 +6,28 @@ class Vector {
     this.y = y;
   }
 
-  public add(v: Vector) {
+  public add(v: Vector): Vector {
     this.x += v.x;
     this.y += v.y;
+    return this;
   }
 
-  public sub(v: Vector) {
+  public sub(v: Vector): Vector {
     this.x -= v.x;
     this.y -= v.y;
+    return this;
   }
 
-  public mul(v: Vector) {
+  public mul(v: Vector): Vector {
     this.x *= v.x;
     this.y *= v.y;
+    return this;
   }
 
-  public div(v: Vector) {
+  public div(v: Vector): Vector {
     this.x /= v.x;
     this.y /= v.y;
+    return this;
   }
 
   public dot(v: Vector) {
@@ -58,15 +62,8 @@ class Vector {
     return Math.atan2(vector.y - this.y, vector.x - this.x);
   }
 
-  public static add(v1: Vector, v2: Vector) {
-    return new Vector(v1.x + v2.x, v1.y + v2.y);
-  }
-
   public distance(v: Vector) {
     return Math.sqrt((v.x - this.x) ** 2 + (v.y - this.y) ** 2);
-  }
-  public getAngle(v: Vector) {
-    return Math.atan2(v.y - this.y, v.x - this.x);
   }
 }
 
