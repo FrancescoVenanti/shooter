@@ -1,5 +1,6 @@
 import { Canvas } from "../../core/canvas";
 import Entity from "../../core/entity";
+import { Environment } from "../../core/environment";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
 import { GLOBAL, SOCKET, WEAPON } from "../../lib/global";
@@ -25,6 +26,7 @@ class Projectile extends Entity {
     this.speed = speed;
   }
   public move() {
+    if (!this.active) return;
     for (let enemy of GLOBAL("ENEMIES").values()) {
       if (this.hasCollision(enemy)) {
         this.active = false;
@@ -32,8 +34,16 @@ class Projectile extends Entity {
       }
     }
     if (
-      !inBetween(this.rect.position.x, 0, Canvas.canvas.width) ||
-      !inBetween(this.rect.position.y, 0, Canvas.canvas.height)
+      !inBetween(
+        this.rect.position.x,
+        this.rect.width,
+        Environment.width - this.rect.width
+      ) ||
+      !inBetween(
+        this.rect.position.y,
+        this.rect.height,
+        Environment.height + this.rect.height
+      )
     ) {
       this.active = false;
     }
@@ -51,8 +61,8 @@ class Projectile extends Entity {
       id: GLOBAL("PLAYER").id,
       angle: this.angle,
       position: {
-        x: GLOBAL('POSITION').x + this.rect.position.x,
-        y: GLOBAL('POSITION').y + this.rect.position.y,
+        x: GLOBAL("POSITION").x + this.rect.position.x,
+        y: GLOBAL("POSITION").y + this.rect.position.y,
       },
     });
     this.draw(GLOBAL("POSITION"));

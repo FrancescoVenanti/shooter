@@ -25,7 +25,7 @@ class Player extends Character {
       rect: this.rect,
       damage: 100,
       range: 100,
-      speed: 1,
+      speed: 6,
       rate: 1,
       reloadTime: 1,
       magazineSize: 1,
@@ -74,7 +74,7 @@ class Player extends Character {
       inBetween(
         GLOBAL("POSITION").x + offset.x,
         -this.rect.position.x,
-        Environment.WIDTH * Environment.TILE_GROWTH * Environment.SIZE -
+        Environment.width -
           this.rect.position.x -
           this.rect.width
       )
@@ -96,9 +96,7 @@ class Player extends Character {
       inBetween(
         GLOBAL("POSITION").y + offset.y,
         -this.rect.position.y,
-        Environment.HEIGHT * Environment.TILE_GROWTH * Environment.SIZE -
-          this.rect.position.y -
-          this.rect.height
+        Environment.height - this.rect.position.y - this.rect.height
       )
     ) {
       if (offset.y > 0 && allowedDirections.get("down")) {
