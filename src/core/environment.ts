@@ -6,9 +6,21 @@ import Vector from "./vector";
 
 class Environment {
   static SIZE: number = 16;
-  static WIDTH: number = 50;
-  static HEIGHT: number = 50;
-  static TILE_GROWTH: number = 3;
+  static get COLS() {
+    return 50;
+  }
+  static get ROWS() {
+    return 50;
+  }
+  static get TILE_GROWTH() {
+    return 3;
+  }
+  static get width() {
+    return Environment.COLS * Environment.SIZE * Environment.TILE_GROWTH;
+  }
+  static get height() {
+    return Environment.ROWS * Environment.SIZE * Environment.TILE_GROWTH;
+  }
   private tiles: Tile[][] = [];
   constructor() {
     this.generateEnvironment();
@@ -35,14 +47,19 @@ class Environment {
     );
   }
   public generateEnvironment() {
-    for (let y = 0; y < Environment.HEIGHT; y++) {
+    for (let y = 0; y < Environment.ROWS; y++) {
       this.tiles.push([]);
-      for (let x = 0; x < Environment.WIDTH; x++) {
+      for (let x = 0; x < Environment.COLS; x++) {
         this.tiles[y].push(
           new Tile(
-            (['grassMiddle', 'waterMiddle', 'pathMiddle'] as const)[Math.floor(Math.random() * 3)] ,
+            (["grassMiddle", "waterMiddle", "pathMiddle"] as const)[
+              Math.floor(Math.random() * 3)
+            ],
             new Rect(
-              new Vector((Environment.SIZE * Environment.TILE_GROWTH) * x, (Environment.SIZE * Environment.TILE_GROWTH) * y),
+              new Vector(
+                Environment.SIZE * Environment.TILE_GROWTH * x,
+                Environment.SIZE * Environment.TILE_GROWTH * y
+              ),
               Environment.SIZE * Environment.TILE_GROWTH,
               Environment.SIZE * Environment.TILE_GROWTH
             ),
@@ -120,3 +137,4 @@ const tiles = {
 type TileType = keyof typeof tiles;
 
 export { Environment, tiles, TileType };
+
