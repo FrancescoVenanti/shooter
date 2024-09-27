@@ -1,5 +1,9 @@
+import { array } from "zod";
+import Player from "../entities/player";
+import { GLOBAL } from "../lib/global";
 import { type Range } from "../types/zod";
 import { Canvas } from "./canvas";
+import Entity from "./entity";
 import Rect from "./rect";
 import { Tile } from "./tile";
 import Vector from "./vector";
@@ -71,29 +75,74 @@ class Environment {
     }
   }
 
-  public draw() {
-    /* for (
-      let y = 0;
-      y < Canvas.canvas.height / Environment.SIZE / Environment.tileGrowth;
-      y++
-    ) {
-      for (
-        let x = 0;
-        x < Canvas.canvas.width / Environment.SIZE / Environment.tileGrowth;
-        x++
-      ) {
-        this.drawTile(
-          "farmLand",
-          1,
-          1,
-          new Vector(
-            x * Environment.SIZE * Environment.tileGrowth,
-            y * Environment.SIZE * Environment.tileGrowth
-          )
-        );
-      }
-    } */
+  /* public drawMap() {
+    console.log(this.tiles.length);
+    if (GLOBAL("PLAYER").action ===  "run") {
     this.tiles.forEach((row) => row.forEach((tile) => tile.draw()));
+    }
+
+} */
+
+  public draw() {
+    if (GLOBAL("PLAYER").action === "idle") {
+      console.log("draw");
+      this.tiles.forEach((row) => row.forEach((tile) => tile.draw()));
+    } else {
+      const busyTiles = this.getBusyTiles([
+        GLOBAL("PLAYER"),
+        ...Array.from(GLOBAL("ENEMIES").values()),
+        ...Array.from(GLOBAL("PLAYER").primaryWeapon.bullets.values()),
+      ]);
+      this.clearBusyTiles(busyTiles);
+      busyTiles.forEach((tile) => tile.draw());
+    }
+  }
+
+  public getBusyTiles(entities: Entity[]) {
+    const busyTiles = [];
+    entities.forEach((entity) => {
+      const entityPosition = entity.rect.position;
+
+      const busyX = Math.floor(
+        (GLOBAL("POSITION").x + entityPosition.x) /
+          (Environment.SIZE * Environment.TILE_GROWTH)
+      );
+      const busyY = Math.floor(
+        (GLOBAL("POSITION").y + entityPosition.y) /
+          (Environment.SIZE * Environment.TILE_GROWTH)
+      );
+
+      const entityWidth =
+        entity.rect.width / Environment.SIZE / Environment.TILE_GROWTH;
+      const entityHeight =
+        entity.rect.height / Environment.SIZE / Environment.TILE_GROWTH;
+
+      for (let y = busyY; y <= busyY + entityWidth; y++) {
+        for (let x = busyX; x <= busyX + entityHeight; x++) {
+          if (
+            y < 0 ||
+            y >= Environment.HEIGHT ||
+            x < 0 ||
+            x >= Environment.WIDTH
+          )
+            continue;
+          busyTiles.push(this.tiles[y][x]);
+        }
+      }
+    });
+
+    return busyTiles;
+  }
+
+  public clearBusyTiles(tiles: Tile[]) {
+    tiles.forEach((tile) =>
+      Canvas.ctx.clearRect(
+        tile.rect.position.x - GLOBAL("POSITION").x,
+        tile.rect.position.y - GLOBAL("POSITION").y,
+        tile.rect.width,
+        tile.rect.height
+      )
+    );
   }
 }
 

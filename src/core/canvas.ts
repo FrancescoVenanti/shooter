@@ -107,9 +107,9 @@ export class Canvas {
     w: number = Canvas.canvas.width,
     h: number = Canvas.canvas.height
   ): void {
-    setTimeout(() => {
-      Canvas.ctx.clearRect(x, y, w, h);
-    }, 1);
+    //setTimeout(() => {
+    Canvas.ctx.clearRect(x, y, w, h);
+    //}, 1);
   }
 
   static getCanvasRect(): Rect {
