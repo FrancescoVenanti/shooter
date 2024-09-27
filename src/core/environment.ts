@@ -1,5 +1,3 @@
-import { array } from "zod";
-import Player from "../entities/player";
 import { GLOBAL } from "../lib/global";
 import { type Range } from "../types/zod";
 import { Canvas } from "./canvas";
@@ -84,18 +82,8 @@ class Environment {
 } */
 
   public draw() {
-    if (GLOBAL("PLAYER").action === "idle") {
-      console.log("draw");
-      this.tiles.forEach((row) => row.forEach((tile) => tile.draw()));
-    } else {
-      const busyTiles = this.getBusyTiles([
-        GLOBAL("PLAYER"),
-        ...Array.from(GLOBAL("ENEMIES").values()),
-        ...Array.from(GLOBAL("PLAYER").primaryWeapon.bullets.values()),
-      ]);
-      this.clearBusyTiles(busyTiles);
-      busyTiles.forEach((tile) => tile.draw());
-    }
+    this.tiles.forEach((row) => row.forEach((tile) => tile.draw()));
+    return;
   }
 
   public getBusyTiles(entities: Entity[]) {
@@ -119,12 +107,7 @@ class Environment {
 
       for (let y = busyY; y <= busyY + entityWidth; y++) {
         for (let x = busyX; x <= busyX + entityHeight; x++) {
-          if (
-            y < 0 ||
-            y >= Environment.HEIGHT ||
-            x < 0 ||
-            x >= Environment.WIDTH
-          )
+          if (y < 0 || y >= Environment.ROWS || x < 0 || x >= Environment.COLS)
             continue;
           busyTiles.push(this.tiles[y][x]);
         }
@@ -186,4 +169,3 @@ const tiles = {
 type TileType = keyof typeof tiles;
 
 export { Environment, tiles, TileType };
-
