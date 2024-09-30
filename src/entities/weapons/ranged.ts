@@ -1,11 +1,11 @@
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import { WEAPON } from "../../lib/global";
+import { ImageRect, WEAPON } from "../../lib/global";
 import Projectile from "./projectile";
 import Weapon from "./weapon";
 
 interface IRanged {
-  projectileImage: keyof typeof WEAPON;
+  projectileImage: ImageRect;
   rect: Rect;
   damage: number;
   range: number;
@@ -20,7 +20,7 @@ class Ranged extends Weapon {
   private lastShotTime: number = 0;
   private reloading: boolean = false;
   private reloadStartTime: number = 0;
-  private projectileImage: string;
+  private projectileImage: ImageRect;
 
   constructor({
     projectileImage,
@@ -39,6 +39,7 @@ class Ranged extends Weapon {
 
   public attack(angle: number, position: Vector) {
     const now = new Date().getTime();
+    // console.log("attack");
 
     if (this.reloading) {
       const reloadElapsed = (now - this.reloadStartTime) / 1000;
@@ -51,8 +52,16 @@ class Ranged extends Weapon {
     const minTimeBetweenShots = 1 / this.rate;
     if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
       this.bullets.push(
-        new Projectile("book", position.clone(), angle, this.speed)
+        new Projectile(
+          this.projectileImage.image,
+          position.clone(),
+          angle,
+          this.speed,
+          this.projectileImage
+        )
       );
+      console.log(this.bullets.length);
+
       this.remainingBullets--;
       this.lastShotTime = now;
     }

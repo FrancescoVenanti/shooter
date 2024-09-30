@@ -2,16 +2,12 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import { Environment } from "../core/environment";
 import Vector from "../core/vector";
-import { Asset, GLOBAL, SOCKET } from "../lib/global";
+import { Asset, ASSETS, GLOBAL, SOCKET } from "../lib/global";
 import { inBetween } from "../lib/utils";
 import Character from "./character";
-import Ranged from "./weapons/ranged";
-import Weapon from "./weapons/weapon";
 
 class Player extends Character {
   public speed: number;
-  public primaryWeapon: Weapon;
-  public specialWeapon: Weapon;
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
@@ -20,17 +16,6 @@ class Player extends Character {
   ) {
     super(sprite, action, new Vector(0, 0), life);
     this.speed = speed;
-    const primaryWeapon: Weapon = new Ranged({
-      projectileImage: "book",
-      rect: this.rect,
-      damage: 100,
-      range: 100,
-      speed: 6,
-      rate: 1,
-      reloadTime: 1,
-      magazineSize: 1,
-    });
-    this.primaryWeapon = primaryWeapon;
   }
 
   public update() {
@@ -74,9 +59,7 @@ class Player extends Character {
       inBetween(
         GLOBAL("POSITION").x + offset.x,
         -this.rect.position.x,
-        Environment.width -
-          this.rect.position.x -
-          this.rect.width
+        Environment.width - this.rect.position.x - this.rect.width
       )
     ) {
       if (offset.x > 0 && allowedDirections.get("right")) {
@@ -122,7 +105,7 @@ class Player extends Character {
       ["right", true],
     ]);
     for (const entity of entities) {
-      const allowedForEntity = this.collide(entity, GLOBAL('POSITION'));
+      const allowedForEntity = this.collide(entity, GLOBAL("POSITION"));
       (["up", "down", "left", "right"] as const).forEach((direction) => {
         allowedDirections.set(
           direction,

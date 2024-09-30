@@ -3,30 +3,43 @@ import Entity from "../../core/entity";
 import { Environment } from "../../core/environment";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import { GLOBAL, SOCKET, WEAPON } from "../../lib/global";
+import {
+  Asset,
+  ASSETS,
+  GLOBAL,
+  ImageRect,
+  SOCKET,
+  WEAPON,
+} from "../../lib/global";
 import { inBetween } from "../../lib/utils";
 
 class Projectile extends Entity {
+  private projectileSprite: ImageRect;
   public angle: number;
   public speed: number;
   public date: number = new Date().getTime();
   public active: boolean = true;
 
   constructor(
-    image: keyof typeof WEAPON,
+    image: keyof Asset["character"],
     position: Vector,
     angle: number,
-    speed: number
+    speed: number,
+    projectileSprite: ImageRect
   ) {
     super(
-      `../../assets/character/${WEAPON[image]["image"]}/${WEAPON[image]["image"]}.png`,
+      `../../assets/character/${image}/${image}.png`,
       new Rect(position, 10, 10)
     );
+    this.projectileSprite = projectileSprite;
+    // console.log(image);
+
     this.angle = angle;
     this.speed = speed;
   }
   public move() {
     if (!this.active) return;
+
     for (let enemy of GLOBAL("ENEMIES").values()) {
       if (this.hasCollision(enemy)) {
         this.active = false;
@@ -68,7 +81,7 @@ class Projectile extends Entity {
     this.draw(GLOBAL("POSITION"));
   }
   public draw(offset: Vector = new Vector(0, 0)) {
-    const { width, height, size, start } = WEAPON["book"];
+    const { width, height, size, start } = this.projectileSprite;
     Canvas.imageRect(
       this.image,
       new Rect(

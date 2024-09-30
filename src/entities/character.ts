@@ -2,7 +2,8 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
-import { Asset, ASSETS, GLOBAL, random, TODO } from "../lib/global";
+import { Asset, ASSETS, GLOBAL, random, TODO, WEAPON } from "../lib/global";
+import Weapon from "./weapons/weapon";
 
 class Character extends Entity {
   public angle: number = 0;
@@ -10,6 +11,7 @@ class Character extends Entity {
   public life: number = 100;
   protected sprite: keyof Asset["character"];
   public action: keyof Asset["character"][keyof Asset["character"]];
+  public primaryWeapon: Weapon;
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
@@ -28,6 +30,7 @@ class Character extends Entity {
     this.action = action;
     this.id = random(10);
     this.sprite = sprite;
+    this.primaryWeapon = WEAPON[sprite]["weapon"];
   }
 
   public update() {

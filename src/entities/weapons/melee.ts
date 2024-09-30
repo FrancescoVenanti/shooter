@@ -1,22 +1,33 @@
+import { Interface } from "readline";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
 import { GLOBAL } from "../../lib/global";
 import { inBetween } from "../../lib/utils";
 import Weapon from "./weapon";
 
+interface IMelee {
+  rect: Rect;
+  damage: number;
+  range: number;
+  speed: number;
+  rate: number;
+  magazineSize: number;
+  reloadTime: number;
+}
+
 class Melee extends Weapon {
   private lastShotTime: number = 0;
   private reloading: boolean = false;
   private reloadStartTime: number = 0;
-  constructor(
-    rect: Rect,
-    damage: number,
-    range: number = 50,
-    speed: number,
-    rate: number = 1,
-    magazineSize: number = 1,
-    reloadTime: number = 1
-  ) {
+  constructor({
+    rect,
+    damage,
+    range = 50,
+    speed,
+    rate = 1,
+    magazineSize = 1,
+    reloadTime = 1,
+  }: IMelee) {
     super(rect, damage, range, speed, rate, magazineSize, reloadTime);
   }
 
@@ -41,6 +52,10 @@ class Melee extends Weapon {
   private startReloading(now: number) {
     this.reloading = true;
     this.reloadStartTime = now;
+  }
+
+  public update() {
+    console.log("update");
   }
 }
 

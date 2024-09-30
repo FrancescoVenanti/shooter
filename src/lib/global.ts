@@ -3,6 +3,9 @@ import Vector from "../core/vector";
 import Enemy from "../entities/enemy";
 import Player from "../entities/player";
 import { SocketClient } from "./socket";
+import Melee from "../entities/weapons/melee";
+import Ranged from "../entities/weapons/ranged";
+import Rect from "../core/rect";
 
 const TODO = new Proxy(
   {},
@@ -13,28 +16,37 @@ const TODO = new Proxy(
   }
 );
 
-const idle = {
+type ImageRect = {
+  size: number;
+  width: number;
+  height: number;
+  start: number;
+  directions: number;
+  image?: keyof Asset["character"];
+};
+
+const idle: ImageRect = {
   size: 1,
   width: 60,
   height: 60,
   start: 0,
   directions: 4,
 };
-const attack = {
+const attack: ImageRect = {
   size: 4,
   width: 60,
   height: 60,
   start: 2,
   directions: 4,
 };
-const run = {
+const run: ImageRect = {
   size: 4,
   width: 60,
   height: 60,
   start: 1,
   directions: 4,
 };
-const death = {
+const death: ImageRect = {
   size: 4,
   width: 60,
   height: 60,
@@ -115,15 +127,80 @@ const ASSETS = {
 } as const;
 
 const WEAPON = {
-  book: {
+  dwarf: {
+    weapon: new Melee({
+      rect: new Rect(new Vector(0, 0), 60, 60),
+      damage: 100,
+      range: 50,
+      speed: 1,
+      rate: 1,
+      reloadTime: 1,
+      magazineSize: 1,
+    }),
+  },
+  wizard: {
+    weapon: new Ranged({
+      projectileImage: {
+        size: 4,
+        width: 60,
+        height: 60,
+        start: 3.25,
+        directions: 1,
+        image: "wizard",
+      },
+      rect: new Rect(new Vector(0, 0), 60, 60),
+      damage: 100,
+      range: 100,
+      speed: 1,
+      rate: 1,
+      reloadTime: 1,
+      magazineSize: 1,
+    }),
+  },
+  slime: {
+    weapon: new Melee({
+      rect: new Rect(new Vector(0, 0), 60, 60),
+      damage: 100,
+      range: 50,
+      speed: 1,
+      rate: 1,
+      reloadTime: 1,
+      magazineSize: 1,
+    }),
+  },
+  shroom: {
+    weapon: new Melee({
+      rect: new Rect(new Vector(0, 0), 60, 60),
+      damage: 100,
+      range: 50,
+      speed: 1,
+      rate: 1,
+      reloadTime: 1,
+      magazineSize: 1,
+    }),
+  },
+  ghast: {
+    weapon: new Melee({
+      rect: new Rect(new Vector(0, 0), 60, 60),
+      damage: 100,
+      range: 50,
+      speed: 1,
+      rate: 1,
+      reloadTime: 1,
+      magazineSize: 1,
+    }),
+  },
+} as const;
+
+/* const PROJECTILE = {
+book: {
     size: 4,
     width: 60,
     height: 60,
     start: 3.25,
     directions: 1,
     image: "wizard",
-  },
-} as const;
+  }, */
 
 function random(length: number = 10) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
@@ -171,5 +248,4 @@ const SOCKET = new SocketClient(
 
 type Asset = typeof ASSETS;
 
-export { Asset, ASSETS, GLOBAL, random, SOCKET, TODO, WEAPON };
-
+export { Asset, ImageRect, ASSETS, GLOBAL, random, SOCKET, TODO, WEAPON };
