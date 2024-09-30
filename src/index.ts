@@ -2,8 +2,7 @@ import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
-import { GLOBAL } from "./lib/global";
-import { loadSprites } from "./lib/utils";
+import { GLOBAL, loadSprites } from "./lib/global";
 
 const ENVIRONMENT = new Environment();
 (function main() {
@@ -38,7 +37,7 @@ function loop(delay?: number) {
   ENVIRONMENT.draw();
 
   for (const enemy of GLOBAL("ENEMIES").values()) {
-    enemy.draw();
+    enemy.update();
   }
 
   GLOBAL("DELTA", (delay1 - delay2) / 10);

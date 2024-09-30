@@ -1,5 +1,6 @@
-import { events } from "../server/utils";
-import { ASSETS, GLOBAL } from "./global";
+import { GLOBAL } from ".";
+import { events } from "../../server/utils";
+import { ASSETS } from "./assets";
 
 function socketChannel<TChannel extends keyof typeof events>(
   channel: TChannel,
@@ -9,7 +10,7 @@ function socketChannel<TChannel extends keyof typeof events>(
 }
 
 function inBetween(value: number, start: number, end: number): boolean {
-  if(value >= start && value <= end) {
+  if (value >= start && value <= end) {
     return true;
   }
   return false;

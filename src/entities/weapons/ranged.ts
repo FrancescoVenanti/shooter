@@ -1,6 +1,6 @@
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import { ImageRect, WEAPON } from "../../lib/global";
+import { GLOBAL, ImageRect, SOCKET } from "../../lib/global";
 import Projectile from "./projectile";
 import Weapon from "./weapon";
 
@@ -51,6 +51,14 @@ class Ranged extends Weapon {
     const timeSinceLastShot = (now - this.lastShotTime) / 1000;
     const minTimeBetweenShots = 1 / this.rate;
     if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
+      SOCKET.emit("attack", "move", {
+        id: GLOBAL("PLAYER").id,
+        angle: GLOBAL("PLAYER").angle,
+        position: {
+          x: GLOBAL("POSITION").x + this.rect.position.x,
+          y: GLOBAL("POSITION").y + this.rect.position.y,
+        },
+      });
       this.bullets.push(
         new Projectile(
           this.projectileImage.image,
@@ -60,7 +68,6 @@ class Ranged extends Weapon {
           this.projectileImage
         )
       );
-      console.log(this.bullets.length);
 
       this.remainingBullets--;
       this.lastShotTime = now;
@@ -76,9 +83,11 @@ class Ranged extends Weapon {
     this.reloadStartTime = now;
   }
 
-  public update() {
+  public update(offset: Vector = new Vector(0, 0)) {
+    // const deadBullets: Set<number> = new Set<number>();
     for (let i = 0; i < this.bullets.length; i++) {
-      this.bullets[i].move();
+      // if (!this.bullets[i].active) deadBullets.add(i);
+      this.bullets[i].move(offset);
     }
   }
 }

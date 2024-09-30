@@ -2,8 +2,7 @@ import { Canvas } from "../core/canvas";
 import Entity from "../core/entity";
 import { Environment } from "../core/environment";
 import Vector from "../core/vector";
-import { Asset, ASSETS, GLOBAL, SOCKET } from "../lib/global";
-import { inBetween } from "../lib/utils";
+import { Asset, GLOBAL, inBetween, SOCKET } from "../lib/global";
 import Character from "./character";
 
 class Player extends Character {
@@ -43,7 +42,7 @@ class Player extends Character {
       });
     }
     this.draw();
-    this.primaryWeapon.update();
+    this.primaryWeapon.update(GLOBAL("POSITION"));
   }
 
   public move(angle: number) {
@@ -117,10 +116,7 @@ class Player extends Character {
   }
 
   public attack() {
-    this.primaryWeapon.attack(
-      this.angle,
-      this.rect.position.clone().add(GLOBAL("POSITION"))
-    );
+    super.attack(GLOBAL("POSITION"));
   }
 }
 

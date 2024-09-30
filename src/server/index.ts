@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
-import { socketChannel } from "../lib/utils";
+import { socketChannel } from "../lib/global";
 
 const app = express();
 app.use(cors());

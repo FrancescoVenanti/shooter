@@ -3,15 +3,7 @@ import Entity from "../../core/entity";
 import { Environment } from "../../core/environment";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import {
-  Asset,
-  ASSETS,
-  GLOBAL,
-  ImageRect,
-  SOCKET,
-  WEAPON,
-} from "../../lib/global";
-import { inBetween } from "../../lib/utils";
+import { Asset, GLOBAL, ImageRect, inBetween } from "../../lib/global";
 
 class Projectile extends Entity {
   private projectileSprite: ImageRect;
@@ -37,7 +29,7 @@ class Projectile extends Entity {
     this.angle = angle;
     this.speed = speed;
   }
-  public move() {
+  public move(offset: Vector = new Vector(0, 0)) {
     if (!this.active) return;
 
     for (let enemy of GLOBAL("ENEMIES").values()) {
@@ -61,24 +53,24 @@ class Projectile extends Entity {
       this.active = false;
     }
     if (!this.active) return;
-    const offset = new Vector(
+    const ofst = new Vector(
       Math.cos(this.angle) * this.speed * GLOBAL("DELTA"),
       Math.sin(this.angle) * this.speed * GLOBAL("DELTA")
     );
     this.rect.position = new Vector(
-      this.rect.position.x + offset.x,
-      this.rect.position.y + offset.y
+      this.rect.position.x + ofst.x,
+      this.rect.position.y + ofst.y
     );
 
-    SOCKET.emit("attack", "move", {
-      id: GLOBAL("PLAYER").id,
-      angle: this.angle,
-      position: {
-        x: GLOBAL("POSITION").x + this.rect.position.x,
-        y: GLOBAL("POSITION").y + this.rect.position.y,
-      },
-    });
-    this.draw(GLOBAL("POSITION"));
+    // SOCKET.emit("attack", "move", {
+    //   id: GLOBAL("PLAYER").id,
+    //   angle: this.angle,
+    //   position: {
+    //     x: GLOBAL("POSITION").x + this.rect.position.x,
+    //     y: GLOBAL("POSITION").y + this.rect.position.y,
+    //   },
+    // });
+    this.draw(offset);
   }
   public draw(offset: Vector = new Vector(0, 0)) {
     const { width, height, size, start } = this.projectileSprite;

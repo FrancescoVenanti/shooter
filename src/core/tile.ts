@@ -35,3 +35,4 @@ class Tile extends Entity {
 }
 
 export { Tile };
+

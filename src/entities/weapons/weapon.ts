@@ -1,4 +1,3 @@
-import Entity from "../../core/entity";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
 import { TODO } from "../../lib/global";
@@ -35,7 +34,7 @@ abstract class Weapon {
   public attack(angle: number, position: Vector) {
     TODO;
   }
-  public update() {
+  public update(offset: Vector = new Vector(0, 0)) {
     TODO;
   }
 }

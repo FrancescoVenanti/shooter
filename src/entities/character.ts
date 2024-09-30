@@ -81,6 +81,12 @@ class Character extends Entity {
     Canvas.ctx.fillStyle = `rgba(0, 0, 0, 0.5)`;
     Canvas.fillRect(this.rect);
   }
+  public attack(offset: Vector = new Vector(0, 0)) {
+    this.primaryWeapon.attack(
+      this.angle,
+      this.rect.position.clone().add(offset)
+    );
+  }
 }
 
 export default Character;

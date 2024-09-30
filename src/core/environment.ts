@@ -169,3 +169,4 @@ const tiles = {
 type TileType = keyof typeof tiles;
 
 export { Environment, tiles, TileType };
+

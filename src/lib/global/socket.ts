@@ -1,6 +1,6 @@
-import { Socket } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { z, ZodType } from "zod";
-import { events } from "../server/utils";
+import { events } from "../../server/utils";
 import { socketChannel } from "./utils";
 
 class SocketClient {
@@ -35,7 +35,10 @@ class SocketClient {
     this.socket.emit(socketChannel(channel, event), data);
   }
   public to(room: string) {}
-  private;
 }
 
-export { SocketClient };
+export const SOCKET = new SocketClient(
+  io(process.env.SERVER_URL || "http://localhost:3000", {
+    transports: ["websocket"],
+  })
+);

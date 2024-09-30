@@ -2,7 +2,6 @@ import Enemy from "../entities/enemy";
 import { GLOBAL, SOCKET } from "../lib/global";
 
 import { Canvas } from "./canvas";
-import Rect from "./rect";
 import Vector from "./vector";
 
 const PADDING = 20;
@@ -31,16 +30,15 @@ export default function listeners() {
     } else {
       GLOBAL("ENEMIES").set(
         id,
-        new Enemy("dwarf", "run", new Vector(x, y), 100)
+        new Enemy("wizard", "run", new Vector(x, y), 100)
       );
     }
   });
 
   SOCKET.on("attack", "move", ({ id, angle, position: { x, y } }) => {
-    Canvas.ctx.strokeStyle = "red";
-    Canvas.ctx.fillStyle = "red";
-    console.log(Canvas.ctx.strokeStyle);
-    Canvas.fillRect(new Rect(new Vector(100, 100), 100, 100));
-    Canvas.fillRect(new Rect(new Vector(x, y), 10, 10));
+    if (GLOBAL("ENEMIES").has(id)) {
+      console.log(id, angle, x, y);
+      GLOBAL("ENEMIES").get(id).attack(GLOBAL("POSITION"));
+    }
   });
 }

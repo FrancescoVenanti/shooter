@@ -1,8 +1,6 @@
-import { Interface } from "readline";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
 import { GLOBAL } from "../../lib/global";
-import { inBetween } from "../../lib/utils";
 import Weapon from "./weapon";
 
 interface IMelee {
@@ -55,7 +53,7 @@ class Melee extends Weapon {
   }
 
   public update() {
-    console.log("update");
+    // console.log("update");
   }
 }
 

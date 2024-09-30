@@ -1,9 +1,6 @@
-import { Environment } from "../core/environment";
 import Vector from "../core/vector";
 import { Asset, GLOBAL } from "../lib/global";
 import Character from "./character";
-import Ranged from "./weapons/ranged";
-import Weapon from "./weapons/weapon";
 
 class Enemy extends Character {
   constructor(
@@ -17,11 +14,22 @@ class Enemy extends Character {
     this.angle = angle;
   }
 
+  public update() {
+    this.draw();
+    this.primaryWeapon.update();
+  }
+
   public draw() {
     super.draw(GLOBAL("POSITION"));
     for (const projectile of this.primaryWeapon.bullets) {
-      projectile.draw();
+      projectile.draw(GLOBAL("POSITION"));
     }
+  }
+  public attack(offset: Vector = new Vector(0, 0)) {
+    this.primaryWeapon.attack(
+      this.angle,
+      this.rect.position.clone().add(offset)
+    );
   }
 }
 

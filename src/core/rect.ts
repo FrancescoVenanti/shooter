@@ -1,4 +1,4 @@
-import { inBetween } from "../lib/utils";
+import { inBetween } from "../lib/global";
 import Vector from "./vector";
 
 class Rect {
