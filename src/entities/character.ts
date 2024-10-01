@@ -89,6 +89,14 @@ class Character extends Entity {
   }
 
   public drawLife(offset: Vector = new Vector(0, 0)) {
+    const padding = 2;
+    Canvas.ctx.fillStyle = "black";
+    Canvas.ctx.fillRect(
+      this.rect.position.x - 10 - offset.x - padding,
+      this.rect.position.y - 10 - offset.y - padding,
+      100 + padding * 2,
+      10 + padding * 2
+    );
     Canvas.ctx.fillStyle = "red";
     Canvas.ctx.fillRect(
       this.rect.position.x - 10 - offset.x,
