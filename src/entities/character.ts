@@ -9,10 +9,21 @@ import Weapon from "./weapons/weapon";
 class Character extends Entity {
   public angle: number = 0;
   public id: string;
-  public life: Range<101>;
+  private _life: Range<101>;
+  public get life() {
+    return this._life;
+  }
+  public set life(life: Range<101>) {
+    if (life <= 0) {
+      this._life = 0;
+      return;
+    }
+    this._life = life;
+  }
   public sprite: keyof Asset["character"];
   public action: keyof Asset["character"][keyof Asset["character"]];
   public primaryWeapon: Weapon;
+  public score: number = 0;
   constructor(
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
@@ -83,15 +94,18 @@ class Character extends Entity {
     Canvas.fillRect(this.rect);
   }
   public attack(offset: Vector = new Vector(0, 0)) {
-    this.audio();
-    this.primaryWeapon.attack(
+    const audio = this.primaryWeapon.attack(
       this.angle,
       this.rect.position.clone().add(offset)
     );
+    if (audio) {
+      this.audio();
+    }
   }
 
   public audio() {
-    return new Audio(`./src/assets/${this.sprite}/attack.mp3`).play();
+    const audio = new Audio(`./assets/character/${this.sprite}/attack.mp3`);
+    audio.play();
   }
 
   public drawLife(

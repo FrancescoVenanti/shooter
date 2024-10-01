@@ -29,7 +29,8 @@ class Melee extends Weapon {
     super(rect, damage, range, speed, rate, magazineSize, reloadTime);
   }
 
-  public attack(angle: number, position: Vector) {
+  public attack(angle: number, position: Vector): boolean {
+    let canAttack = false;
     const now = new Date().getTime();
 
     const timeSinceLastShot = (now - this.lastShotTime) / 1000;
@@ -37,6 +38,7 @@ class Melee extends Weapon {
 
     if (timeSinceLastShot >= minTimeBetweenShots) {
       //todo
+      canAttack = true;
       GLOBAL("ENEMIES").forEach((enemy) => {
         console.log(this.rect.getDistance(enemy.rect));
         console.log(this.range);
@@ -45,6 +47,7 @@ class Melee extends Weapon {
         }
       });
     }
+    return canAttack;
   }
 
   private startReloading(now: number) {

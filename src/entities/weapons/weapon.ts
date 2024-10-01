@@ -31,8 +31,9 @@ abstract class Weapon {
     this.magazineSize = magazineSize;
   }
 
-  public attack(angle: number, position: Vector) {
+  public attack(angle: number, position: Vector): boolean {
     TODO;
+    return false;
   }
   public update(offset: Vector = new Vector(0, 0)) {
     TODO;

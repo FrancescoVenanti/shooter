@@ -38,6 +38,7 @@ class Ranged extends Weapon {
   }
 
   public attack(angle: number, position: Vector) {
+    let canAttack = false;
     const now = new Date().getTime();
     // console.log("attack");
 
@@ -51,6 +52,7 @@ class Ranged extends Weapon {
     const timeSinceLastShot = (now - this.lastShotTime) / 1000;
     const minTimeBetweenShots = 1 / this.rate;
     if (timeSinceLastShot >= minTimeBetweenShots && this.remainingBullets > 0) {
+      canAttack = true;
       SOCKET.emit("attack", "move", {
         id: GLOBAL("PLAYER").id,
         angle: GLOBAL("PLAYER").angle,
@@ -76,6 +78,7 @@ class Ranged extends Weapon {
     if (this.remainingBullets === 0) {
       this.startReloading(now);
     }
+    return canAttack;
   }
 
   private startReloading(now: number) {
