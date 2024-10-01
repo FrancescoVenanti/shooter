@@ -61,18 +61,10 @@ class Projectile extends Entity {
       this.rect.position.x + ofst.x,
       this.rect.position.y + ofst.y
     );
-
-    // SOCKET.emit("attack", "move", {
-    //   id: GLOBAL("PLAYER").id,
-    //   angle: this.angle,
-    //   position: {
-    //     x: GLOBAL("POSITION").x + this.rect.position.x,
-    //     y: GLOBAL("POSITION").y + this.rect.position.y,
-    //   },
-    // });
     this.draw(offset);
   }
   public draw(offset: Vector = new Vector(0, 0)) {
+    if (!this.active) return;
     const { width, height, size, start } = this.projectileSprite;
     Canvas.imageRect(
       this.image,

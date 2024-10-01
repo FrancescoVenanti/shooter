@@ -9,7 +9,7 @@ class Character extends Entity {
   public angle: number = 0;
   public id: string;
   public life: number = 100;
-  protected sprite: keyof Asset["character"];
+  public sprite: keyof Asset["character"];
   public action: keyof Asset["character"][keyof Asset["character"]];
   public primaryWeapon: Weapon;
   constructor(

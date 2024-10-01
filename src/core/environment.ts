@@ -1,5 +1,4 @@
 import { GLOBAL } from "../lib/global";
-import { type Range } from "../types/zod";
 import { Canvas } from "./canvas";
 import Entity from "./entity";
 import Rect from "./rect";
@@ -26,27 +25,6 @@ class Environment {
   private tiles: Tile[][] = [];
   constructor() {
     this.generateEnvironment();
-  }
-  public drawTile<T extends TileType>(
-    tile: T,
-    col: Range<(typeof tiles)[T]["width"]>,
-    row: Range<(typeof tiles)[T]["height"]>,
-    drawPoint: Vector
-  ) {
-    // Draw the tile
-    Canvas.imageRect(
-      `/assets/environment/${tile}.png`,
-      new Rect(
-        new Vector(col * tiles[tile].size, row * tiles[tile].size),
-        Environment.SIZE,
-        Environment.SIZE
-      ),
-      new Rect(
-        drawPoint,
-        Environment.SIZE * Environment.TILE_GROWTH,
-        Environment.SIZE * Environment.TILE_GROWTH
-      )
-    );
   }
   public generateEnvironment() {
     for (let y = 0; y < Environment.ROWS; y++) {
@@ -83,10 +61,9 @@ class Environment {
 
   public draw() {
     this.tiles.forEach((row) => row.forEach((tile) => tile.draw()));
-    return;
   }
 
-  public getBusyTiles(entities: Entity[]) {
+  protected getBusyTiles(entities: Entity[]) {
     const busyTiles = [];
     entities.forEach((entity) => {
       const entityPosition = entity.rect.position;
@@ -117,7 +94,7 @@ class Environment {
     return busyTiles;
   }
 
-  public clearBusyTiles(tiles: Tile[]) {
+  protected clearBusyTiles(tiles: Tile[]) {
     tiles.forEach((tile) =>
       Canvas.ctx.clearRect(
         tile.rect.position.x - GLOBAL("POSITION").x,
@@ -129,44 +106,4 @@ class Environment {
   }
 }
 
-const tiles = {
-  grassMiddle: {
-    size: 16,
-    width: 1,
-    height: 1,
-  },
-  cliff: {
-    size: 16,
-    width: 3,
-    height: 6,
-  },
-  farmLand: {
-    size: 16,
-    width: 3,
-    height: 3,
-  },
-  path: {
-    size: 16,
-    width: 3,
-    height: 6,
-  },
-  pathMiddle: {
-    size: 16,
-    width: 1,
-    height: 1,
-  },
-  water: {
-    size: 16,
-    width: 3,
-    height: 6,
-  },
-  waterMiddle: {
-    size: 16,
-    width: 1,
-    height: 1,
-  },
-} as const;
-type TileType = keyof typeof tiles;
-
-export { Environment, tiles, TileType };
-
+export { Environment };

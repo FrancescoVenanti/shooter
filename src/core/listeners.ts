@@ -1,5 +1,5 @@
 import Enemy from "../entities/enemy";
-import { GLOBAL, SOCKET } from "../lib/global";
+import { Asset, GLOBAL, SOCKET } from "../lib/global";
 
 import { Canvas } from "./canvas";
 import Vector from "./vector";
@@ -22,6 +22,20 @@ export default function listeners() {
   );
   window.addEventListener("keyup", (e) => {
     GLOBAL("KEY_PRESSED").delete(e.key.toLowerCase());
+  });
+
+  SOCKET.on("room", "receiveEnemies", (enemies) => {
+    for (const enemy of enemies) {
+      GLOBAL("ENEMIES").set(
+        enemy.id,
+        new Enemy(
+          enemy.character as keyof Asset["character"],
+          "idle",
+          new Vector(enemy.position.x, enemy.position.y),
+          100
+        )
+      );
+    }
   });
 
   SOCKET.on("room", "move", ({ x, y, id, angle }) => {

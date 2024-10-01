@@ -2,9 +2,9 @@ import { z } from "zod";
 import { vector } from "../types/zod";
 
 const playerInformation = z.object({
-  id: z.string(),
-  name: z.string(),
-  character: z.string(),
+  id: z.string({ required_error: "id is required" }),
+  name: z.string({ required_error: "name is required" }),
+  character: z.string({ required_error: "character is required" }),
   position: vector,
 });
 
@@ -14,6 +14,7 @@ export const events = {
   },
   room: {
     join: playerInformation,
+    receiveEnemies: z.array(playerInformation),
     move: vector.merge(z.object({ id: z.string() })),
   },
   attack: {

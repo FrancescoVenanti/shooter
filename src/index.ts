@@ -2,12 +2,19 @@ import { Canvas } from "./core/canvas";
 import { Environment } from "./core/environment";
 import listeners from "./core/listeners";
 import Vector from "./core/vector";
-import { GLOBAL, loadSprites } from "./lib/global";
+import { GLOBAL, loadSprites, random, SOCKET } from "./lib/global";
 
 const ENVIRONMENT = new Environment();
 (function main() {
   Canvas.init();
-
+  loadSprites();
+  listeners();
+  SOCKET.emit("room", "join", {
+    character: GLOBAL("PLAYER").sprite,
+    id: GLOBAL("PLAYER").id,
+    name: random(16),
+    position: { ...GLOBAL("PLAYER").rect.position },
+  });
   GLOBAL("PLAYER", (prev) => {
     prev.rect.position = new Vector(
       Canvas.canvas.width / 2 - prev.rect.width / 2,
@@ -15,8 +22,6 @@ const ENVIRONMENT = new Environment();
     );
     return prev;
   });
-  loadSprites();
-  listeners();
 
   Promise.all(
     Array.from(GLOBAL("CACHED_IMAGE").values()).map(
