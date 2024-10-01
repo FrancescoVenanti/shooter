@@ -87,6 +87,31 @@ class Character extends Entity {
       this.rect.position.clone().add(offset)
     );
   }
+
+  public drawLife(offset: Vector = new Vector(0, 0)) {
+    const padding = 2;
+    Canvas.ctx.fillStyle = "black";
+    Canvas.ctx.fillRect(
+      this.rect.position.x - 10 - offset.x - padding,
+      this.rect.position.y - 10 - offset.y - padding,
+      100 + padding * 2,
+      10 + padding * 2
+    );
+    Canvas.ctx.fillStyle = "red";
+    Canvas.ctx.fillRect(
+      this.rect.position.x - 10 - offset.x,
+      this.rect.position.y - 10 - offset.y,
+      100,
+      10
+    );
+    Canvas.ctx.fillStyle = "green";
+    Canvas.ctx.fillRect(
+      this.rect.position.x - 10 - offset.x,
+      this.rect.position.y - 10 - offset.y,
+      (this.life / 100) * 100,
+      10
+    );
+  }
 }
 
 export default Character;
