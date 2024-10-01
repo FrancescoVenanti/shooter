@@ -3,6 +3,7 @@ import Entity from "../core/entity";
 import { Environment } from "../core/environment";
 import Vector from "../core/vector";
 import { Asset, GLOBAL, inBetween, SOCKET } from "../lib/global";
+import { Range } from "../types/zod";
 import Character from "./character";
 
 class Player extends Character {
@@ -11,7 +12,7 @@ class Player extends Character {
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
     speed: number = 5,
-    life: number = 100
+    life: Range<101>
   ) {
     super(sprite, action, new Vector(0, 0), life);
     this.speed = speed;
@@ -42,6 +43,16 @@ class Player extends Character {
       });
     }
     this.draw();
+    this.drawLife(
+      new Vector(
+        this.rect.position.x -
+          (Canvas.canvas.width / 2 - 25) / 2 -
+          this.rect.width / 2,
+        this.rect.position.y - 20
+      ),
+      Canvas.canvas.width / 2 - 25,
+      25
+    );
     this.primaryWeapon.update(GLOBAL("POSITION"));
   }
 

@@ -1,5 +1,6 @@
 import Vector from "../core/vector";
 import { Asset, GLOBAL } from "../lib/global";
+import { Range } from "../types/zod";
 import Character from "./character";
 
 class Enemy extends Character {
@@ -8,7 +9,7 @@ class Enemy extends Character {
     action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
     angle: number = 0,
-    life: number = 100
+    life: Range<101>
   ) {
     super(sprite, action, position, life);
     this.angle = angle;
@@ -21,6 +22,8 @@ class Enemy extends Character {
 
   public draw() {
     super.draw(GLOBAL("POSITION"));
+    this.drawLife(GLOBAL("POSITION"));
+    this.drawName(GLOBAL("POSITION"));
     for (const projectile of this.primaryWeapon.bullets) {
       projectile.draw(GLOBAL("POSITION"));
     }
