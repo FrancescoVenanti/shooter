@@ -32,6 +32,7 @@ export default function listeners() {
           enemy.character as keyof Asset["character"],
           "idle",
           new Vector(enemy.position.x, enemy.position.y),
+          100,
           100
         )
       );
@@ -44,12 +45,13 @@ export default function listeners() {
     } else {
       GLOBAL("ENEMIES").set(
         id,
-        new Enemy("wizard", "run", new Vector(x, y), 100)
+        new Enemy("wizard", "run", new Vector(x, y), 100, 100)
       );
     }
   });
 
   SOCKET.on("attack", "move", ({ id, angle, position: { x, y } }) => {
+    console.log("mio id", GLOBAL("PLAYER").id);
     if (GLOBAL("ENEMIES").has(id)) {
       console.log(id, angle, x, y);
       GLOBAL("ENEMIES").get(id).attack(GLOBAL("POSITION"));

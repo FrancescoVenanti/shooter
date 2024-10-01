@@ -83,10 +83,15 @@ class Character extends Entity {
     Canvas.fillRect(this.rect);
   }
   public attack(offset: Vector = new Vector(0, 0)) {
+    this.audio();
     this.primaryWeapon.attack(
       this.angle,
       this.rect.position.clone().add(offset)
     );
+  }
+
+  public audio() {
+    return new Audio(`./src/assets/${this.sprite}/attack.mp3`).play();
   }
 
   public drawLife(
