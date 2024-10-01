@@ -3,12 +3,13 @@ import Entity from "../core/entity";
 import Rect from "../core/rect";
 import Vector from "../core/vector";
 import { Asset, ASSETS, GLOBAL, random, TODO, WEAPON } from "../lib/global";
+import { Range } from "../types/zod";
 import Weapon from "./weapons/weapon";
 
 class Character extends Entity {
   public angle: number = 0;
   public id: string;
-  public life: number = 100;
+  public life: Range<101>;
   public sprite: keyof Asset["character"];
   public action: keyof Asset["character"][keyof Asset["character"]];
   public primaryWeapon: Weapon;
@@ -16,7 +17,7 @@ class Character extends Entity {
     sprite: keyof Asset["character"],
     action: keyof Asset["character"][keyof Asset["character"]],
     position: Vector = new Vector(0, 0),
-    life: number = 100
+    life: Range<101> = 100
   ) {
     super(
       `./src/assets/character/${sprite}/${sprite}.png`,
@@ -88,28 +89,43 @@ class Character extends Entity {
     );
   }
 
-  public drawLife(offset: Vector = new Vector(0, 0)) {
+  public drawLife(
+    offset: Vector = new Vector(0, 0),
+    width: number = 80,
+    height: number = 10
+  ) {
     const padding = 2;
     Canvas.ctx.fillStyle = "black";
     Canvas.ctx.fillRect(
       this.rect.position.x - 10 - offset.x - padding,
       this.rect.position.y - 10 - offset.y - padding,
-      100 + padding * 2,
-      10 + padding * 2
+      width + padding * 2,
+      height + padding * 2
     );
     Canvas.ctx.fillStyle = "red";
     Canvas.ctx.fillRect(
       this.rect.position.x - 10 - offset.x,
       this.rect.position.y - 10 - offset.y,
-      100,
-      10
+      width,
+      height
     );
+    if (this.life <= 0) return;
     Canvas.ctx.fillStyle = "green";
     Canvas.ctx.fillRect(
       this.rect.position.x - 10 - offset.x,
       this.rect.position.y - 10 - offset.y,
-      (this.life / 100) * 100,
-      10
+      (this.life / 100) * width,
+      height
+    );
+  }
+
+  public drawName(offset: Vector = new Vector(0, 0)) {
+    Canvas.ctx.fillStyle = "black";
+    Canvas.ctx.font = "bold 10px Monospace";
+    Canvas.ctx.fillText(
+      this.id,
+      this.rect.position.x - offset.x,
+      this.rect.position.y - 15 - offset.y
     );
   }
 }
