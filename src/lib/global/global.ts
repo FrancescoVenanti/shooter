@@ -92,7 +92,7 @@ const globals = {
   FPS: 60,
   ZOOM: 1,
   POSITION: new Vector(0, 0),
-  PLAYER: new Player("wizard", "idle"),
+  PLAYER: new Player("wizard", "idle", 5, 100),
 };
 
 function GLOBAL<T extends keyof typeof globals>(
@@ -111,3 +111,4 @@ function GLOBAL<T extends keyof typeof globals>(
 }
 
 export { GLOBAL, random, WEAPON };
+
