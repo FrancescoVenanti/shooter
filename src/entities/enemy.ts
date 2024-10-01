@@ -21,6 +21,7 @@ class Enemy extends Character {
 
   public draw() {
     super.draw(GLOBAL("POSITION"));
+    this.drawLife(GLOBAL("POSITION"));
     for (const projectile of this.primaryWeapon.bullets) {
       projectile.draw(GLOBAL("POSITION"));
     }
