@@ -5,6 +5,7 @@ import { Server, Socket } from "socket.io";
 import { z } from "zod";
 import { SocketServer } from "./socket";
 import { events } from "./utils";
+import { ASSETS, WEAPON } from "../lib/global";
 
 const app = express();
 app.use(cors());
@@ -53,8 +54,14 @@ io.on("connection", (_: Socket) => {
     socket.emit("room", "join", data);
     rooms.get("1").get(data.id).push(data);
   });
+  socket.on("attack", "hit", ({ id }) => {
+    console.log(id);
+    console.log(rooms.get("1"));
+    //const damage = WEAPON[rooms.get("1").get(id)["character"]].weapon.damage;
+    //console.log(damage);
+  });
 });
 
 server.listen(3000, () => {
-	console.log(`Server running ${3000}`);
+  console.log(`Server running ${3000}`);
 });

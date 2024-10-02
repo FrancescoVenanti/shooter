@@ -15,6 +15,7 @@ const ENVIRONMENT = new Environment();
     name: random(16),
     position: { ...GLOBAL("PLAYER").rect.position },
   });
+  console.log(GLOBAL("PLAYER").id);
   GLOBAL("PLAYER", (prev) => {
     prev.rect.position = new Vector(
       Canvas.canvas.width / 2 - prev.rect.width / 2,

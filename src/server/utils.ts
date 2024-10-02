@@ -18,6 +18,9 @@ export const events = {
     move: vector.merge(z.object({ id: z.string() })),
   },
   attack: {
+    hit: z.object({
+      id: z.string(),
+    }),
     move: z.object({
       id: z.string(),
       angle: z.number(),

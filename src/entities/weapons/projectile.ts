@@ -3,7 +3,7 @@ import Entity from "../../core/entity";
 import { Environment } from "../../core/environment";
 import Rect from "../../core/rect";
 import Vector from "../../core/vector";
-import { Asset, GLOBAL, ImageRect, inBetween } from "../../lib/global";
+import { Asset, GLOBAL, ImageRect, inBetween, SOCKET } from "../../lib/global";
 
 class Projectile extends Entity {
   private projectileSprite: ImageRect;
@@ -34,6 +34,11 @@ class Projectile extends Entity {
 
     for (let enemy of GLOBAL("ENEMIES").values()) {
       if (this.hasCollision(enemy)) {
+        enemy.life -= 10;
+        SOCKET.emit("attack", "hit", {
+          id: enemy.id,
+        });
+
         this.active = false;
         break;
       }
